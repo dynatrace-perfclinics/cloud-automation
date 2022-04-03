@@ -6,7 +6,7 @@ This project creates a Dynatrace Monaco based dashboard configuration that you c
 1. Best practice indicators for the selected technology
 2. Automatic thresholds based on a reference timeframe
 
-![](./image/dashboard.jpg)
+![](./image/dashboard.png)
 
 This dashboard can then be used to automate your release validation!
 
