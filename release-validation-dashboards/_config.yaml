@@ -1,0 +1,29 @@
+dashboards:
+     -  mzName: "MZNAME"
+        technology: "generic"
+        # Supported Technology - generic, go, nodejs, java
+        dash:
+            timeFrame: "now-1d"
+            shared: "true"
+            preset: "true"
+            owner: "OWNER"
+            # owner of the dashboard
+            project: "PROJECT"
+            # project - cloud automation project
+            stage: "STAGE"
+            # stage - cloud automation stage
+            service: "SERVICE"
+            # service - cloud automation service
+        baseline:
+            app_pass: 5
+            app_warn: 10
+            # app_pass - % above/below the baseline for cloud automation to pass
+            # app_warn - % above/below the baseline
+            service_pass: 5
+            service_warn: 7
+            # service_pass - % above/below the baseline for cloud automation to pass
+            # service_warn - % above/below the baseline
+            infra_pass: 20
+            infra_warn: 23
+            # infra_pass - % above/below the baseline for cloud automation to pass
+            # infra_warn - % above/below the baseline

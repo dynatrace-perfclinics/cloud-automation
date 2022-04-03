@@ -1,0 +1,8 @@
+requests >= 2.26.0
+PyYAML >=  5.4.1
+os
+json
+copy
+math
+io
+statistics

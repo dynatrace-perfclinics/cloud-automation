@@ -1,0 +1,4 @@
+ENVNAME:
+ - name: "ENVNAME"
+ - env-url: "https://{{ .Env.DT_TENANT }}"
+ - env-token-name: "DT_API_TOKEN"
