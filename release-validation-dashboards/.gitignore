@@ -7,3 +7,4 @@ environments.yaml
 ENVNAME*
 request.log
 response.log
+.logs/
