@@ -1,4 +1,4 @@
-import requests, json, io, os, yaml, copy, math, platform
+import requests, json, os, yaml, copy
 from statistics import mean
 
 def main():
