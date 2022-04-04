@@ -76,7 +76,7 @@ The config.yaml contains the configurations of each mz you want to create a clou
 The config.yaml contains a setion for the mzs, dashoard and baseline configurations.
 
 - Replace MZNAME with your management zone name
-- Select your technology
+- Select your technology (currently supported - generic,java,nodejs,dotnet, go)
 - Replace OWNER with your user in Dynatrace
 - Replace PROJECT with your cloud automation project
 - Replace STAGE with your cloud atuomation stage
