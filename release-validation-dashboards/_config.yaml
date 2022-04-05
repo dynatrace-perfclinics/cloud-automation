@@ -1,7 +1,7 @@
 dashboards:
      -  mzName: "MZNAME"
         technology: "generic"
-        # Supported Technology - generic, go, nodejs, java
+        # Supported Technology - generic, go, nodejs, java, dotnet
         dash:
             timeFrame: "now-1d"
             shared: "true"

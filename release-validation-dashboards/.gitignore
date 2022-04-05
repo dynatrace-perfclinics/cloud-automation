@@ -5,3 +5,6 @@ project/
 config.yaml
 environments.yaml
 ENVNAME*
+request.log
+response.log
+.logs/

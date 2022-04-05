@@ -1,4 +1,4 @@
-import requests, json, io, os, yaml, copy, math, platform
+import requests, json, os, yaml, copy
 from statistics import mean
 
 def main():
@@ -6,7 +6,8 @@ def main():
             "generic":getFileJSON("config/generic.json"), 
             "nodejs":getFileJSON("config/nodejs.json"), 
             "go": getFileJSON("config/go.json"), 
-            "java":getFileJSON("config/java.json")
+            "java":getFileJSON("config/java.json"),
+            "dotnet":getFileJSON("config/dotnet.json")
             }
 
     env = getFileYAML('environments.yaml')
@@ -61,7 +62,7 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service,
             entitySelector = entitySelector.format(type="process_group_instance")
             if "generic" in metric or "pgi" in metric:
                 metric = metric + ":merge(dt.entity.process_group_instance)"
-            elif "jvm" in metric:
+            elif "jvm" in metric or "dotnet.gc" in metric:
                 if "threads" in metric:
                     metric = metric + ':merge(dt.entity.process_group_instance,API,Thread state)'
                 elif "pool" in metric:
