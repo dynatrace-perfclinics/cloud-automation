@@ -6,8 +6,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 parser = ArgumentParser()
 
-parser.add_argument("-a","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (only add to auto deploy Monaco dashboards) (default = false)", action="store_false")
-parser.add_argument("-v", "--verify", dest="verify", help="Verify SSL Cert. (only add to disable SSL verification) - (default=true)", action='store_false')
+parser.add_argument("-a","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (missing = false)", action="store_false")
+parser.add_argument("-v", "--verify", dest="verify", help="Verify SSL Cert. (missing = true)", action='store_false')
     
 args = parser.parse_args()
 
