@@ -194,7 +194,7 @@ def buildProject(finalDash,metricKey, name,mzName, mzId, tech, project, stage, s
             subprocess.run(["monaco", "--environments=environments.yaml", r'-p={projectDir}/'.format(projectDir=projectDir)])
     else:
         print("Finished! Review {projectDir} and run:".format(projectDir=projectDir))
-        print("monaco --environments=environments.yaml -p=\"{projectDir}\"".format(projectDir=projectDir))
+        print(r'monaco --environments=environments.yaml -p={projectDir}/'.format(projectDir=projectDir))
 def createCADashboardProject(dir,j,d,dashboardYaml,finalDash):
     with open('{dir}{j}'.format(dir=dir, j = j), 'w') as f:
         json.dump(finalDash,f, indent=2)
