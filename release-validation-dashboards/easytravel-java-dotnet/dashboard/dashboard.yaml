@@ -1,0 +1,30 @@
+config:
+- easytravel: dashboard.json
+easytravel:
+- name: KQG;project=Easytravel;stage=prod;service=dotnet
+- owner: arijan.zenuni
+- shared: 'true'
+- timeFrame: now-2d
+- preset: 'true'
+- project: Easytravel
+- stage: prod
+- service: dotnet
+- mzId: '-3986939175689695617'
+- mzName: java
+- rt_p50_pass: '5.00'
+- rt_p90_pass: '5.00'
+- fr_avg_pass: '5.00'
+- rc_sum_pass: '5.00'
+- h_disk_max_pass: '20.00'
+- h_mem_avg_pass: '20.00'
+- h_cpu_avg_pass: '20.00'
+- p_cpu_avg_pass: '20.00'
+- p_avail_avg_pass: '20.00'
+- p_mem_avg_pass: '20.00'
+- a_apdex_pass: '5.00'
+- a_xhr_avg_pass: '5.00'
+- a_load_avg_pass: '5.00'
+- dotnet_gctime_avg_pass: '20.00'
+- dotnet_thread_avg_pass: '20.00'
+- dotnet_cont_avg_pass: '20.00'
+- dotnet_bytes_avg_pass: '20.00'
