@@ -1,7 +1,21 @@
-import requests, json, os, yaml, copy
+import requests, json, os, yaml, copy, subprocess
+from argparse import ArgumentParser
 from statistics import mean
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+parser = ArgumentParser()
+
+parser.add_argument("-a","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (only add to auto deploy Monaco dashboards) (default = false)", action="store_false")
+parser.add_argument("-v", "--verify", dest="verify", help="Verify SSL Cert. (only add to disable SSL verification) - (default=true)", action='store_false')
+    
+args = parser.parse_args()
+
+verifySSL = args.verify
+autoMonaco = args.autoMonaco
 
 def main():
+    
     config = {
             "generic":getFileJSON("config/generic.json"), 
             "nodejs":getFileJSON("config/nodejs.json"), 
@@ -122,7 +136,7 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
 
 def handleRequest(url, token, x):
     try:
-        get = requests.get(url, headers={'Content-Type': 'application/json', 'Authorization' : 'Api-Token {apitoken}'.format(apitoken=token)}, params=x)
+        get = requests.get(url, headers={'Content-Type': 'application/json', 'Authorization' : 'Api-Token {apitoken}'.format(apitoken=token)}, params=x, verify=verifySSL)
         get.raise_for_status()
         resp = get.json()
         return resp
@@ -170,9 +184,17 @@ def buildProject(finalDash,metricKey, name,mzName, mzId, tech, project, stage, s
      
     createCADashboardProject(dashboardDir, "/dashboard.json", "/dashboard.yaml", dashboardYaml, finalDash)
 
-    print("Finished! You can now run:")
-    print("monaco --environments=environments.yaml -p=\"{projectDir}\"".format(projectDir=projectDir))
-
+    if not autoMonaco:
+        check = subprocess.check_call(["monaco","--version"])
+        if check:
+            print("Finished! You can now run:")
+            print("monaco --environments=environments.yaml -p=\"{projectDir}\"".format(projectDir=projectDir))
+        else:
+            print("Running Monaco to deploy dashboard - {projectDir}".format(projectDir = projectDir))
+            subprocess.run(["monaco", "--environments=environments.yaml", r'-p={projectDir}/'.format(projectDir=projectDir)])
+    else:
+        print("Finished! Review {projectDir} and run:".format(projectDir=projectDir))
+        print("monaco --environments=environments.yaml -p=\"{projectDir}\"".format(projectDir=projectDir))
 def createCADashboardProject(dir,j,d,dashboardYaml,finalDash):
     with open('{dir}{j}'.format(dir=dir, j = j), 'w') as f:
         json.dump(finalDash,f, indent=2)
