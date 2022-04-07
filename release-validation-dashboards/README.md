@@ -84,6 +84,10 @@ The config.yaml contains a setion for the mzs, dashoard and baseline configurati
 - Set your pass conditions for Service,Application,Infrastrucutre
 
 3. Execute the Cloud Automation Dashboard script
+- Supported Args:
+- -a, --auto-monaco (enables automatic deployment of monaco dashboards) - (missing = false)
+- -v, --verify (disables SSL cert verification) - (missing = true)
+
 ```bash
 python caDashboard.py
 ```
