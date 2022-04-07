@@ -1638,7 +1638,7 @@
       }
     },
     {
-          "name": "Response time over time;sli=rt_p50;pass=<{cond}",
+          "name": "Response time over time;sli=rt_p50;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -1734,7 +1734,7 @@
           }
         },
         {
-          "name": "Response time over time;sli=rt_p90;pass=<{cond}",
+          "name": "Response time over time;sli=rt_p90;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -1830,7 +1830,7 @@
           }
         },
         {
-          "name": "Failure Rate (Avg);sli=fr_avg;pass=<{cond}",
+          "name": "Failure Rate (Avg);sli=fr_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -1921,7 +1921,7 @@
           }
         },
         {
-          "name": "Throughput;sli=rc_sum;pass=>{cond}",
+          "name": "Throughput;sli=rc_sum;pass=>={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2012,7 +2012,7 @@
           }
         },
         {
-          "name": "Host Disk Queue (max);sli=h_disk_max;pass=<{cond}",
+          "name": "Host Disk Queue (max);sli=h_disk_max;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2104,7 +2104,7 @@
           }
         },
         {
-          "name": "Host Memory used %;sli=h_mem_avg;pass=<{cond}",
+          "name": "Host Memory used %;sli=h_mem_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2196,7 +2196,7 @@
           }
         },
         {
-          "name": "Host CPU %;sli=h_cpu_avg;pass=<{cond}",
+          "name": "Host CPU %;sli=h_cpu_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2288,7 +2288,7 @@
           }
         },
         {
-          "name": "Process CPU;sli=p_cpu_avg;pass=<{cond}",
+          "name": "Process CPU;sli=p_cpu_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2380,7 +2380,7 @@
           }
         },
         {
-          "name": "PGI Availability %;sli=p_avail_avg;pass=>{cond}",
+          "name": "PGI Availability %;sli=p_avail_avg;pass=>={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2471,7 +2471,7 @@
           }
         },
         {
-          "name": "Process Memory;sli=p_mem_avg;pass=<{cond}",
+          "name": "Process Memory;sli=p_mem_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2562,7 +2562,7 @@
           }
         },
         {
-          "name": "Apdex (AVG);sli=a_apdex;pass=>{cond}",
+          "name": "Apdex (AVG);sli=a_apdex;pass=>={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2660,7 +2660,7 @@
           }
         },
         {
-          "name": "ActionDuration XHR;sli=a_xhr_avg;pass=<{cond}",
+          "name": "ActionDuration XHR;sli=a_xhr_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2756,7 +2756,7 @@
           }
         },
         {
-          "name": "ActionDuration Load;sli=a_load_avg;pass=<{cond}",
+          "name": "ActionDuration Load;sli=a_load_avg;pass=<={cond}",
           "nameSize": "small",
           "tileType": "DATA_EXPLORER",
           "configured": true,
@@ -2852,7 +2852,7 @@
           }
         },
         {
-      "name": ".NET GC Time %;sli=dotnet_gctime_avg;pass=<{cond}",
+      "name": ".NET GC Time %;sli=dotnet_gctime_avg;pass=<={cond}",
       "nameSize": "small",
       "tileType": "DATA_EXPLORER",
       "configured": true,
@@ -2950,7 +2950,7 @@
       }
     },
     {
-      "name": ".NET # Threads;sli=dotnet_thread_avg;pass=<{cond}",
+      "name": ".NET # Threads;sli=dotnet_thread_avg;pass=<={cond}",
       "nameSize": "small",
       "tileType": "DATA_EXPLORER",
       "configured": true,
@@ -3048,7 +3048,7 @@
       }
     },
     {
-      "name": ".NET Contention;sli=dotnet_cont_avg;pass<={cond}",
+      "name": ".NET Contention;sli=dotnet_cont_avg;pass<=={cond}",
       "nameSize": "small",
       "tileType": "DATA_EXPLORER",
       "configured": true,
@@ -3146,7 +3146,7 @@
       }
     },
     {
-      "name": ".NET Bytes;sli=dotnet_bytes_avg;pass=<{cond}",
+      "name": ".NET Bytes;sli=dotnet_bytes_avg;pass=<={cond}",
       "nameSize": "small",
       "tileType": "DATA_EXPLORER",
       "configured": true,
