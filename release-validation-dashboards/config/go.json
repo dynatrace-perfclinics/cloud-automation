@@ -40,7 +40,7 @@
             "height": 38
           },
           "tileFilter": {},
-          "markdown": "KQG.Total.Pass=90%;KQG.Total.Warning=70%;KQG.Compare.WithScore=pass;KQG.Compare.Results=1;KQG.Compare.Function=avg"
+          "markdown": "KQG.Total.Pass={{ .total_pass }};KQG.Total.Warning={{ .total_warn }};KQG.Compare.WithScore=pass;KQG.Compare.Results=1;KQG.Compare.Function=avg"
         },
         {
           "name": "Markdown",

@@ -76,12 +76,15 @@ The config.yaml contains the configurations of each mz you want to create a clou
 The config.yaml contains a setion for the mzs, dashoard and baseline configurations.
 
 - Replace MZNAME with your management zone name
+- Set your total pass used by Cloud Automation SLI evaluation
+- Set your total warn used by Cloud Automation SLI evaluation
 - Select your technology (currently supported - generic,java,nodejs,dotnet, go)
 - Replace OWNER with your user in Dynatrace
 - Replace PROJECT with your cloud automation project
 - Replace STAGE with your cloud atuomation stage
 - Replace SERVICE with your cloud atuomation service
 - Set your pass conditions for Service,Application,Infrastrucutre
+- Set your weight for Service,Application,Infrastructure
 
 3. Execute the Cloud Automation Dashboard script
 - Supported Args:
