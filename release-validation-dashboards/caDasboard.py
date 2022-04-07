@@ -59,45 +59,50 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service,
     while count < totalTiles:
         print("Progress: {count} of {totalTiles}".format(count=count-startIndex+1,totalTiles=totalTiles-startIndex))
         metric = dash["tiles"][count]["queries"][0]["metric"]
-        agg = dash["tiles"][count]["queries"][0]["spaceAggregation"]
+        agg = ":{a}".format(a=dash["tiles"][count]["queries"][0]["spaceAggregation"])
+        if "PERCENTILE" in agg:
+            agg = ":percentile({x})".format(x = agg.split("_")[1])
+            
         entitySelector = "type({type}),mzName({mzName})".format(mzName = mzName, type = "{type}")
         if "host" in metric:
             entitySelector = entitySelector.format(type="host")
             if "disk" in metric:
-                metric = metric + ":merge(dt.entity.host,dt.entity.disk)"
+                metric = getMetric(metric, ":merge(dt.entity.host,dt.entity.disk)", agg)
             else:
-                metric = metric + ":merge(dt.entity.host)"
+                metric = getMetric(metric, ":merge(dt.entity.host)", agg)
             getData(entitySelector, metric, url, token, timeFrame, num, count, dash, infra, infraWarn, metricKey)
         elif "service" in metric:
             entitySelector = entitySelector.format(type="service")
-            metric = metric + ":merge(dt.entity.service)"
+            metric = getMetric(metric, ":merge(dt.entity.service)", agg)
             getData(entitySelector, metric, url, token, timeFrame, num, count, dash, service, serviceWarn, metricKey)
         elif "generic" in metric or "pgi" in metric or "tech" in metric:
             entitySelector = entitySelector.format(type="process_group_instance")
             if "generic" in metric or "pgi" in metric:
-                metric = metric + ":merge(dt.entity.process_group_instance)"
+                metric = getMetric(metric, ":merge(dt.entity.process_group_instance)", agg)
             elif "jvm" in metric or "dotnet.gc" in metric:
                 if "threads" in metric:
-                    metric = metric + ':merge(dt.entity.process_group_instance,API,Thread state)'
+                    metric = getMetric(metric, ':merge(dt.entity.process_group_instance,API,Thread state)', agg)
                 elif "pool" in metric:
-                    metric = metric + ":merge(dt.entity.process_group_instance,rx_pid,poolname)"
+                    metric = getMetric(metric, ":merge(dt.entity.process_group_instance,rx_pid,poolname)", agg)
                 else:
-                    metric = metric + ":merge(dt.entity.process_group_instance)"
+                    metric = getMetric(metric, ":merge(dt.entity.process_group_instance)", agg)
             else:
-                metric = metric + ":merge(dt.entity.process_group_instance,rx_pid)"
+                metric = getMetric(metric, ":merge(dt.entity.process_group_instance,rx_pid)", agg)
             getData(entitySelector, metric, url, token, timeFrame, num, count, dash, infra, infraWarn,metricKey)
         elif "apps" in metric:
             entitySelector = entitySelector.format(type="application")
             if "actionDuration" in metric:
-                metric = metric + ":merge(dt.entity.application,dt.entity.browser)"
+                metric = getMetric(metric, ":merge(dt.entity.application,dt.entity.browser)", agg)
             else:
-                metric = metric + ":merge(dt.entity.application,User type)"
+                metric = getMetric(metric, ":merge(dt.entity.application,User type)", agg)
             getData(entitySelector, metric, url, token, timeFrame, num, count, dash, app, appWarn,metricKey)
         else:
             count += 1
             continue
         count += 1
     return dash, metricKey
+def getMetric(metric, merge, agg):
+    return "{metric}{merge}{agg}".format(metric = metric, merge = merge, agg = agg)
 
 def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, percent, warn, metricKey):
     resp = handleRequest("{url}/api/v2/metrics/query".format(url=url), token, {"from":timeFrame,"metricSelector":metric,"entitySelector":entitySelector})
@@ -107,7 +112,7 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
         sign = dash["tiles"][count]["name"].split("pass=")[1].split("{")[0]
         if resp:
             base = mean(resp)
-            if '>' == sign:
+            if '>=' == sign:
                 value = base - (base*(percent/100))
                 warn = base - (base*(warn/100))
                 baseKey = setMetricKey(key, "_base", metricKey, base)
@@ -154,7 +159,7 @@ def handleRequest(url, token, x):
 
 def setMetricKey(key, string, metricKey, val):
     s = key + string
-    metricKey.append({s: "{:.2f}".format(val)})
+    metricKey.append({s: "{:.3f}".format(val)})
     return s
 
 '''            
