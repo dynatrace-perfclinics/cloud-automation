@@ -46,12 +46,22 @@ def main():
                     else:
                         print("Validated Management Zone ({mzName}) with id={mzId}".format(mzName=j["mzName"],mzId=j["mzId"]))
 
-                        finalDash, metricKey = calculatePass(copy.deepcopy(config[j["technology"]]["dash"]), copy.deepcopy(config[j["technology"]]["count"]), config[j["technology"]]["num"], url, token, j["dash"]["timeFrame"], j["mzName"], j["baseline"]["app_pass"], j["baseline"]["service_pass"], j["baseline"]["infra_pass"], j["baseline"]["app_warn"], j["baseline"]["service_warn"], j["baseline"]["infra_warn"])
-                        buildProject(finalDash, metricKey, name, j["mzName"], j["mzId"], j["technology"], j["dash"]["project"], j["dash"]["stage"], j["dash"]["service"], j["dash"]["owner"], j["dash"]["timeFrame"], j["dash"]["preset"], j["dash"]["shared"])
+                        finalDash, metricKey = calculatePass(copy.deepcopy(config[j["technology"]]["dash"]), copy.deepcopy(config[j["technology"]]["count"]), 
+                                                             config[j["technology"]]["num"], 
+                                                             url, token, 
+                                                             j["dash"]["timeFrame"], j["mzName"], 
+                                                             j["baseline"], 
+                                                             j["weight"], j["keySli"])
+                        buildProject(finalDash, metricKey, name, 
+                                     j["mzName"], j["mzId"], j["technology"], 
+                                     j["dash"]["project"], j["dash"]["stage"], 
+                                     j["dash"]["service"], j["dash"]["owner"], 
+                                     j["dash"]["timeFrame"], j["dash"]["preset"], 
+                                     j["dash"]["shared"], j["total_pass"], j["total_warn"])
         else:
             print("Add the dashboard configurations you'd like a dashboard created for in config/config.yaml")
 
-def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service, infra, appWarn, serviceWarn, infraWarn):
+def calculatePass(dash, count, num, url, token, timeFrame, mzName, baseline, weight, keySli):
     metricKey = []
     totalTiles = len(dash["tiles"])
     startIndex=count
@@ -70,11 +80,11 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service,
                 metric = getMetric(metric, ":merge(dt.entity.host,dt.entity.disk)", agg)
             else:
                 metric = getMetric(metric, ":merge(dt.entity.host)", agg)
-            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, infra, infraWarn, metricKey)
+            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["infra_pass"], baseline["infra_warn"], metricKey, weight["infra"], keySli["infra"])
         elif "service" in metric:
             entitySelector = entitySelector.format(type="service")
             metric = getMetric(metric, ":merge(dt.entity.service)", agg)
-            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, service, serviceWarn, metricKey)
+            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["service_pass"], baseline["service_warn"], metricKey, weight["service"],keySli["service"])
         elif "generic" in metric or "pgi" in metric or "tech" in metric:
             entitySelector = entitySelector.format(type="process_group_instance")
             if "generic" in metric or "pgi" in metric:
@@ -88,14 +98,14 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service,
                     metric = getMetric(metric, ":merge(dt.entity.process_group_instance)", agg)
             else:
                 metric = getMetric(metric, ":merge(dt.entity.process_group_instance,rx_pid)", agg)
-            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, infra, infraWarn,metricKey)
+            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["infra_pass"], baseline["infra_warn"],metricKey, weight["infra"],keySli["infra"])
         elif "apps" in metric:
             entitySelector = entitySelector.format(type="application")
             if "actionDuration" in metric:
                 metric = getMetric(metric, ":merge(dt.entity.application,dt.entity.browser)", agg)
             else:
                 metric = getMetric(metric, ":merge(dt.entity.application,User type)", agg)
-            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, app, appWarn,metricKey)
+            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["app_pass"], baseline["app_warn"],metricKey,weight["app"],keySli["app"])
         else:
             count += 1
             continue
@@ -104,7 +114,7 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, app, service,
 def getMetric(metric, merge, agg):
     return "{metric}{merge}{agg}".format(metric = metric, merge = merge, agg = agg)
 
-def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, percent, warn, metricKey):
+def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, percent, warn, metricKey, weight, keySli):
     resp = handleRequest("{url}/api/v2/metrics/query".format(url=url), token, {"from":timeFrame,"metricSelector":metric,"entitySelector":entitySelector})
     key = dash["tiles"][count]["name"].split("sli=")[1].split(";")[0]
     if resp["result"][0]["data"]:
@@ -118,26 +128,30 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
                 baseKey = setMetricKey(key, "_base", metricKey, base)
                 valueKey = setMetricKey(key, "_pass", metricKey, value)
                 warnKey = setMetricKey(key, "_warn", metricKey, warn)
+                weightKey = setMetricKey(key, "_weight",metricKey, weight)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][0]["value"] = "{{{{ .{s} }}}}".format(s = valueKey)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][1]["value"] = "{{{{ .{s} }}}}".format(s = warnKey)
-                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}}".format(s = valueKey))
+                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}};weight={{{{ .{w} }}}};key_sli={k}".format(s = valueKey, w = weightKey, k = keySli))
             else:
                 value = base + (base*(percent/100))
                 warn = base + (base*(warn/100))
                 baseKey = setMetricKey(key, "_base", metricKey, base)
                 valueKey = setMetricKey(key, "_pass", metricKey, value)
                 warnKey = setMetricKey(key, "_warn", metricKey, warn)
+                weightKey = setMetricKey(key, "_weight",metricKey, weight)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][1]["value"] = "{{{{ .{s} }}}}".format(s = valueKey)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][2]["value"] = "{{{{ .{s} }}}}".format(s = warnKey)
-                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}}".format(s = valueKey))
+                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}};weight={{{{ .{w} }}}};key_sli={k}".format(s = valueKey, w = weightKey,k = keySli))
         else:
             valueKey = setMetricKey(key, "_pass", metricKey, percent)
+            weightKey = setMetricKey(key, "_weight",metricKey, weight)
             dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][2]["value"] = "{{{{ .{s} }}}}".format(s = valueKey)
-            dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="+{{{{ .{s} }}}}%".format(s = valueKey))
+            dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="+{{{{ .{s} }}}}%;weight={{{{ .{w} }}}};key_sli={k}".format(s = valueKey, w = weightKey,k = keySli))
     else:
         valueKey = setMetricKey(key, "_pass", metricKey, percent)
+        weightKey = setMetricKey(key, "_weight",metricKey, weight)
         dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][2]["value"] = '{{{{ .{s} }}}}'.format(s = valueKey)
-        dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="+{{{{ .{s} }}}}%".format(s = valueKey))
+        dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="+{{{{ .{s} }}}}%;weight={{{{ .{w} }}}};key_sli={k}".format(s = valueKey, w = weightKey,k = keySli))
 
 def handleRequest(url, token, x):
     try:
@@ -159,7 +173,10 @@ def handleRequest(url, token, x):
 
 def setMetricKey(key, string, metricKey, val):
     s = key + string
-    metricKey.append({s: "{:.3f}".format(val)})
+    if not isinstance(val, int):
+        metricKey.append({s: "{:.3f}".format(val)})
+    else:
+        metricKey.append({s: str(val)})
     return s
 
 '''            
@@ -171,9 +188,9 @@ def getMzId(x, url, token):
         if x["mzName"] == i["name"]:
             x["mzId"] = i["id"]
 
-def buildProject(finalDash,metricKey, name,mzName, mzId, tech, project, stage, service, owner, timeFrame, preset, shared):
+def buildProject(finalDash,metricKey, name,mzName, mzId, tech, project, stage, service, owner, timeFrame, preset, shared, totalPass, totalWarn):
     s = finalDash["dashboardMetadata"]["name"].format(project = project, stage = stage, service = service)
-    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name":s},{"owner":owner},{"shared":shared},{"timeFrame":timeFrame},{"preset":preset},{"project":project},{"stage":stage},{"service":service},{"mzId":mzId}, {"mzName":mzName}]}
+    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name":s},{"owner":owner},{"shared":shared},{"timeFrame":timeFrame},{"preset":preset},{"project":project},{"stage":stage},{"service":service},{"mzId":mzId}, {"mzName":mzName},{"total_pass":totalPass},{"total_warn":totalWarn}]}
     dashboardYaml[name].extend(metricKey)
     finalDash["dashboardMetadata"]["name"] = "{{ .name }}"
     projectDir = "{name}-{mz}-{tech}".format(name = name, mz = mzName, tech=tech)

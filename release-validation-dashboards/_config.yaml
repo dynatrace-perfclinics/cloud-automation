@@ -2,6 +2,10 @@ dashboards:
      -  mzName: "MZNAME"
         technology: "generic"
         # Supported Technology - generic, go, nodejs, java, dotnet
+        total_pass: "90%"
+        # Used as the total pass condition for SLO
+        total_warn: "70%"
+        # Used as the total warn condition for SLO
         dash:
             timeFrame: "now-1d"
             shared: "true"
@@ -27,3 +31,16 @@ dashboards:
             infra_warn: 23
             # infra_pass - % above/below the baseline for cloud automation to pass
             # infra_warn - % above/below the baseline
+        weight:
+            # Can be used to emphasize the importance of one SLI over the others. 
+            # By default, weight is 1 for all SLIs and can be overwritten. 
+            # The weight is important for calculating the score later.
+            # 1 - 10
+            app: 1
+            service: 1
+            infra: 1
+        keySli:
+            # Can be set to true meaning that the objective is not met if this SLI fails.
+            app: true
+            service: false
+            infra: false
