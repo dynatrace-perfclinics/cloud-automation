@@ -2,9 +2,11 @@
 .vs/
 .logs/*.*
 project/
-config.yaml
-environments.yaml
 ENVNAME*
 request.log
 response.log
 .logs/
+dockerfile
+config.yaml
+*.ps1
+environments.yaml

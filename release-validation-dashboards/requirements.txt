@@ -1,7 +1,4 @@
 requests >= 2.26.0
 PyYAML >=  5.4.1
-json
-copy
 statistics
 argparse
-subprocess

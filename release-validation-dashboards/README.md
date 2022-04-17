@@ -1,6 +1,6 @@
 # Dynatrace Release Validation Dashboard
 
-This is a Cloud Automation project that automates the creation of Dynatrace Cloud Automation Release Validation Dashoards for different base technologies including automated thresholds based on a reference timeframe.
+This is a Cloud Automation project that automates the creation of Dynatrace Cloud Automation - Release Validation Dashoards for different base technologies including automated thresholds based on a reference timeframe.
 
 This project creates a Dynatrace Monaco based dashboard configuration that you can use to create a dashboard as shown below which includes:
 1. Best practice indicators for the selected technology
@@ -15,7 +15,6 @@ This dashboard can then be used to automate your release validation!
 All credit for this project goes to [Arijan Zenuni](https://github.com/ajzenuni) who took the lead of implementing the initial working version of this project. Thank you very much for stepping up and building this!
 
 ## Pre-requisites 
-
 1. Installing Dynatrace Monaco
 
 ```bash
@@ -38,76 +37,95 @@ API v1 scopes
 - Read configuration
 - Write configuration
 ```
+## Pre-requisites (Python)
 
-3. Set Environment Variables
-```bash
- export DT_API_TOKEN="DT.***********.*****************"
- export DT_TENANT="*.live.dynatrace.com"
-```
-5. Installing Python Version 3
+1. Installing Python Version 3
 
 ```bash
 https://www.python.org/download/releases/3.0/
 ```
 
-6. Installing Python Libaries
+2. Installing Python Libaries
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage to create release automation dashboard
-1. Edit the environments.yaml:
+## Pre-requisites (Docker)
+1. Get the docker image
+```bash
+docker pull ajzenuni/release-validation-dashboard:0.1
+```
 
-- Create a copy of _environments.yaml
+## Usage to create release validation dashboard
+1. Edit the _environments.yaml:
+Create a copy of _environments.yaml.
 ```bash
 cp _environments.yaml environments.yaml
 ```
-
 - Replace ENVNAME with your environment name
 
-2. Edit the config.yaml
-
-Start by creating a copy of _config.yaml:
+2. Edit the _config.yaml:
+Create a copy of _config.yaml
 ```bash
 cp _config.yaml config.yaml
 ```
 
 The config.yaml contains the configurations of each mz you want to create a cloud automation dashboard. 
 The config.yaml contains a setion for the mzs, dashoard and baseline configurations.
-
-- Replace MZNAME with your management zone name
-- Set your total pass used by Cloud Automation SLI evaluation
-- Set your total warn used by Cloud Automation SLI evaluation
-- Select your technology (currently supported - generic,java,nodejs,dotnet, go)
-- Replace OWNER with your user in Dynatrace
-- Replace PROJECT with your cloud automation project
-- Replace STAGE with your cloud atuomation stage
-- Replace SERVICE with your cloud atuomation service
-- Set your pass conditions for Service,Application,Infrastrucutre
-- Set your weight for Service,Application,Infrastructure
+###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
+- mzName : Replace MZNAME with your management zone name
+- dash - owner : Replace OWNER with your user in Dynatrace
+- ca - project : Replace PROJECT with your cloud automation project
+- ca - stage : Replace STAGE with your cloud automation stage
+- ca - service : Replace SERVICE with your cloud automation service
+###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
+- total_pass : Set your total pass used by Cloud Automation SLI evaluation
+- total_warn : Set your total warn used by Cloud Automation SLI evaluation
+- technology : Select your technology (currently supported - generic,java,nodejs,dotnet, go)
+- dash - timeFrame, shared, preset : Set the evaluation timeFrame, shared ('true' or 'false'), preset ('true' or 'false')
+- baseline - app_pass,app_warn,service_pass,service_warn,infra_pass,infra_warn: Set your pass conditions for Service,Application,Infrastrucutre (percentage)
+- weight - app, service, infra: Set your weight for Service,Application,Infrastructure (Whole Number >= 1)
+- keySli - app, service, infra: Set your topSli for Service,Application,Infrastructure ('true' or 'false')
 
 3. Execute the Cloud Automation Dashboard script
-- Supported Args:
-- -a, --auto-monaco (enables automatic deployment of monaco dashboards) - (missing = false)
-- -v, --verify (disables SSL cert verification) - (missing = true)
+###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supported Args:
+###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
+- -caTenant, --cloud-automation-tenant ---------- CloudAutomation Tenant
+- -caToken, --cloud-automation-token ------------ CloudAutomation Token
+- -dtUrl, --dynatrace-url DTURL ------------------- Dynatrace URL (https://*.live.com)
+- -dtToken, --dynatrace-api-token DTTOKEN ---- Dynatrace API Token
+###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
+- -v, --verify ------------------------------------------- Verify SSL Cert. (missing = true)
+- -am, --auto-monaco -------------------------------- Use this to automatically execute monaco to deploy dashboards. (missing = false)
+- -aca, --auto-cloud-automation -------------------- Use this to automatically setup a CloudAutomation Project (missing = false)
 
+### PYTHON
 ```bash
-python caDashboard.py
+python caDashboard.py -caTenant CLOUDAUTOMATIONTENANT -caToken CLOUDAUTOMATIONTOKEN -dtURL https://*.live.com -dtToken DTAPITOKEN
 ```
-This will generate a new directory in the project root directory name - {ENVNAME}-{MZNAME}-{TECH}
+
+## DOCKER
+```bash
+docker run --rm ajzenuni/release-validation-dashboard:0.1 -caTenant CLOUDAUTOMATIONTENANT -caToken CLOUDAUTOMATIONTOKEN -dtURL https://*.live.com -dtToken DTAPITOKEN
+```
+
+This will generate a new directory for the Relase Validation Dashboard.
 This is a monaco project that will contain a dashboard.json and a dashboard.yaml. The dashboard.yaml contains all the pass/warn values generated from the baseline
 
-4. Review the dashboard.yaml in the newly created monaco project
+4. Review the dashboard.yaml
 
 The dashboard.yaml contains all metric thresholds based on the reference timeframe. Feel free to adjust the thresholds before applying the dashboard configuration through monaco!
 
-5. Execute Monaco
+5. Execute Monaco (optional if you didn't use -am to automatically run monaco)
+Clone the Cloud Automation GitHub Repo locally. Set the branch to the correct branch as the one in Cloud Automation.
 ```bash
-	monaco --environments=environments.yaml -p="{ENVNAME}-{MZNAME}-{TECH}"
+	monaco --environments=environments.yaml -p="{PROJECT}-{STAGE}-{SERVICE}/"
 ```
 
 ## Use the dashboard with Cloud Automation
 
 To leverage the dashboard for automated validation simply use a Cloud Automation project that has a matching stage and service to your dashboard. Also make sure that this Cloud Automation project uses a dynatrace.conf.yaml that enables the dashboard query capability. Once that is done every evaluation done by your cloud automation project will use your created dashboard as quality gate definition.
-
+```bash
+keptn trigger evaluation --project={PROJECT} --stage={STAGE} --service={SERVICE} --start=2022-04-10T19:40:00 --end=2022-04-11T19:40:00
+```
 ![](./image/evaluationheatmap.png)
