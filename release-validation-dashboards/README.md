@@ -50,12 +50,6 @@ https://www.python.org/download/releases/3.0/
 pip install -r requirements.txt
 ```
 
-## Pre-requisites (Docker)
-1. Get the docker image
-```bash
-docker pull ajzenuni/release-validation-dashboard:0.1
-```
-
 ## Usage to create release validation dashboard
 1. Edit the _environments.yaml:
 Create a copy of _environments.yaml.
@@ -102,11 +96,6 @@ The config.yaml contains a setion for the mzs, dashoard and baseline configurati
 ### PYTHON
 ```bash
 python caDashboard.py -caTenant CLOUDAUTOMATIONTENANT -caToken CLOUDAUTOMATIONTOKEN -dtURL https://*.live.com -dtToken DTAPITOKEN
-```
-
-## DOCKER
-```bash
-docker run --rm ajzenuni/release-validation-dashboard:0.1 -caTenant CLOUDAUTOMATIONTENANT -caToken CLOUDAUTOMATIONTOKEN -dtURL https://*.live.com -dtToken DTAPITOKEN
 ```
 
 This will generate a new directory for the Relase Validation Dashboard.
