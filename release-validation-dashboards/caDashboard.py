@@ -204,7 +204,10 @@ def calculatePass(dash, count, num, url, token, timeFrame, mzName, baseline, wei
                     metric = getMetric(metric, ":merge(dt.entity.process_group_instance)", agg)
             else:
                 metric = getMetric(metric, ":merge(dt.entity.process_group_instance,rx_pid)", agg)
-            getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["infra_pass"], baseline["infra_warn"],metricKey, weight["infra"],keySli["infra"])
+            if "pgi.availability" not in metric:
+                getData(entitySelector, metric, url, token, timeFrame, num, count, dash, baseline["infra_pass"], baseline["infra_warn"],metricKey, weight["infra"],keySli["infra"])
+            else:
+                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].split(';')[0]
         elif "apps" in metric:
             entitySelector = entitySelector.format(type="application")
             if "actionDuration" in metric:
@@ -222,20 +225,21 @@ def getMetric(metric, merge, agg):
     return "{metric}{merge}{agg}".format(metric = metric, merge = merge, agg = agg)
 
 def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, percent, warn, metricKey, weight, keySli):
-    resp = handleGet("{url}/api/v2/metrics/query".format(url=url), {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}, {"from":timeFrame,"metricSelector":metric,"entitySelector":entitySelector})
+    resp = handleGet("{url}/api/v2/metrics/query".format(url=url), {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}, {"from":timeFrame,"resolution":"inf","metricSelector":metric,"entitySelector":entitySelector})
     if 'error' in resp:
         print("Couldn't complete request. {error}".format(error=resp["error"]))
         print("***********************************")
         exit()
     key = dash["tiles"][count]["name"].split("sli=")[1].split(";")[0]
     if resp["result"][0]["data"]:
-        resp = list(filter(None, resp["result"][0]["data"][0]["values"]))
+        resp = list(filter(None, resp["result"][0]["data"][0]["values"]))[0]
         sign = dash["tiles"][count]["name"].split("pass=")[1].split("{")[0]
         if resp:
-            if ":max" in metric.lower():
-                base = max(resp)
-            else:
-                base = mean(resp)
+            #if ":max" in metric.lower():
+            #    base = max(resp)
+            #else:
+            #    base = mean(resp)
+            base = resp
             if '>=' == sign:
                 value = base - (base*(percent/100))
                 warn = base - (base*(warn/100))
@@ -255,7 +259,10 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
                 weightKey = setMetricKey(key, "_weight",metricKey, weight)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][1]["value"] = "{{{{ .{s} }}}}".format(s = passKey)
                 dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][2]["value"] = "{{{{ .{s} }}}}".format(s = warnKey)
-                dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}};weight={{{{ .{w} }}}};key_sli={k}".format(s = passKey, w = weightKey,k = keySli))
+                if "pool" in metric or "service.response.time" in metric:
+                    dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{s};weight={{{{ .{w} }}}};key_sli={k}".format(s = "{:.3f}".format(value/1000), w = weightKey, k = keySli))
+                else:
+                    dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="{{{{ .{s} }}}};weight={{{{ .{w} }}}};key_sli={k}".format(s = passKey, w = weightKey, k = keySli))
         else:
             passKey = setMetricKey(key, "_pass", metricKey, percent)
             weightKey = setMetricKey(key, "_weight",metricKey, weight)
