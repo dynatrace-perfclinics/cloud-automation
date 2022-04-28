@@ -74,15 +74,15 @@ The config.yaml contains a setion for the mzs, dashoard and baseline configurati
 - mzName : Replace MZNAME with your management zone name
 - or 
 - application : Replace APPNAME with the name of the application
-- dash - owner : Replace OWNER with your user in Dynatrace
-- ca - project : Replace PROJECT with your cloud automation project
-- ca - stage : Replace STAGE with your cloud automation stage
-- ca - service : Replace SERVICE with your cloud automation service
+- dashboard - owner : Replace OWNER with your user in Dynatrace
+- automation - project : Replace PROJECT with your cloud automation project
+- automation - stage : Replace STAGE with your cloud automation stage
+- automation - service : Replace SERVICE with your cloud automation service
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
 - total_pass : Set your total pass used by Cloud Automation SLI evaluation
 - total_warn : Set your total warn used by Cloud Automation SLI evaluation
 - technology : Select your technology (currently supported - generic, java, nodejs, dotnet, go)
-- dash - timeFrame, shared, preset : Set the evaluation timeFrame, shared ('true' or 'false'), preset ('true' or 'false')
+- dashboard - timeFrame, shared, preset : Set the evaluation timeFrame, shared ('true' or 'false'), preset ('true' or 'false')
 - baseline - app_pass,app_warn,service_pass,service_warn,infra_pass,infra_warn: Set your pass conditions for Service,Application,Infrastrucutre (percentage)
 - weight - app, service, infra: Set your weight for Service,Application,Infrastructure (Whole Number >= 1)
 - keySli - app, service, infra: Set your topSli for Service,Application,Infrastructure ('true' or 'false')
