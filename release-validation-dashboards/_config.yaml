@@ -6,13 +6,13 @@ dashboards:
         # Used as the total pass condition for SLO
        total_warn: "70%"
         # Used as the total warn condition for SLO
-       dash:
+       dashboard:
             timeFrame: "now-1d"
             shared: "true"
             preset: "true"
             owner: "OWNER"
             # owner of the dashboard
-       ca:
+       automation:
             project: "PROJECT"
             stage: "STAGE"
             service: "SERVICE"
@@ -44,10 +44,19 @@ dashboards:
             service: false
             infra: false
     -  mzName: "MZNAME" 
-       dash:
+       dashboard:
             owner: "OWNER"
             # owner of the dashboard
-       ca:
+       automation:
+            project: "PROJECT"
+            stage: "STAGE"
+            service: "SERVICE"
+            # Cloud Automation Project, Stage and Service
+    -  application: "APPNAME" 
+       dashboard:
+            owner: "OWNER"
+            # owner of the dashboard
+       automation:
             project: "PROJECT"
             stage: "STAGE"
             service: "SERVICE"

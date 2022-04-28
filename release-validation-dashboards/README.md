@@ -3,10 +3,14 @@
 This is a Cloud Automation project that automates the creation of Dynatrace Cloud Automation - Release Validation Dashoards for different base technologies including automated thresholds based on a reference timeframe.
 
 This project creates a Dynatrace Monaco based dashboard configuration that you can use to create a dashboard as shown below which includes:
-1. Best practice indicators for the selected technology
+1. Best practice indicators for the selected technology OR Application
 2. Automatic thresholds based on a reference timeframe
 
+### Technology Based Dashboard
 ![](./image/dashboard.png)
+
+### Applicaiton Focused Dashboard
+![](./image/application_dashboard.jpg)
 
 This dashboard can then be used to automate your release validation!
 
@@ -68,6 +72,8 @@ The config.yaml contains the configurations of each mz you want to create a clou
 The config.yaml contains a setion for the mzs, dashoard and baseline configurations.
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
 - mzName : Replace MZNAME with your management zone name
+- or 
+- application : Replace APPNAME with the name of the application
 - dash - owner : Replace OWNER with your user in Dynatrace
 - ca - project : Replace PROJECT with your cloud automation project
 - ca - stage : Replace STAGE with your cloud automation stage
@@ -75,7 +81,7 @@ The config.yaml contains a setion for the mzs, dashoard and baseline configurati
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
 - total_pass : Set your total pass used by Cloud Automation SLI evaluation
 - total_warn : Set your total warn used by Cloud Automation SLI evaluation
-- technology : Select your technology (currently supported - generic,java,nodejs,dotnet, go)
+- technology : Select your technology (currently supported - generic, java, nodejs, dotnet, go)
 - dash - timeFrame, shared, preset : Set the evaluation timeFrame, shared ('true' or 'false'), preset ('true' or 'false')
 - baseline - app_pass,app_warn,service_pass,service_warn,infra_pass,infra_warn: Set your pass conditions for Service,Application,Infrastrucutre (percentage)
 - weight - app, service, infra: Set your weight for Service,Application,Infrastructure (Whole Number >= 1)
