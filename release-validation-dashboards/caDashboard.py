@@ -361,9 +361,6 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
         print("***********************************")
         exit()
     key = dash["tiles"][count]["name"].split("sli=")[1].split(";")[0]
-    indx = len(resp["result"])
-    if indx > 1:
-        cleanUpData(resp, indx)
     if resp["result"][0]["data"]:
         resp = list(filter(None, resp["result"][0]["data"][0]["values"]))[0]
         sign = dash["tiles"][count]["name"].split("pass=")[1].split("{")[0]
@@ -406,15 +403,6 @@ def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, per
         weightKey = setMetricKey(key, "_weight",metricKey, weight)
         dash["tiles"][count-num]["visualConfig"]["thresholds"][0]["rules"][2]["value"] = '{{{{ .{s} }}}}'.format(s = passKey)
         dash["tiles"][count]["name"] = dash["tiles"][count]["name"].format(cond="+{{{{ .{s} }}}}%;weight={{{{ .{w} }}}};key_sli={k}".format(s = passKey, w = weightKey,k = keySli))
-
-def cleanUpData(resp, count):
-    print(resp["result"][0])
-    for i in range(1,count):
-        print(i)
-        if(resp["result"][i]["data"]):
-            print(resp["result"][i])
-            resp["result"][0]["data"][0]["values"].extend(resp["result"][i]["data"][0]["values"])
-            print(resp["result"][i]["data"][0]["values"])
 
 def setMetricKey(key, string, metricKey, val):
     s = key + string
