@@ -68,7 +68,7 @@ def create_dashboard(serviceRelation):
     return dashTemp
 
 def buildProject(name, owner,shared,preset, finalDash):
-    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name": "[4-Golden-SignalsV2] {name}-serviceflow".format(name = name)},{"owner":owner},{"shared":shared},{"preset":preset}]}
+    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name": "[4-Golden-Signals] {name}-serviceflow".format(name = name)},{"owner":owner},{"shared":shared},{"preset":preset}]}
     
     projectDir = "{name}-serviceflow".format(name = name)
 
