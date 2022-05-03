@@ -44,7 +44,7 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, index=0, relati
 def create_dashboard(serviceRelation):
     dashTemp = getFileJSON('etc/dashboard/template.json')
     images = getFileJSON('etc/dashboard/images.json')
-    top = 38
+    top = dashTemp["tiles"][0]["bounds"]["height"]
     for level in serviceRelation:
         tiles = getFileJSON('etc/dashboard/service_tiles.json')
         tiles["tiles"][0]["image"] = images[int(level)-1]["image"]
@@ -62,12 +62,13 @@ def create_dashboard(serviceRelation):
             temp["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"] = tiles["tiles"][i]["criteria"]
             temp["queries"][0]["metric"] = tiles["tiles"][i]["metric"]
             temp["visualConfig"]["type"] = tiles["tiles"][i]["type"]
+            temp["visualConfig"]["rules"][0]["properties"]["seriesType"] = tiles["tiles"][i]["seriesType"]
             dashTemp["tiles"].append(temp)
         top += tiles["tiles"][0]["bounds"]["height"]
     return dashTemp
 
 def buildProject(name, owner,shared,preset, finalDash):
-    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name": "[4-Golden-Signals] {name}-serviceflow".format(name = name)},{"owner":owner},{"shared":shared},{"preset":preset}]}
+    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name": "[4-Golden-SignalsV2] {name}-serviceflow".format(name = name)},{"owner":owner},{"shared":shared},{"preset":preset}]}
     
     projectDir = "{name}-serviceflow".format(name = name)
 

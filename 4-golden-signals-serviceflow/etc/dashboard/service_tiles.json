@@ -48,7 +48,7 @@
           "matcher": "A:",
           "properties": {
             "color": "DEFAULT",
-            "seriesType": "LINE"
+            "seriesType": ""
           },
           "seriesOverrides": []
         }
@@ -99,9 +99,9 @@
       "tileType": "IMAGE",
       "configured": true,
       "bounds": {
-        "top": 38,
+        "top": 114,
         "left": 0,
-        "width": 38,
+        "width": 76,
         "height": 228
       },
       "tileFilter": {},
@@ -112,56 +112,60 @@
       "customName": "Response Time (AVG)",
       "spaceAggregation": "AVG",
       "criteria": [],
-      "type": "TOP_LIST",
-      "bounds": {
-        "top": 38,
-        "left": 380,
-        "width": 266,
-        "height": 228
-      },
-      "metric": "builtin:service.response.time"
-    },
-    {
-      "name": "Request Count",
-      "customName": "Request Count (Total)",
-      "spaceAggregation": "SUM",
-      "criteria": [],
       "type": "GRAPH_CHART",
       "bounds": {
-        "top": 38,
-        "left": 646,
+        "top": 114,
+        "left": 76,
         "width": 342,
         "height": 228
       },
-      "metric": "builtin:service.requestCount.total"
-    },
-    {
-      "name": "Request Count",
-      "customName": "Request Count (Total)",
-      "spaceAggregation": "SUM",
-      "criteria": [],
-      "type": "TOP_LIST",
-      "bounds": {
-        "top": 38,
-        "left": 988,
-        "width": 266,
-        "height": 228
-      },
-      "metric": "builtin:service.requestCount.total"
+      "metric": "builtin:service.response.time",
+      "seriesType":  "LINE"
     },
     {
       "name": "Response Time",
       "customName": "Response Time (AVG)",
       "spaceAggregation": "AVG",
       "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 114,
+        "left": 418,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.response.time",
+      "seriesType":  "LINE"
+    },
+    {
+      "name": "Request Count",
+      "customName": "Request Count (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
       "type": "GRAPH_CHART",
       "bounds": {
-        "top": 38,
-        "left": 38,
+        "top": 114,
+        "left": 684,
         "width": 342,
         "height": 228
       },
-      "metric": "builtin:service.response.time"
+      "metric": "builtin:service.requestCount.total",
+      "seriesType":  "STACKED_COLUMN"
+    },
+    {
+      "name": "Request Count",
+      "customName": "Request Count (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 114,
+        "left": 1026,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.requestCount.total",
+      "seriesType":  "LINE"
     },
     {
       "name": "Failure Rate",
@@ -170,12 +174,13 @@
       "criteria": [],
       "type": "GRAPH_CHART",
       "bounds": {
-        "top": 38,
-        "left": 1254,
+        "top": 114,
+        "left": 1292,
         "width": 342,
         "height": 228
       },
-      "metric": "builtin:service.errors.total.rate"
+      "metric": "builtin:service.errors.total.rate",
+      "seriesType":  "STACKED_AREA"
     },
     {
       "name": "Failure Rate",
@@ -184,12 +189,13 @@
       "criteria": [],
       "type": "TOP_LIST",
       "bounds": {
-        "top": 38,
-        "left": 1596,
+        "top": 114,
+        "left": 1634,
         "width": 266,
         "height": 228
       },
-      "metric": "builtin:service.errors.total.rate"
+      "metric": "builtin:service.errors.total.rate",
+      "seriesType":  "LINE"
     },
     {
       "name": "4XX",
@@ -198,12 +204,13 @@
       "criteria": [],
       "type": "TOP_LIST",
       "bounds": {
-        "top": 38,
-        "left": 1862,
+        "top": 114,
+        "left": 1900,
         "width": 266,
         "height": 228
       },
-      "metric": "builtin:service.errors.fourxx.count"
+      "metric": "builtin:service.errors.fourxx.count",
+      "seriesType":  "LINE"
     },
     {
       "name": "5XX",
@@ -212,12 +219,13 @@
       "criteria": [],
       "type": "TOP_LIST",
       "bounds": {
-        "top": 38,
-        "left": 2128,
+        "top": 114,
+        "left": 2166,
         "width": 266,
         "height": 228
       },
-      "metric": "builtin:service.errors.fivexx.count"
+      "metric": "builtin:service.errors.fivexx.count",
+      "seriesType":  "LINE"
     }
   ]
 }
