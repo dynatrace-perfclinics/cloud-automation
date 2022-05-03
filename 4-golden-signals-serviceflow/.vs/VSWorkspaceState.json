@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\etc",
+    "\\etc\\dashboard",
+    "\\image"
   ],
-  "SelectedNode": "\\serviceflow.py",
+  "SelectedNode": "\\etc\\dashboard\\template.json",
   "PreviewInSolutionExplorer": false
 }

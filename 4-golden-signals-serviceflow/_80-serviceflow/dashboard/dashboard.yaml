@@ -1,0 +1,7 @@
+_80:
+- name: '[4-Golden-Signals] _80-serviceflow'
+- owner: arijan.zenuni@dynatrace.com
+- shared: 'true'
+- preset: 'true'
+config:
+- _80: dashboard.json
