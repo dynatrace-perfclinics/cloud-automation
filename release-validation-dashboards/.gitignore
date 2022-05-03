@@ -10,3 +10,4 @@ dockerfile
 config.yaml
 *.ps1
 environments.yaml
+__pycache__

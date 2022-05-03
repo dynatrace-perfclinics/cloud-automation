@@ -1,0 +1,5 @@
+.logs/
+request.log
+response.log
+__pycache__/
+environments.yaml

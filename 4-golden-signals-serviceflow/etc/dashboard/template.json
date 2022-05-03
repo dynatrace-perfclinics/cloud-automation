@@ -1,0 +1,87 @@
+ {
+  "metadata": {
+    "configurationVersions": [
+      6
+    ],
+    "clusterVersion": "1.241.59.20220429-143334"
+  },
+  "dashboardMetadata": {
+    "name": "{{ .name }}",
+    "shared": "{{ .shared }}",
+    "owner": "{{ .owner }}",
+    "tilesNameSize": "small",
+	  "preset": "{{ .preset }}",
+    "tags" : [
+      "4-golden-signal",
+      "service-flow",
+      "cloud-automation"
+    ]
+  },
+  "tiles": [
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 38,
+        "width": 608,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "## ⏳ RESPONSE TIME"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 646,
+        "width": 608,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "## 📉 Throughput"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 1254,
+        "width": 608,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "## 🔻 FAILURE RATE"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 1862,
+        "width": 266,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "## 4️⃣🔻 4XX"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 2128,
+        "width": 266,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "## 5️⃣🔻 5XX"
+    }
+  ]
+ }

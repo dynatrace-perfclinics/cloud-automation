@@ -1,0 +1,223 @@
+{
+  "tile": {
+    "name": "",
+    "tileType": "DATA_EXPLORER",
+    "configured": true,
+    "bounds": {
+      "top": 0,
+      "left": 0,
+      "width": 0,
+      "height": 0
+    },
+    "tileFilter": {},
+    "customName": "",
+    "queries": [
+      {
+        "id": "A",
+        "metric": "",
+        "spaceAggregation": "",
+        "timeAggregation": "DEFAULT",
+        "splitBy": [
+          "dt.entity.service"
+        ],
+        "filterBy": {
+          "filterOperator": "AND",
+          "nestedFilters": [
+            {
+              "filter": "dt.entity.service",
+              "filterType": "ID",
+              "filterOperator": "OR",
+              "nestedFilters": [],
+              "criteria": [
+                {}
+              ]
+            }
+          ],
+          "criteria": []
+        },
+        "enabled": true
+      }
+    ],
+    "visualConfig": {
+      "type": "",
+      "global": {
+        "hideLegend": true
+      },
+      "rules": [
+        {
+          "matcher": "A:",
+          "properties": {
+            "color": "DEFAULT",
+            "seriesType": "LINE"
+          },
+          "seriesOverrides": []
+        }
+      ],
+      "axes": {
+        "xAxis": {
+          "visible": true
+        },
+        "yAxes": []
+      },
+      "heatmapSettings": {
+        "yAxis": "VALUE"
+      },
+      "thresholds": [
+        {
+          "axisTarget": "LEFT",
+          "rules": [
+            {
+              "color": "#7dc540"
+            },
+            {
+              "color": "#f5d30f"
+            },
+            {
+              "color": "#dc172a"
+            }
+          ],
+          "visible": true
+        }
+      ],
+      "tableSettings": {},
+      "graphChartSettings": {
+        "connectNulls": true
+      },
+      "honeycombSettings": {
+        "showHive": true,
+        "showLegend": true,
+        "showLabels": false
+      }
+    },
+    "queriesSettings": {
+      "resolution": ""
+    }
+  },
+  "tiles": [
+    {
+      "name": "Image",
+      "tileType": "IMAGE",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 0,
+        "width": 38,
+        "height": 228
+      },
+      "tileFilter": {},
+      "image": ""
+    },
+    {
+      "name": "Response Time",
+      "customName": "Response Time (AVG)",
+      "spaceAggregation": "AVG",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 38,
+        "left": 380,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.response.time"
+    },
+    {
+      "name": "Request Count",
+      "customName": "Request Count (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
+      "type": "GRAPH_CHART",
+      "bounds": {
+        "top": 38,
+        "left": 646,
+        "width": 342,
+        "height": 228
+      },
+      "metric": "builtin:service.requestCount.total"
+    },
+    {
+      "name": "Request Count",
+      "customName": "Request Count (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 38,
+        "left": 988,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.requestCount.total"
+    },
+    {
+      "name": "Response Time",
+      "customName": "Response Time (AVG)",
+      "spaceAggregation": "AVG",
+      "criteria": [],
+      "type": "GRAPH_CHART",
+      "bounds": {
+        "top": 38,
+        "left": 38,
+        "width": 342,
+        "height": 228
+      },
+      "metric": "builtin:service.response.time"
+    },
+    {
+      "name": "Failure Rate",
+      "customName": "Failure Rate (AVG)",
+      "spaceAggregation": "AVG",
+      "criteria": [],
+      "type": "GRAPH_CHART",
+      "bounds": {
+        "top": 38,
+        "left": 1254,
+        "width": 342,
+        "height": 228
+      },
+      "metric": "builtin:service.errors.total.rate"
+    },
+    {
+      "name": "Failure Rate",
+      "customName": "Failure Rate (AVG)",
+      "spaceAggregation": "AVG",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 38,
+        "left": 1596,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.errors.total.rate"
+    },
+    {
+      "name": "4XX",
+      "customName": "4XX (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 38,
+        "left": 1862,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.errors.fourxx.count"
+    },
+    {
+      "name": "5XX",
+      "customName": "5XX (Total)",
+      "spaceAggregation": "SUM",
+      "criteria": [],
+      "type": "TOP_LIST",
+      "bounds": {
+        "top": 38,
+        "left": 2128,
+        "width": 266,
+        "height": 228
+      },
+      "metric": "builtin:service.errors.fivexx.count"
+    }
+  ]
+}
