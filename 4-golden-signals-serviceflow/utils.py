@@ -45,16 +45,3 @@ def getFileJSON(s_name):
     except FileNotFoundError:
         return(400, "{} is not a valid file in the serviceflow_cache directory".format(s_name))
         sys.exit()
-
-def clean_t(t, depth):
-    complete_t = {}
-    layer = depth - 1
-    index = 1
-    while(index <= layer):
-        complete_t[index] = []
-        index += 1
-
-    for x in t:
-        for i in x:
-            complete_t[i].append(x[i])
-    return complete_t

@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\etc",
-    "\\etc\\dashboard",
-    "\\image"
+    "\\etc\\dashboard"
   ],
-  "SelectedNode": "\\etc\\dashboard\\template.json",
+  "SelectedNode": "\\etc",
   "PreviewInSolutionExplorer": false
 }

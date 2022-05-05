@@ -25,6 +25,7 @@ API v2 scopes
 - Write entities
 - Read settings
 - Write settings
+- Read Metrics
 
 API v1 scopes
 - Read configuration
@@ -54,18 +55,21 @@ cp _environments.yaml environments.yaml
 2. Execute the Service Flow script
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supported Args:
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
--  -dtUrl DTURL, --dynatrace-url Dynatrace URL (https://*.live.com)
--  -dtToken DTTOKEN, --dynatrace-api-token Dynatrace API Token
--  -svcId SVCID, --service-id Id of the service you are interested in.
--  -owner OWNER, --dashboard-owner  Owner of the Dynatrace Dashboard
--  -shared SHARED, --dashboard-shared  Set Dynatrace Dashboard to shared
--  -preset PRESET, --dashboard-preset  Set Dynatrace Dashboard to preset
+-  -dtUrl  --dynatrace-url Dynatrace URL (https://*.live.com)
+-  -dtToken  --dynatrace-api-token Dynatrace API Token
+-  -svcId  --service-id Id of the service you are interested in.
+-  -owner  --dashboard-owner  Owner of the Dynatrace Dashboard
+-  -shared  --dashboard-shared  Set Dynatrace Dashboard to shared
+-  -preset  --dashboard-preset  Set Dynatrace Dashboard to preset
+-  -timeFrame  --dashboard-timeFrame Time Frame to evaluate thresholds
+-  -warn --warn-percent Percent at which to be warned via threshold
+-  -pass --pass-percent Percent at which to be passed via threshold
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
 -  -am, --auto-monaco    Use this to automatically execute monaco to deploy dashboards. (missing = false)
 
 ### PYTHON
 ```bash
-python serviceFlow.py -dtURL https://*.live.com -dtToken DTAPITOKEN -svcId SERVICE-ID -owner OWNER -shared true/false -preset true/false
+python serviceFlow.py -dtURL https://*.live.com -dtToken DTAPITOKEN -svcId SERVICE-ID -owner OWNER -shared true/false -preset true/false -timeFrame now-1d -warn 5 -pass 10
 ```
 
 This will generate a new directory for the Servie Flow Dashboard.
