@@ -1,0 +1,2194 @@
+{
+	"count": 13,
+	"num": 5,
+	"dash":[
+		{
+      "name": "Image",
+      "nameSize": "",
+      "tileType": "IMAGE",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 0,
+        "width": 76,
+        "height": 76
+      },
+      "tileFilter": {},
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSIjNzRjZmY3IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PHBhdGggZD0iTTQ4OS41NTggMzA3LjY4NmgtLjA1NmMtLjU3My0xOC41NzItMTUuNzc5LTMzLjQ2Ny0zNC40OTEtMzMuNDY3SDIxOS44MDNjLTE4LjcxMyAwLTMzLjkxMiAxNC44OTUtMzQuNDkxIDMzLjQ2N2wtLjA1OSAxMDQuMjY2YzAgMTkuMDgxIDE1LjQ3MSAzNC41NDggMzQuNTUgMzQuNTQ4aDM0LjU0NnYtNjQuNTloMTMuNDA1djY0LjU5aDEzOS4zMDN2LTY0LjU5aDEzLjQwNHY2NC41OWgzNC41NWMxOS4wODEgMCAzNC41NDctMTUuNDY3IDM0LjU0Ny0zNC41NDhWMzA3LjY4NnoiPjwvcGF0aD48cGF0aCBkPSJNMjI4LjExIDEzOS42ODVhMTA5Ljk1IDEwOS45NSAwIDAxNy41NzktMjUuMjY3SDUyLjA2Yy0xNi4yOTcgMC0yOS42MTggMTMuMzI5LTI5LjYxOCAyOS42MDh2MTk2LjE4YzAgMTYuMjg2IDEzLjMyMSAyOS42IDI5LjYxOCAyOS42aDk2LjA0NXY1MC4zNDRoLTIyLjI0MmMtNS43MjggMC0xMC40MjYgNC42OTUtMTAuNDI2IDEwLjQzVjQ0OGg2OC42MTRjLTkuMjg2LTkuMjEyLTE1LjA1LTIxLjk3My0xNS4wNS0zNi4wNTZsLjAxLTQyLjEzOGguMDE2bC4wMTUtMjcuNzY4SDQ1Ljc2VjEzOS42ODVoMTgyLjM1ek0zMzcuNDA1IDY0Yy01Mi4zMDUgMC05NC43MSA0Mi4zOTctOTQuNzEgOTQuNzA1IDAgNTIuMzEzIDQyLjQwNSA5NC43IDk0LjcxIDk0LjcgNTIuMzA4IDAgOTQuNzE2LTQyLjM4NyA5NC43MTYtOTQuNyAwLTUyLjMwOC00Mi40MDgtOTQuNzA1LTk0LjcxNi05NC43MDV6Ij48L3BhdGg+PHBhdGggZD0iTTI4Ny45NTEgMjU3Ljk2NGMtMzAuNzIzLTE1LjM3LTUzLjM2My00NC41NS01OS42OTItNzkuMzg5djc5LjM4OWg1OS42OTJ6TTY2LjkyMiAxNTkuMjExaDE0Mi4yMjJ2NDMuMTIzSDY2LjkyMnpNNjYuOTIyIDIxOC41OXYxMDguMjQ0aDEwMi4wNGwuMDItMzUuNGMuNTgtMTguNTc1IDE1Ljc3OS0zMy40NyAzNC40OTEtMzMuNDdoNS42N1YyMTguNTlINjYuOTIzeiI+PC9wYXRoPjwvc3ZnPg=="
+    },
+		{
+      "name": "Image",
+      "nameSize": "",
+      "tileType": "IMAGE",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 0,
+        "width": 76,
+        "height": 76
+      },
+      "tileFilter": {},
+      "image": "data:image/webp;base64,UklGRswlAABXRUJQVlA4WAoAAAAwAAAA/wEA/wEASUNDUBgCAAAAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANkFMUEgYDAAAAfD4//9iJf7/PUwQu2EVSYtG7G7XBRvzxVrEgt3AKnjWIuxA7O4OjLUIA7sbX6wo5++4v3rmPGfmGa+aiJgAsv1v+9/2v+1/2/+2/23/2/63/W/73/a/7X/b/7b/bf/b/rf9//8dQrvzz2+f3r156eTBHZuyli+ZkxgXGz2ge4f2fp713WRTlVoNf/APiuoxICY2LnH24sw1G/L3H79wvejRq0/foKOFuLqy7M3j4suHt65clBA7sJ27TKnq13fElDmZ6/ecuXn/+ftysM8N2kuPZyX/6C03Wg1JWn3k7jcYnlv+aeHm+I415UP9ninb78I0eecfvj/xa7S3LAidlFVQAXPlon9cuDk+TOjqRacdfQ0z5qh/eGCip5BVG5T9GKbNWwCerBroLlbdM27D1Dns7y/MixKk8HlnYPqcBqBs9xR/wfGfsvsjrJDf/r40I1JYojJLYZV8B+DOwrYCEpJaAgvlPgAFyS2FovW8m7BWEQBwanIjQfBJKYDlCgKA/bHu3OcZfxZWLA5ARd5QnqsRdxwWLRIAro/jNc8lb2HZggGUTOWxoBxYuXAAT1PcOKvXHli7gADvFjbkqJHnYfVCAvyR0ZiT4ktg/YICvJ/CQ4NvggeFBTjTkXf8toMPBQb4zYNr5jkhv/BsHL9EF4EbxQY4FMwnrXeBI0UHSOWRxeBK8cHt7rzRuxCSDVjMF8vAm0KE8yH80O0GpByQxAup4FBRwgFvHuh4BRIPZeOtbwH4VJyALe7WFnoB0g+32lrZqO9QACgbbF2LwK9iBSRYVI18KAOstKR2N6EQcKiu9cSUQymgOMRq5oJzBQxfo61lC9QDkGAhDc5DSWCpZfgVQVFgi0VEVkBZ4KQl9AcXCxuKLGA01AY+mF46VAdgckegQFDfzB5DicDfvMDRgofOJtUY6gQ/mVIEVAp+NqFhUCuYbzozoFqwzGQyoV4wx1RSoWIw1UTmQc1gjGmkQNVgkEnEQ92giynEQeWgvQmMhdpBS8MNh+pBPYMNgfqBsfpBBcFIPaGGYJyuUEVfjNIR3F359cund6+fPym9VyQZ8NwYEbB25x+f3jx7UHSj4NyJQ3vyNuaszEidPzNh8oTRMYP79uzaKTIsqE2AT0vPpg3rebhVIwvlNRQZIQTWWfa8uOD4rvWOBYkTontHBjb3IJ7lNlxiry3M/Pm5jemzpowe1DXIu0E14mx+w2HWAmDKD0/mzowOqUtcz3HIY8sHpluSFV2fhJDnkMVSC5hqxdm0niSOXId0dprDPJ/kx4eSWPId5rLSGGZ5dXYgiSfnYQYb9WGOV2cHkpDyHhJY8HCawdXZgSSq3Icprqv5FYa/OjuQBJb/MNFVVT/D4IWzA0lsBQCxLnoHY2/tTcIrAhjhkhcw8s2kRiTAQoChLngM437f2J3EWAwwULd7MOy16fVIlAUBfXQqhEGdazuTQItCZTddfocxnQ4vEmpRQHlHHQpgSKfDiwRbGPApXNM5GNHp8CLhFgdkaDkJAzodXiTg4rCINB4G+06HFwm5MMwgjfvAvNPhRYIuCtNI4w4wn+tFwi4I40njVrB+tQ8JvBgMJ43rwfi3mST0QjCQNGaD8e0+ZNBqDVuFdBscO23ustz8I5cK/+mt65fPnz52aN/OvM3rslcuX7pkwZyUxGlxE2JHRA/p37t7p8jQdoG+LZo3qudRo4osKu9BGleA7ZJoYt0toG9cWt7FZzDHLy9KrpzYs3HF4uS4EQO6BPs0dpMwryNI4zGwnUpMu/WYe/gjzP/zs+KC47s2rEidOWXMkB7hAc1ry43zLUnjbjB9KJjY7Ziy9xUs/PPzElmxjrRuBssvxxOjjYZl3wMHSooU0roGLO9tSiwGTt7+DJwoJT4NIa1LwfIMcn2dibvfgCNlxLVA0joPDBd2IZcPza8EX0qIbVVIayIYXledXNw96y24Uz7MJ82TwG7FRHJtUNp98KhsqBhOmkeA3XNtyKVjL4NTJcOdYNI8EOwuJVfWTikFt8qFrbVIczcw+/pHcqFPRhk4ViZ8/RNpDwOzV31I/6jN4FuJcCKAtAeA2UNVSfchR8G78mAe6egFZreR7r3PgH9lwe2upGM9MLuG9G6fDx6WBOmkZzUw6yCdm6wAH0uBE+GkK5h1kM6zv0CVfJhM+oLZ5aTvhAfgZvFb34T0BbPLSdfI8+Bo0bs0gHQGsw7SdSG4WuwuxZDOtcHsWtKzyxWokksxpHcXMJtPeqaDt8XtUgzpPh3MHiIde96AIjkXQ/ovArPnSMdMcLiY5XUjF2aA2d9Je9B1KJFPy3zJha2Ogdn7pH1MBVRIUYI7uXLUJzD7irRngNPFqjJ/KLl2Fdj9Qpo9j0F9HJtYh1wbfg0Mk+Z+L6E6ria3IFdPB8ukeSY4XozupwWRy+vmgWXSvB4q4/GWn9sRg30fguWaWuofh5S4+6aSA+6tGeZJbC4E0w1JY/sSyAkiqt60defB45KWZOUfv1b60XIKHP3cidV+18G0N2kc+AXyQnPVxoGdBo9PTs/dffrmky+mdmPNaG9iuOk6sN2eNE4G91uJ5iqNAjoOGpeUmr3z1M2Hb8rN4Uvh4awJgcT4tI9guyNpTIfE0bFKXc+A8O6DRsX9sjAzJ+/A6WvFD56+/lj+3UUVbx78fnrfppUzhndoSkbsdAaM9yWNqyGVXFvFrW5jr1aBQRGde/T9px1aN/cgo9dygPVo0rge8sykxz4F6+NJ416onfYHwHw8aSyG0vFygP05pLESKsfL4QT7v5JGCKOQeTmcMOAa0giF4+VwwohbSCPUjZfDCUPuJ43lysbL4YQxT5PGN1A0Pg4nDHqdND6CmhmwC4a9RxoLoWLq/3IHxn1FGgugYKJyv8HA5aTxFNTL+HMwNmmtdl6xBCx9DYOT9hpXFEqLqUdheNLT/YYiaTvrIkzQQxeqXaRAotLuwBSbk8517yuOPqsfwyQDSfcGT9SF//jN72GaEeTCxi+VRHjirlcw017k0qbvFINbzyUXYLZDycWeZarAI2ho8oaHMOFx5PIWXyVfg/Dhs9efeQLTnk4Mesu0uj+07dhveFzKkpWb9p66du9VOUx/LjHpK5OqezRo1tK/XVinHv2GDBszcUrirAVpmTnbD1+88+SjExa8lBgNkBr9B/80bFTshLgp8Ukz5sxfnLbMsTIrd8PmvB179h8+durcxSvXbxXef/L6Y3klODSbmG0tM8Dz24jhdkrqIDEdrKDOEuOhyukGMR+hmErJgFFK6Q0ZspNC+koG7aqOyLA9VBEZuJcaIkP3U0H1jEVD1E9LMvpw1dOejD9W7XQhM4xTOYPIHOPVzRgyyxRVM5XMc56amUNmmqpilpG5ZqqX+WS2M1TLz2S+w9TKT2TGESqlM5lzY3XiT6atSuqTiT9WImTuR9THBzL7dNVRROY/Wm2cJCvsrzK2kDVGViiLpWSVfkWKIoGss8F5FfE1mix1i3ooDiGLnasaDtUly40pVworyYrb3VQICWTNNfJVQdlgsuxFauBWW7LwUd8VwBZ3svTQC7KvbDxZ/gK5d8CbOLDjFYmXRJyYKuvOhxA3drsh5RYTVy6Tb7e7E2f2LpRsqcShi2XaoWDi0ta7ZNmzccSt0UVS7DcP4tl5Tul1piNxrt92ufV+CnHw4Jvy6o+MxsTH8SVy6t3ChsTPI8/Lp6cpbsTXvfbIpZKpxOFBOfLo+jjidM8lb2VQRd5Q4vgaccdlz/5Yd+J9z/iz8ubU5EYkhj4pBTKmILkliWTreTflyp2FbUk8Q1JLZElpRiSJalRmqfQo2z3Fn8TWf8ruj/LiwrwoEuPweWckxJNVA91JqLtn3JYJByZ6kohXG5T9WAIUbo4PI5GvF5129LWovT/xa7Q3ScLQSVkFFUJVuDm+Y02SjvV7pmy/Kzylx7OSf/QmqdlqSNLqI3e/CUNl2ZvHxZcPb125KCF2YDt3kqhV/fqOmDInc/2eMzfvP39fzjPOP799evfmpZMHd2zKWr5kTmJcbPSA7h3a+3nWdyPJXKVWwx/8g6J6DIiJjUucvThzzYb8/ccvXC969OrTNyux/W/73/a/7X/b/7b/bf/b/rf9b/vf9r/tf9v/tv9t/9v+t/3/P/IBVlA4IG4XAAAQkQCdASoAAgACPm02mEkkIqKhIjOY6IANiWVu4XXjqmFcz/cX+l3Rcs+bfwH9x/dD+7c/9vr9e+2j537mHFnnv+W/tfnw/yf++/vnuA/RH/G/uH7//QB/CP43+v3t69Cv8t/7nqC/k/9+/Y332/Q3/dvUA/t3pJeoB/kPUA81z/cfth/4vkb/bT9y//N8hf88/zH/1/5HuAegB+//sAfv//7fg/6cf3D8Yf1T8wP8r+Un7gdW52LdEiTtb97AZXLq3mBd2PTYmBKghqXjK1DPKT///tQ/aX////D4R/3DEP8Nuq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEeQ7lW95DpgjyHcq3vIdMEdtClS80TzjfiH6+oPhRwPys7yHTBHkO4D/1NihhlOZgT1iv471Y1A4wwXCQH5xxL40GBICikyWxybRfxx2XcW95CL2WySiDrXmwxU9G57NZxOTk0c7gUpUIdgfi3/IEjZJ9YuvHc8bIht09fyfGURokYL2lOa73zYpC4ueXF5DrknV5HM8NBh+t/xLlbiEqHE+WkafgWypgdLzDYnH+XoB6YI8bkrce4TIHw+LwhHibCH7gRYYOOxHjwToc78YLAuTnYmu4FKVCHYICPJ937+y96UR8q034WrlGLDMOS8sjkBZTAYOXCxBtcnAkq25tGj/G81LCT4JVawdyre6tAnVct7ohRLIJmHZ0ZSkB4sB+VIr+CtJ5iKHnHmDgYw6e6DyxqMvLBQPz8/4EnxSpCJcpDTi55cXkOmBZOnH5WUE1OgznJEIP5UV8c9ghIa07hc94LiLF4xNZy5lz9yjvDK73RE/CEOcKOZuHPUPjErj7QusJaHZ3iumGwNAmMMt3TG6xAJe1ywArPujbsaLWIFZmOmCO4gOvNHBjt1YZ2P97NdVB9IrmsxecIuwyqfFXloIzyUPSFj94owFmIXlUoX2yawht1W940R9t06lW5axoM4tqO+k0tQ7ioq/++X/+Ev6ieb/rJRtnW3DQD+Av7thjeBGMow+0Sr4bdVT6x1OH3nKCpDk29FUExo32JSha/RhhZ5NWalro1wBDuVb0/kOIzTKdyrejEwloE7XZloE+2ebnxpyUxmJV8NuoCwyHOyHE73kuH7OfEaMO4C3nq3uqDfDPNfwot6b7Ees/ydggGRRu4MnFhvQgdtWgyxWdk5B6YsseCER5C+fVHGUIvi3UxP5TbyPrsvpcVb0NyF3Jxb9dIIbEh/2uyoa1vDwB4E3e4ZC3/dymk7yHSJTT6JdG7zt2g/Li2dbwECe1fOsTnUkIh3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHkO5VveQ6YI8h3Kt7yHTBHaAAD+/7nKAAAAAAAAAAAAAAAAAZx13vT9DD0vduZnpKr4tgBzhtiIB8FsiAJrH1BAAKJBDHLsUWC5o6kYGqhAg37n0gDHFhR3O1CcdbDMkf/OKDiq22K1tYgIa6SLdho0nsfoJuuh8kSEL1xPjoI2GC9YZ+M9Q1sYwYTWu8hrJ5tGPBqwBa3zhjFSNyl6wPY8+T1geuGIeTdd7RJqtDlWm3BNTTdJOP8jJVP3nNXslgERuMFa+CJuKBG/z5P+XLRDWKKolIgsBJ/S9PmJCSRRGcbkW2DSRunvZ2BUFo9FKUoScIJ4hm2TCXBEA/7IhdSodZ0BFZKuIoKKWlhGiLa/cb1F0lwMdcBb4z56sqv+0mduPeVh7vyIgAG6IEj/+cgC0TxvL0F2rfqAKltR+nP3NFU9afy/MmtRo9Bd8kJ67iWtO7tzUihPWzhO04dmgjmbLfQs4phS2aEMqTmLDMGRK3pX3KtG6rYi0xq41dHAh60d8ZdlsWOvnEdKL1Rl7Zkke/iZxsT/jRNOYUhImRxzhedzx57PBmYzvZfLGnROByMT0g+dvb2F33ErgFNZfv0bRqbRT4wlpQj9Che9kEiLM+76Mew8893H5fn2DxqY5mkQvwtpOIs6HJ+yPDAJvr6lATbxPyjpNve5sTB0JbaZMB4JiaDA1W8eExCWa1iMd2PR1GjLCwuwbh2g3Pet/qZ+OKb62qQ8K9yzIq+j6QLDgN9ZBOcPLr7PJJqg2v1H0MTEfRcCMFh3eOz/HPKKDyYHfneJyFtAg2JroZ2mJetS95zDLg0sWgeHNaGRY5lCTFyX4mEckK7r6aNSNP4woGi+Ng5OIoAAGvWj3MeIsYYvlkA2WPMNukCV8ZdBVmeEgnFb5pqRsI9Xw+a+dkxRAX+joAXLoHOc8KtzBJPRgc7JfczKZ143SEMW1tTE1Tx+IlySMraph4IG1S+zxRnPBsAj4Rimj62+3ArHGP4EM/spSQf1Iy5THr3fg66xmKSUzt48BsF3Y1NA1g4kW8IFIEHRhBLQkhgfBjKW2paeNrBsLgKKiZVoU6ay+Ac+ZyePm255tzlyX7Hlcyotgv9XAxfmJVbPX7q+IQJU4pV7UGJvT0fLagAAHNzUSO1InDC+tMwvbD7U62g0ztPwGiAcIgjikGhMbR66UC4oJfCBnm3UhEKUyDcfCQe1g7Zz9URIipADfabR27Evu6TFGP1Y0SCFymKDl6XahuXClCqOlGz6K7bSEeGEszzB11JXY88b2iTVaHWXBdUJyAMgXmbeEg4QS3GnftCUu9kZJTEBXlCawyggPAjqMEb9+ET24diMBolrqDALMTQIAA8VB6zzQXdQLqGEAwSjhH4XnQ/iXYgVlh0YVQpKp6UMiu+nu7JW0I56cbFB/M7/sDzhXQcxjNMZ3gl6Pso5LU6moKk/msz9fmWaSXU/IrAo88+T1g7SjPCVNwTny/Dm9ok1Wh2XtEmq0OvklosPvf7hJYr+DDRkA+LTASot9rO60D+8H82c/JaLETPD3MzMAVC1/Gij9rf0TXTxnCoMMcieh5z0LVLR4AkN0z+PN0X4sS9HPq5dWZJo34cshy+ZuTWpfcNoO2FUIa9QILur4SF7IAJlFzqV5mGfcOlZdS5S8Lk8Rwk5pY2TvUXpP8TjTy5dCDRhIj3nwa4e1kZw90czlrV38Ht9U0dqAF19vcHEJ8ERN0aqXiVX+3LtkcMVi3/BMI/rI2XVr+fKYRPdGkCwwlmeYTA33deP6S16l33hP14HMbcl/I6GH6lEZEprP3K87TjJ4DPTsm4wCLM0sdU+uQmbs5v12mKhasxmaoUeSRXwYbwSNiVobHf1QC/sNYtmzuB9dnKgAlghb80AbvDznv4nsVfJEIWFUftTacGxA5/PslhghgauqVBOxjoypRCx9jzEqwIHe/CyrbuY2cuRVuekDe+CdV58JcCLZnrp6ExRSd7Xts9fI4v87B4gCPbrDqCA0DCVRpzYmtGLT2D3zP9Xj9uRMqfLNdbje/V1AUSPHyPbeyk4dZIyR9S2p2NOQgNgEWEpL0eTk9mWbe2tLJ2x/8yVr/+c2oeG4IWvVUgpxFbjkAFuL/ePlyhnkpu5jKQNbLa0bgsGqD61qMtJ3fqVow3h0HqFrEYUynYdBNuHzABcFCSdVv5l6cmiRnbQXQz/e38HfCfoOrszk+rnogwW6MlCXRtMzeOHsoY/PqZjHdkwDMpKzZKw3rO+7TtO0Fo2N/qcr3DfgavNYhaeb1aHPPabj92+8YmjQx1bCnjhIktJU5ynYhUpw9cVVBQSNZVwlbgGlOy5NMOUKtJU5yYKyqH6RnR+zX+pfGJLzMX4e2GPNhbVxTJv8hKuGnokmBfgZm2o1Qv0H4jrNi5SzPf7yoyj7uAJ2OYnq9YQAgZWb1sD576f7F/bkGa80VvVpLxpOTelWwvgQGECfOD/8R6ITBZKOUDVUzvVPTnrDdWAZs54jE0HrcOp+SOpKmDJti5zmevxXMFq/QecACShrfO7krjr7mRNhYcljB9faiwe9UKwkUUAQhVSlFc596Mf1FQkMX6UNOky23oZvNABkR1bMrJqqfrDmULUgwge+h1bLttK0SKqll9ZEdh09SFo8khLN4qQG95QwZ/Mu2tWvkb09/qwhZEixERNre7BJuKctmEQU+yUbxvASdw9DEmn5+59X71odmYpRzJLKUOM4wITgsrPVbqYEKWMwjPO42ZLiVBkHjxjj4v6zMJLJkpWm2kv2EIj3+4QeeoIKjbL2/1B76RNNOgtjhQrA6pjxRnHlgdLmTj83iCKhpUuBH7IgKKMzSiSMh4HL5E9NL5KQyxIuSnlwcBxpl4V4LrQH+tYnT2x4D3Waw0R3Wona45grqw8TDb7LPw8XY0b2WolMj2v3ppvz/4xme6a8S2xyFZyRolyaHWgVKSTrAGU8E7a4bDvRu/hbv6bfFSOBjolE0hbbYDYzqNf5+bFsdWVJWv+BgBNvasAQPKpanREal2RXiFA2kdbYNVpAdZkyWmvgsnyhu6Yuzre2BM7oXOEsZMi5HVdBOqp4ivayDCgl+sSx/bXomuKnijDvZRZvnEwjoR8l3ZjOWdEn+VQkoUoAiMktbytdkw0amC4j8l8AwxvzfdDbGmFMXYmQpJyR/C7gCJYAZIJKCwwk8SJLIt1XTT5tktXZRo/RUu9g5j52u9tPTjyW5RLA5ntB4gpH+EZmV7QNXNtJvNiE7zFxgAAJGD7mEXirkRKWqXrFPpXyRySXzKb5bTndh8GbFdUmlYhFkd6tKE9rYGovUONRVAyyZNixJnL8J/j4CT+KPJW+AqvFa/RnHzIuPhYldIZcpXaT3aSKMoT00s2TrcgjK36FGOC++xuRrZrNV1RxPoqWkHPxeEjTqob/WjjzuwgZNypMx3n4LK2pjxPOb6YSrynDYQIpTIkIT5Zise0vrx0LmnoawSTlvTzwbAEtS99Tx456iyJ5WGxU3Axx/mXew3wGKi/1nVWZoyCi1hs9fI4x8HqlzlAltJokV8WUuvieVt2kXENSo2Uv1pnMPZETFyvNlB5zUDf5gpHhWvLTGC8WXQTP8wE4diwQC5I1kHc2/xs6jx3bGFDoTykt2SYce1qxP3AvYUiNtt8T8L57M4WUjitbwomchWA/H8iAQehCs7g1pRh/Qkq09nfUi3Ac3JTnZ1WNIehCYiNYswVaTNIZnh2/b0k/HyBbYr5cbArTqzPvIGrp+C34Qa8MXyAEhMrS7e8gFUdDcdW0/y4SD7GB5B0xOyE+o2T+nGbUnfSUEVUPSyQQlLWwf1tc3+8iSZBYo45Cz2EVAGmOZfZY5Z5nPxlZIeymV796cYjFH6ItVeBFTUI6g85Ehn64IRqM1nUuMdhKdXzMWOzgRPBS13SBOTVtxtgUMKtoVKVBwndx2gO5qNvp/kiImrN1ub3XUxAhyY2NWkC5T2kHz3F+YWPsUzMCAMrKAAAA7BhQ0FQMDAEZr6a8Hy0LrCe439rKr7jA1zUIU4Lu5N5xB4E5WgyeST1MbHaOecM9PUoylkQTZBEya6uASJLqMG7kLyu8XRwWuQpiswunlY+H32VCyNGrkKIZeWRe8D+nqBa+vzLdEohNsJ97sXpjUyhLIVNqC7kgtax6nYeGnXzdZ8MGQ2yx9XaUU0uVYleqqvQ7mDOs2DsU0bhDhYsAGgE3c6Wnz0OsTW62aNvfGiFtnuivClAVO7ReQncqUexqQATaHwVMF3Ukp2Fiv5yR5cuPnIq6vJCkp7+WP1X+VZ72E1yb3RmRZ/7D9y8/KBeJDTYA3wBtri65QS2MKmmE6sXA6NbEqv9L9NOVTjueElddktkJYZldfwpXbXERzzKabxkVxy1ema38DzHrte0F5/R2dQJEVZlsuvhQ8JQEhPhgk/K+lfN2abfdsHl+NbYS5P6Zgi+iJCsAI9gMzkz4OZvRlHk09R6VFqo+wCe7Tn1BxH4rGp37YKqfXtzoXzmA4MQZruAp5h3LhrYJ07BdmtrJr+dnzXKwzRNhNq41YXR52Og6Ud0ftAy+GXOS7v73wbiKyCoSGqSnpZ2UgNtWoIZWSrHV6YEFqBHDGTxJvSQqmHRLBoj7xmKeYo+yJnLSvZ1X5gPuYw7UngWBq19b13w5hiUgeh5yBk13cwm6bMKLR7DxV+KCRTPfXPYmizeJLIAXrLEh4yo3Ki4ajZmMCbIpweQtTy8H2RpLHqfVw09WyLZ8DHNkWfJylBaASKdI8Izisbjj5LJmfNkbJ40hZTEHzNcCVRWkLDEwiHyqq9snmV693lETDHS9iyaUKUuDgcARPO34FvfR1fnCqAoZjHiQq0uHBGKehmMcu5KOFu0m/w6Mdamh6WNkc7Eo9LJ+sEyACC3oGlD8VW7UGBkVeHUUf7lUI8LM3Y9XCHothPK/AxHRY7AAABmUlemARX2a7XNuucTSLQhl0inP2FoZ2cKnbwS2gFAtOrWPWU6RYmKmde5qIdfr/SOlRMOyXpcw3RR32hPHvflu+hDS2XwCfvJv4iCMMAsZWzp5B5qlUsRFb9KX/sy+qSgi63bmKSw7Z7cd5eD3qtEdLuS3dkSlU5ApNIPya+uJt1BtuMFUSMcrY8I7uv/oj2DD2kEn1cWrLEh280067rI1V4d2PdPMawEGBCm/VwY/72eW3FXj2nWuxoSHZgnQ6EfWKkhlotKkSkMsSLlfzXaTs12KIz9U00h4du49oN1DMKacCn0uBMxQmD8+A8hVnJFr2aUb1i7PpF6VGnJCJrcV4aZqoal82EE5dypcWfHFH+TQYf5hzuwoGD0Je57NmzEUr4CF+J+97X5FZUKgrVe647dgj0TYDD+uQsOjGZlYeXGLrFm7bTBUTzLENcvMm1pR9/NBKGNPzviXq2rwffMs5opLjDpiACMUr2zUDz+vLF8fzriBF+C+HgXsIs7MOQ6AoEGl/MXfndgZ9Ew7V51y6b9IXGGxNvzu5hkSKj4VbQq3eqQCj9JIG82xurGsfLPao4cmdrVbHuifI0Gisz/V3B5/kAD79W2gZz+hDBNkVmYpJr21/pdW0Bn+V8GhkBGJWn9Roa2v1D0MzCPZ/xRfkW2rqSJiokNcwcqhsW2JT3IQIn+jk2+iT854JGnwNxG0xeZ4PvUEo3uekZl+DXvvSyxarZVJK+6hfkiSntrPmwcJjA7J1/32j7/cAcChov0s4AHN2hUyCD+ISsW72OwtV5ByM5AnnYMnC2BExTjSpqxh4QMrDg4GIhxB8iAooikQY7xhzcBptQ/+/dmRgC8/HAkYnA2+HrDp2Cey6PIx4sIQ/KdyOoD3GD50S+QKSjTi+iK5uThsWxMIqYZif9vq+4sQUAErXaANd/0zKn5HYVlqcnAp98KrhNAx+BV0miMAoBWuKS3oRJXTDQg5q9XvQnTiQl0P7dGp/mzycL0NKbJkBHXJJp9GjD530CrxS0nhjx+oFV2tKvG57X2/P9Ra9dKGLxCdVjlza4fhMurB8q9fNOmypwRwRxobgCLAaXKfVo341dbOFFj53UlwnNxtcN7G9HlZOD0ZPHcKpGca6eCTsmnf145KJ2yqYfXUJ92NWI9aa8BvTACcA4xThoFPV2ZM35PZjoeTtTKNkWwlwQLGCW22C8sCUc6674NEbSf41f9fx9VmT3o3w7QPHR6/Y/QTatFMh8YROZeMhtWqnHHmg0eXieAMp1SZQNokCPX9xKH8FnKnVdF09FTSBcAAAB3jHNh2se9PzhONMaIfsjJLc0LNXd2RKVVTkJKcJ26QdGPdVvO/LfTdXmzhOyl0zU/eVcCAbx+l4k6CsUkrgqZhawEn9XXXm/ay8EpVGPDb/cKThLBAz8gDfiqLUuA9/Gu/NmgT3nUvKNmiu0g95MLPdibV2EZTpo9f56f3/JccuYBA66aPruVZkpDPWolnqZSNCgAAAAAAAAAAAAAAAAAAAAA"
+    }
+	],
+	"app_sing":[
+		{
+      "name": "# of Errors (JS & Request)",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 1444,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.countOfErrors",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Apdex",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 76,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.apdex.userType",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Load Action Duration",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 418,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionDuration.load.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "XHR Action Duration",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 760,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionDuration.xhr.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Action Count",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 76,
+        "left": 1102,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionCount.summary",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    }
+	],
+	"app_graph":[
+		{
+      "name": "Error Count;sli=a_error;pass=<={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 152,
+        "left": 1444,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.countOfErrors",
+          "spaceAggregation": "VALUE",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.application"
+          ],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "valueFormat": "auto",
+            "properties": {
+              "color": "DEFAULT",
+              "seriesType": "LINE",
+              "alias": "P50"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": true,
+          "showSparkLine": true,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": false
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Apdex;sli=a_apdex;pass=>={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 152,
+        "left": 76,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.apdex.userType",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "valueFormat": "none",
+            "properties": {
+              "color": "DEFAULT",
+              "seriesType": "LINE"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Duration;sli=a_load_dur;pass=<={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 152,
+        "left": 418,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionDuration.load.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Duration;sli=a_xhr_dur;pass=<={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 152,
+        "left": 760,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionDuration.xhr.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Action Count;sli=a_count;pass=>={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 152,
+        "left": 1102,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:apps.web.actionCount.summary",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application",
+                "filterType": "NAME",
+                "filterOperator": "OR",
+                "entityAttribute": "entityName",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{{ .appName }}",
+                    "evaluator": "IN",
+                    "matchExactly": true
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    }
+	],
+	"ua_sing":[
+		{
+      "name": "# of Errors (JS & Request)",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 1330,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.countOfErrors",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+		  "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Apdex",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 304,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.apdex",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Action Duration",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 646,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.duration.{type}.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Action Count",
+      "nameSize": "",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 988,
+        "width": 342,
+        "height": 76
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.count.{type}.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "SINGLE_VALUE",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    }
+	],
+	"ua_graph":[
+		{
+      "name": "Error Count;sli=kua{num}_error;pass=<={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 494,
+        "left": 1330,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.countOfErrors",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Apdex;sli=kua{num}_apdex;pass=>={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 494,
+        "left": 304,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.apdex",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Duration;sli=kua{num}_duration;pass=<={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 494,
+        "left": 646,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.duration.{type}.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    },
+		{
+      "name": "Action Count;sli=kua{num}_count;pass=>={cond}",
+      "nameSize": "small",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 494,
+        "left": 988,
+        "width": 342,
+        "height": 228
+      },
+      "tileFilter": {},
+      "customName": "",
+      "queries": [
+        {
+		  "id": "A",
+          "metric": "builtin:apps.web.action.count.{type}.browser",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.application_method",
+                "filterType": "ID",
+                "filterOperator": "OR",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "{id}",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "hideLegend": true
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "displayName": "",
+            "visible": true
+          },
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "singleValueSettings": {
+          "showTrend": false,
+          "showSparkLine": false,
+          "linkTileColorToThreshold": true
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false
+        },
+        "graphChartSettings": {
+          "connectNulls": true
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      }
+    }
+	],
+	"ua_mark":[
+		{
+		  "name": "Markdown",
+		  "tileType": "MARKDOWN",
+		  "configured": true,
+		  "bounds": {
+			"top": 418,
+			"left": 76,
+			"width": 228,
+			"height": 76
+		  },
+		  "tileFilter": {},
+		  "markdown": "## {name}"
+		}
+	]
+}

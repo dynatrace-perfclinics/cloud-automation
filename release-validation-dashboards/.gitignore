@@ -1,5 +1,5 @@
 # Visual Studio 2015/2017 cache/options directory
-.vs/
+.vs/*
 .logs/*.*
 project/
 ENVNAME*
@@ -10,3 +10,4 @@ dockerfile
 config.yaml
 *.ps1
 environments.yaml
+__pycache__
