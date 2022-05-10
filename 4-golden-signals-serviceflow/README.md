@@ -44,7 +44,7 @@ https://www.python.org/download/releases/3.0/
 pip install -r stable-req.txt
 ```
 
-## Usage to create release validation dashboard
+## Usage to create 4 golden signal serviceflow
 1. Edit the _environments.yaml:
 Create a copy of _environments.yaml.
 ```bash
@@ -65,7 +65,8 @@ cp _environments.yaml environments.yaml
 -  -warn --warn-percent Percent at which to be warned via threshold
 -  -pass --pass-percent Percent at which to be passed via threshold
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional:
--  -am, --auto-monaco    Use this to automatically execute monaco to deploy dashboards. (missing = false)
+- -am, --auto-monaco    Use this to automatically execute monaco to deploy dashboards. (missing = false)
+- -sre, --sre-tag  Use this to only include services tagged with 'sre' as part of the serviceflow.
 
 ### PYTHON
 ```bash
