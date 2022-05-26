@@ -11,3 +11,8 @@ Content for Dynatrace Cloud Automation related Observability Clinics
 
 [4 Golden Signals Service Flow](4-golden-signals-serviceflow/README.md) is to auto generate 4 golden siganls service flow dashboards.
 ![](./4-golden-signals-serviceflow/image/dashboard.png)
+
+## 3. 4 Golden Signals Kubernetes Dashboard
+
+[4 Golden Signals Kubernetes](4-golden-signals-kubernetes/README.md) is to auto generate 4 golden siganls service flow dashboards.
+![](./4-golden-signals-kubernetes/image/dashboard.png)

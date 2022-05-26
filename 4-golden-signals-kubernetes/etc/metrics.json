@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Availability Rate;sli=h_avail;pass=>={cond}",
+    "metricSelector": "builtin:host.availability:splitBy(\"dt.entity.host\")",
+    "bounds": {
+      "top": 1596,
+      "left": 912,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Service Response Time;sli=s_rt;pass=<={cond}",
+    "metricSelector": "builtin:service.response.time:splitBy(\"dt.entity.service\")",
+    "bounds": {
+      "top": 114,
+      "left": 456,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "CPU I/O Wait;sli=h_iowait;pass=<={cond}",
+    "metricSelector": "builtin:host.cpu.iowait:splitBy(\"dt.entity.host\")",
+    "bounds": {
+      "top": 1596,
+      "left": 456,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "CPU Time Per Service;sli=s_cputime;pass=<={cond}",
+    "metricSelector": "builtin:service.cpu.time:splitBy(\"dt.entity.service\")",
+    "bounds": {
+      "top": 114,
+      "left": 1368,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "CPU Usage;sli=h_cpu;pass=<={cond}",
+    "metricSelector": "builtin:host.cpu.usage:splitBy(\"dt.entity.host\")",
+    "bounds": {
+      "top": 1596,
+      "left": 1368,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Memory Usage;sli=h_mem;pass=<={cond}",
+    "metricSelector": "builtin:host.mem.usage:splitBy(\"dt.entity.host\")",
+    "bounds": {
+      "top": 1596,
+      "left": 1824,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Failure Rate;sli=s_error;pass=<={cond}",
+    "metricSelector": "builtin:service.errors.total.rate:splitBy(\"dt.entity.service\")",
+    "bounds": {
+      "top": 114,
+      "left": 912,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Container Restarts;sli=container_restarts;pass=<={cond}",
+    "metricSelector": "builtin:cloud.kubernetes.pod.containerRestarts:splitBy(\"dt.entity.cloud_application\")",
+    "bounds": {
+      "top": 1102,
+      "left": 912,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "CPU Usage % of Limit;sli=container_cpu;pass=<={cond}",
+    "metricSelector": "builtin:containers.cpu.usagePercent:splitBy(\"dt.entity.container_group_instance\")",
+    "bounds": {
+      "top": 1102,
+      "left": 1368,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Memory Usage % of Limit;sli=container_mem;pass=<={cond}",
+    "metricSelector": "builtin:containers.memory.usagePercent:splitBy(\"dt.entity.container_group_instance\")",
+    "bounds": {
+      "top": 1102,
+      "left": 1824,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "% of Desried/Running Pods per Workload;sli=workload_avail;pass=>={cond}",
+    "metricSelector": "(100) * (builtin:cloud.kubernetes.workload.desiredPods:splitBy()/(builtin:cloud.kubernetes.workload.runningPods:splitBy()))",
+    "bounds": {
+      "top": 608,
+      "left": 912,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Failed Pods per Workload;sli=workload_failed;pass=>={cond}",
+    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Failed\"))",
+    "bounds": {
+      "top": 608,
+      "left": 456,
+      "width": 228,
+      "height": 266
+    }
+  },
+  {
+    "name": "Pending Pods per Workload;sli=workload_pending;pass=>={cond}",
+    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Pending\"))",
+    "bounds": {
+      "top": 608,
+      "left": 684,
+      "width": 228,
+      "height": 266
+    }
+  },
+  {
+    "name": "Running Pods/Non-running per Workload;sli=workload_running;pass=>={cond}",
+    "metricSelector": "(100)*((builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Running\")):splitBy():sum)/(builtin:cloud.kubernetes.workload.pods:splitBy():sum))",
+    "bounds": {
+      "top": 608,
+      "left": 0,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "CPU Cores Throttled;sli=container_core;pass=<={cond}",
+    "metricSelector": "builtin:containers.cpu.throttledMilliCores:splitBy(\"dt.entity.container_group_instance\",\"Container\")",
+    "bounds": {
+      "top": 1102,
+      "left": 456,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Number of Requests;sli=s_request;pass=>={cond}",
+    "metricSelector": "builtin:service.requestCount.total:splitBy(\"dt.entity.service\")",
+    "bounds": {
+      "top": 114,
+      "left": 0,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "Workloads;sli=workload;pass=>={cond}",
+    "metricSelector": "builtin:cloud.kubernetes.namespace.workloads:splitBy()",
+    "bounds": {
+      "top": 608,
+      "left": 1368,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "# of Containers per Workload;sli=contianers;pass=>={cond}",
+    "metricSelector": "builtin:cloud.kubernetes.pod.containers:splitBy(\"dt.entity.cloud_application\")",
+    "bounds": {
+      "top": 1102,
+      "left": 0,
+      "width": 456,
+      "height": 266
+    }
+  },
+  {
+    "name": "# of Processes Running/Waiting;sli=h_load;pass=>={cond}",
+    "metricSelector": "builtin:host.cpu.load:splitBy(\"dt.entity.host\")",
+    "bounds": {
+      "top": 1596,
+      "left": 0,
+      "width": 456,
+      "height": 266
+    }
+  }
+]

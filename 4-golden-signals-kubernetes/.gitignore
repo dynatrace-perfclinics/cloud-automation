@@ -2,5 +2,7 @@
 request.log
 response.log
 __pycache__/
+__pycache__
 environments.yaml
 .vs/
+k8s-4-golden-signals/
