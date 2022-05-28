@@ -1,0 +1,4 @@
+env:
+ - name: "ENV"
+ - env-url: "https://TENANTID.dynatrace.com"
+ - env-token-name: "DT_TOKEN" #system environment variable

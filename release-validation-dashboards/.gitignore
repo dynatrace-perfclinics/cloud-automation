@@ -1,6 +1,6 @@
 # Visual Studio 2015/2017 cache/options directory
-.vs/*
-.logs/*.*
+.vs/
+.logs/
 project/
 ENVNAME*
 request.log
@@ -11,3 +11,4 @@ config.yaml
 *.ps1
 environments.yaml
 __pycache__
+release-validation-dashboards/
