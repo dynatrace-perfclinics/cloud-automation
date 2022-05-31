@@ -173,16 +173,23 @@ class Baseline():
         return threshold
         
 if __name__ == "__main__":
+    print("Starting 4-golden-signals-k8s CA dashboard")
     dash = Dashboard(owner, timeFrame, shared, preset)
     metrics = getFileJSON("etc/metrics.json")
     baseline = Baseline(warnP, passP, url, token)
     for metric in metrics:
+        print("working on {metric}".format(metric=metric["name"]))
         tile = Tile(metric["metricSelector"],metric["name"],metric["bounds"])
+        print("polling baseline")
         baseline.setBaseline(tile, dash)
+        print("adding metric+tile to dashboard")
         dash.addTileToDash(tile)
-    
+        print("----------------")
+    print("***********************************")
+    print("Crating Monaco 4-golden-singals-k8s project")
     project = Project()
     project.createProject(dash)
+    print("***********************************")
     print("Testing Auto Monaco")
     if not autoMonaco:
         print("")

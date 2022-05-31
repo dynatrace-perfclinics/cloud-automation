@@ -44,7 +44,7 @@ https://www.python.org/download/releases/3.0/
 pip install -r stable-req.txt
 ```
 
-## Usage to create 4 golden signal serviceflow
+## Usage to create 4 golden signals kubernetes
 1. Edit the _environments.yaml:
 Create a copy of _environments.yaml.
 ```bash
@@ -52,7 +52,9 @@ cp _environments.yaml environments.yaml
 ```
 - Replace ENVNAME with your environment name
 
-2. Execute the Service Flow script
+Create an system environment variable access token with the key - DT_TOKEN.
+
+2. Execute the Kubernetes script
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supported Args:
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
 -  -dtUrl  --dynatrace-url Dynatrace URL (https://*.live.com)
@@ -71,7 +73,7 @@ cp _environments.yaml environments.yaml
 python k8s.py -dtUrl https://*.live.com -dtToken DTAPITOKEN -owner OWNER -shared true/false -preset true/false -timeFrame now-1d -warn 5 -pass 10
 ```
 
-This will generate a new directory for the Servie Flow Dashboard.
+This will generate a new directory for the K8s Dashboard.
 This is a monaco project that will contain a dashboard.json and a dashboard.yaml. The dashboard.yaml contains all the pass/warn values generated from the baseline
 
 3. Review the dashboard.yaml
@@ -80,6 +82,6 @@ The dashboard.yaml contains all metric thresholds based on the reference timefra
 
 4. Execute Monaco (optional if you didn't use -am to automatically run monaco)
 ```bash
-	monaco --environments=environments.yaml 'SERVICENAME-serviceflow/'
+	monaco --environments=environments.yaml 'k8s-4-golden-signals/'
 ```
 5. Use Powerpoint to re-create the threshold image tiles.
