@@ -35,9 +35,8 @@ HEIGHT = 0
 WIDTH = 0
 def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, entitySelector : str, layerSelector : str, startId : str, index=0, initialLevel=2):
     global SERVICER, HEIGHT, WIDTH
-    #if index > HEIGHT:
-    #    HEIGHT = index
-    breakpoint()
+    if index > HEIGHT:
+        HEIGHT = index
     relationshipCalls = layer["entities"][0]['fromRelationships'].get('calls')
     if relationshipCalls is None or index == len(relationshipCalls):
         return None
@@ -51,21 +50,23 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
         else:
             httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector+",tag(sre)","from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"})
         callee[id+str(initialLevel)] = "1"
-        if len(httpResult["entities"]) == 0:
+        if index > 22 or initialLevel > 9:
+            return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+        elif len(httpResult["entities"]) == 0:
             entitySelector = layerSelector
             calculateDepthRelationship(layer, url, api, callee, entitySelector, entitySelector, startId, index + 1, initialLevel)
         else:
             calculateDepthRelationship(layer, url, api, callee, layerSelector, layerSelector, startId, index + 1, initialLevel)
             temp = httpResult["entities"][0]
-            #print("Working on relationships of ({name})".format(name = temp['displayName']))
-            #print("---")
-            #if initialLevel in SERVICER:
-            #    SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}
-            #else:
-            #    SERVICER[initialLevel] = {}
-            #    SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}          
-            #if initialLevel > WIDTH:
-            #    WIDTH = initialLevel
+            print("Working on relationships of ({name})".format(name = temp['displayName']))
+            print("---")
+            if initialLevel in SERVICER:
+                SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}
+            else:
+                SERVICER[initialLevel] = {}
+                SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}          
+            if initialLevel > WIDTH:
+                WIDTH = initialLevel
             initialLevel += 1
             return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
 
