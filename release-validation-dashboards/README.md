@@ -1,3 +1,9 @@
+## Disclaimer
+These projects are not supported by Dynatrace. 
+
+Any issues please utilize github issues. 
+We will try our best to get to your issues.
+
 # Dynatrace Release Validation Dashboard
 
 This is a Cloud Automation project that automates the creation of Dynatrace Cloud Automation - Release Validation Dashoards for different base technologies including automated thresholds based on a reference timeframe.

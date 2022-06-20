@@ -1,4 +1,4 @@
-import requests, json, yaml, subprocess, os
+import requests, json, yaml, subprocess, os, base64
 
 def handlePut(url, header, x, y,  verifySSL):
     try:

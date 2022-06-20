@@ -1,3 +1,9 @@
+## Disclaimer
+These projects are not supported by Dynatrace. 
+
+Any issues please utilize github issues. 
+We will try our best to get to your issues.
+
 # Dynatrace Cloud Automation
 Content for Dynatrace Cloud Automation related Observability Clinics
 
@@ -14,5 +20,5 @@ Content for Dynatrace Cloud Automation related Observability Clinics
 
 ## 3. 4 Golden Signals Kubernetes Dashboard
 
-[4 Golden Signals Kubernetes](4-golden-signals-kubernetes/README.md) is to auto generate 4 golden siganls service flow dashboards.
+[4 Golden Signals Kubernetes](4-golden-signals-kubernetes/README.md) is to auto generate 4 golden siganls kubernetes dashboards.
 ![](./4-golden-signals-kubernetes/image/dashboard.png)

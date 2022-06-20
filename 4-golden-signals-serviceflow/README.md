@@ -1,3 +1,9 @@
+## Disclaimer
+These projects are not supported by Dynatrace. 
+
+Any issues please utilize github issues. 
+We will try our best to get to your issues.
+
 # Dynatrace Service Flow Dashboard
 
 This is a Monaco Project that automates the creation of Dynatrace Service Flow Dashboards.
