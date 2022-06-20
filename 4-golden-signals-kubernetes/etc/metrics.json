@@ -1,7 +1,7 @@
 [
   {
     "name": "Availability Rate;sli=h_avail;pass=>={cond}",
-    "metricSelector": "builtin:host.availability:splitBy(\"dt.entity.host\")",
+    "metricSelector": "builtin:host.availability:splitBy(\"dt.entity.host\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1596,
       "left": 912,
@@ -11,7 +11,7 @@
   },
   {
     "name": "Service Response Time;sli=s_rt;pass=<={cond}",
-    "metricSelector": "builtin:service.response.time:splitBy(\"dt.entity.service\")",
+    "metricSelector": "builtin:service.response.time:splitBy(\"dt.entity.service\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 114,
       "left": 456,
@@ -21,7 +21,7 @@
   },
   {
     "name": "CPU I/O Wait;sli=h_iowait;pass=<={cond}",
-    "metricSelector": "builtin:host.cpu.iowait:splitBy(\"dt.entity.host\")",
+    "metricSelector": "builtin:host.cpu.iowait:splitBy(\"dt.entity.host\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1596,
       "left": 456,
@@ -31,7 +31,7 @@
   },
   {
     "name": "CPU Time Per Service;sli=s_cputime;pass=<={cond}",
-    "metricSelector": "builtin:service.cpu.time:splitBy(\"dt.entity.service\")",
+    "metricSelector": "builtin:service.cpu.time:splitBy(\"dt.entity.service\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 114,
       "left": 1368,
@@ -41,7 +41,7 @@
   },
   {
     "name": "CPU Usage;sli=h_cpu;pass=<={cond}",
-    "metricSelector": "builtin:host.cpu.usage:splitBy(\"dt.entity.host\")",
+    "metricSelector": "builtin:host.cpu.usage:splitBy(\"dt.entity.host\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1596,
       "left": 1368,
@@ -51,7 +51,7 @@
   },
   {
     "name": "Memory Usage;sli=h_mem;pass=<={cond}",
-    "metricSelector": "builtin:host.mem.usage:splitBy(\"dt.entity.host\")",
+    "metricSelector": "builtin:host.mem.usage:splitBy(\"dt.entity.host\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1596,
       "left": 1824,
@@ -61,7 +61,7 @@
   },
   {
     "name": "Failure Rate;sli=s_error;pass=<={cond}",
-    "metricSelector": "builtin:service.errors.total.rate:splitBy(\"dt.entity.service\")",
+    "metricSelector": "builtin:service.errors.total.rate:splitBy(\"dt.entity.service\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 114,
       "left": 912,
@@ -71,7 +71,7 @@
   },
   {
     "name": "Container Restarts;sli=container_restarts;pass=<={cond}",
-    "metricSelector": "builtin:cloud.kubernetes.pod.containerRestarts:splitBy(\"dt.entity.cloud_application\")",
+    "metricSelector": "builtin:cloud.kubernetes.pod.containerRestarts:splitBy(\"dt.entity.cloud_application\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1102,
       "left": 912,
@@ -81,7 +81,7 @@
   },
   {
     "name": "CPU Usage % of Limit;sli=container_cpu;pass=<={cond}",
-    "metricSelector": "builtin:containers.cpu.usagePercent:splitBy(\"dt.entity.container_group_instance\")",
+    "metricSelector": "builtin:containers.cpu.usagePercent:splitBy(\"dt.entity.container_group_instance\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1102,
       "left": 1368,
@@ -91,7 +91,7 @@
   },
   {
     "name": "Memory Usage % of Limit;sli=container_mem;pass=<={cond}",
-    "metricSelector": "builtin:containers.memory.usagePercent:splitBy(\"dt.entity.container_group_instance\")",
+    "metricSelector": "builtin:containers.memory.usagePercent:splitBy(\"dt.entity.container_group_instance\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1102,
       "left": 1824,
@@ -101,7 +101,7 @@
   },
   {
     "name": "% of Desried/Running Pods per Workload;sli=workload_avail;pass=>={cond}",
-    "metricSelector": "(100) * (builtin:cloud.kubernetes.workload.desiredPods:splitBy()/(builtin:cloud.kubernetes.workload.runningPods:splitBy()))",
+    "metricSelector": "(100) * (builtin:cloud.kubernetes.workload.desiredPods:splitBy()/(builtin:cloud.kubernetes.workload.runningPods:splitBy())):sort(value(avg,ascending))",
     "bounds": {
       "top": 608,
       "left": 912,
@@ -111,7 +111,7 @@
   },
   {
     "name": "Failed Pods per Workload;sli=workload_failed;pass=>={cond}",
-    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Failed\"))",
+    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Failed\")):sort(value(avg,ascending))",
     "bounds": {
       "top": 608,
       "left": 456,
@@ -121,7 +121,7 @@
   },
   {
     "name": "Pending Pods per Workload;sli=workload_pending;pass=>={cond}",
-    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Pending\"))",
+    "metricSelector": "builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Pending\")):sort(value(avg,ascending))",
     "bounds": {
       "top": 608,
       "left": 684,
@@ -131,7 +131,7 @@
   },
   {
     "name": "Running Pods/Non-running per Workload;sli=workload_running;pass=>={cond}",
-    "metricSelector": "(100)*((builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Running\")):splitBy():sum)/(builtin:cloud.kubernetes.workload.pods:splitBy():sum))",
+    "metricSelector": "(100)*((builtin:cloud.kubernetes.workload.pods:names:filter(eq(\"Pod phase.name\",\"Running\")):splitBy():sum)/(builtin:cloud.kubernetes.workload.pods:splitBy():sum)):sort(value(avg,ascending))",
     "bounds": {
       "top": 608,
       "left": 0,
@@ -141,7 +141,7 @@
   },
   {
     "name": "CPU Cores Throttled;sli=container_core;pass=<={cond}",
-    "metricSelector": "builtin:containers.cpu.throttledMilliCores:splitBy(\"dt.entity.container_group_instance\",\"Container\")",
+    "metricSelector": "builtin:containers.cpu.throttledMilliCores:splitBy(\"dt.entity.container_group_instance\",\"Container\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1102,
       "left": 456,
@@ -151,7 +151,7 @@
   },
   {
     "name": "Number of Requests;sli=s_request;pass=>={cond}",
-    "metricSelector": "builtin:service.requestCount.total:splitBy(\"dt.entity.service\")",
+    "metricSelector": "builtin:service.requestCount.total:splitBy(\"dt.entity.service\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 114,
       "left": 0,
@@ -161,7 +161,7 @@
   },
   {
     "name": "Workloads;sli=workload;pass=>={cond}",
-    "metricSelector": "builtin:cloud.kubernetes.namespace.workloads:splitBy()",
+    "metricSelector": "builtin:cloud.kubernetes.namespace.workloads:splitBy():sort(value(avg,ascending))",
     "bounds": {
       "top": 608,
       "left": 1368,
@@ -171,7 +171,7 @@
   },
   {
     "name": "# of Containers per Workload;sli=contianers;pass=>={cond}",
-    "metricSelector": "builtin:cloud.kubernetes.pod.containers:splitBy(\"dt.entity.cloud_application\")",
+    "metricSelector": "builtin:cloud.kubernetes.pod.containers:splitBy(\"dt.entity.cloud_application\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1102,
       "left": 0,
@@ -181,7 +181,7 @@
   },
   {
     "name": "# of Processes Running/Waiting;sli=h_load;pass=>={cond}",
-    "metricSelector": "builtin:host.cpu.load:splitBy(\"dt.entity.host\")",
+    "metricSelector": "builtin:host.cpu.load:splitBy(\"dt.entity.host\"):sort(value(avg,ascending))",
     "bounds": {
       "top": 1596,
       "left": 0,

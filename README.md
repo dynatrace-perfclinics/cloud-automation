@@ -1,3 +1,9 @@
+## Disclaimer
+These projects are not supported by Dynatrace. 
+
+Any issues please utilize github issues. 
+We will try our best to get to your issues.
+
 # Dynatrace Cloud Automation
 Content for Dynatrace Cloud Automation related Observability Clinics
 

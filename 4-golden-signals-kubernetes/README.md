@@ -1,3 +1,9 @@
+## Disclaimer
+These projects are not supported by Dynatrace. 
+
+Any issues please utilize github issues. 
+We will try our best to get to your issues.
+
 # 4-Golden-Signals Kuberentes Dashboard
 
 This is a Monaco Project that automates the creation of 4-Golden-Signals Kuberentes Dashboards.
