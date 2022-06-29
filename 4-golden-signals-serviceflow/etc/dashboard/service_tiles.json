@@ -59,6 +59,7 @@
             ],
             "criteria": []
           },
+          "limit" : 100,
           "enabled": true
         }
       ],
@@ -123,7 +124,7 @@
         "honeycombSettings": {
           "showHive": true,
           "showLegend": true,
-          "showLabels": false
+          "showLabels": true
         }
       },
       "queriesSettings": {
