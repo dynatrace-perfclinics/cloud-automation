@@ -15,6 +15,7 @@ parser.add_argument("-warn", "--warn-percent", dest="warnP", help="Percent at wh
 parser.add_argument("-pass", "--pass-percent", dest="passP", help="Percent at which to be passed via threshold", required=True)
 parser.add_argument("-am","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (missing = false)", action="store_false")
 parser.add_argument("-sre","--sre-tag",dest="sre",help="Use this to only include services tagged with 'sre' as part of the serviceflow.", action="store_false")
+parser.add_argument("-reqLimit","--request-count-limit",dest="reqLimit",help="Use this to filter high throughput services. (missing = 0)", default=0)
 
 args = parser.parse_args()
 
@@ -29,12 +30,14 @@ warnP = int(args.warnP)
 passP = int(args.passP)
 autoMonaco = args.autoMonaco
 sre = args.sre
+reqLimit = (int(args.reqLimit)/100)
 
 SERVICER = {}
+LEVEL = {}
 HEIGHT = 0
 WIDTH = 0
 def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, entitySelector : str, layerSelector : str, startId : str, index=0, initialLevel=2):
-    global SERVICER, HEIGHT, WIDTH
+    global SERVICER, HEIGHT, WIDTH, LEVEL
     if index > HEIGHT:
         HEIGHT = index
     relationshipCalls = layer["entities"][0]['fromRelationships'].get('calls')
@@ -60,15 +63,29 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
             temp = httpResult["entities"][0]
             print("Working on relationships of ({name})".format(name = temp['displayName']))
             print("---")
+            baseline, requestCount = getBaseline(url, api, temp["properties"]['serviceType'], id, timeFrame,warnP,passP)
             if initialLevel in SERVICER:
-                SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}
+                SERVICER[initialLevel] = addServiceInOrder(SERVICER[initialLevel],id,{'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "requestCount":requestCount, "baseline": baseline},requestCount)
+                if(temp["properties"]["serviceType"] != 'DATABASE_SERVICE'):
+                    LEVEL[initialLevel] += requestCount
             else:
+                LEVEL[initialLevel] = requestCount
                 SERVICER[initialLevel] = {}
-                SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "baseline": getBaseline(url, api, temp["properties"]['serviceType'], id ,timeFrame,warnP,passP)}          
+                SERVICER[initialLevel][id] = {'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "requestCount":requestCount, "baseline": baseline}
             if initialLevel > WIDTH:
                 WIDTH = initialLevel
             initialLevel += 1
             return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+
+def addServiceInOrder(serviceRelation,id,service,requestCount):
+    items = list(serviceRelation.items())
+    for x, i in enumerate(serviceRelation):
+        if(requestCount >= serviceRelation[i]["requestCount"]):
+            items.insert(x, (id,service))
+        else:
+            items.append((id,service))
+    serviceRelation = dict(items)
+    return serviceRelation
 
 def create_dashboard(serviceRelation,url, timeFrame, size):
     dashTemp = getFileJSON('etc/dashboard/template.json')
@@ -89,7 +106,10 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
         top = 0
         for j in serviceRelation[i]:
             header = copy.deepcopy(tiles["tileHeader"])["tile"]
-            header["markdown"] = header["markdown"].format(name=serviceRelation[i][j]["name"],url=url,timeFrame=timeFrame,id=serviceRelation[i][j]["id"])
+            if(j == "nonKeyService"):
+                header["markdown"] = "## {name}".format(name=serviceRelation[i][j]["name"])
+            else:
+                header["markdown"] = header["markdown"].format(name=serviceRelation[i][j]["name"],url=url,timeFrame=timeFrame,id=serviceRelation[i][j]["id"])
             header["bounds"]["top"] = top
             header["bounds"]["left"] = left
             dashTemp["dashboard"]["tiles"].append(header)
@@ -100,7 +120,14 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
                 tile = copy.deepcopy(tiles["tile"])["tile"]
                 tile["name"] = names[count]
                 tile["queries"][0]["metric"] = k
-                tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"][0]["value"] = serviceRelation[i][j]["id"]
+                if(j == "nonKeyService"):
+                    tile["visualConfig"]["type"] = "HONEYCOMB"
+                    tile["bounds"]["height"] = 304
+                    tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"] = []
+                    for id in serviceRelation[i][j]["id"]:
+                        tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"].append({"value":id,"evaluator":"IN"})
+                else:
+                    tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"][0]["value"] = serviceRelation[i][j]["id"]
                 tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
                 tile["bounds"]["top"] = top
                 tile["bounds"]["left"] = tempLeft
@@ -133,6 +160,7 @@ def buildProject(name, owner,shared,preset,timeFrame, finalDash):
 
 def getBaseline(url, api, serviceType, id, timeFrame, warnP, passP):
     baseline = {}
+    requestCount = 0
     if serviceType == "DATABASE_SERVICE":
         metricSelector = "builtin:service.response.time,builtin:service.requestCount.total,builtin:service.dbconnections.failureRate,builtin:service.dbconnections.total"
     else:
@@ -148,6 +176,8 @@ def getBaseline(url, api, serviceType, id, timeFrame, warnP, passP):
                     rules = [{"color": "#7dc540"},{"color": "#f5d30f"},{"color": "#dc172a"}]
             else:
                 base = i["data"][0]["values"][0]
+                if i["metricId"] == "builtin:service.requestCount.total":
+                    requestCount = base
                 if base == 0:
                     if i["metricId"] in "builtin:service.errors.total.rate,builtin:service.dbconnections.failureRate":
                         passV = passP
@@ -163,7 +193,7 @@ def getBaseline(url, api, serviceType, id, timeFrame, warnP, passP):
                         warnV = base - (base*(warnP/100))
                         rules = [{"value": warnV,"color": "#7dc540"},{"value": passV,"color": "#f5d30f"},{"value": 0,"color": "#dc172a"}]
             baseline[i["metricId"]] = rules
-    return baseline
+    return baseline, requestCount
 
 def checkSize(height, width):
     if height <= 22 and width <= 5:
@@ -176,14 +206,37 @@ def checkSize(height, width):
         print("The serviceflow is too big to dashboard")
         return None
 
+def checkKeyOrder(serviceRelation, reqLimit, level):
+    x = len(serviceRelation)
+    nonKeyService = {"id":[],"name":"Other Services","baseline":{
+                            "builtin:service.response.time": [{"color": "#7dc540"},{"color": "#f5d30f"},{"color": "#dc172a"}],
+                            "builtin:service.requestCount.total": [{"color": "#7dc540"},{"color": "#f5d30f"},{"color": "#dc172a"}],
+                            "builtin:service.errors.total.rate": [{"color": "#7dc540"},{"color": "#f5d30f"},{"color": "#dc172a"}],
+                            "builtin:service.cpu.perRequest": [{"color": "#7dc540"},{"color": "#f5d30f"},{"color": "#dc172a"}]
+                            }}
+    if x == 1:
+        return serviceRelation
+    else:
+        for i in range(1,x):
+            reqThreshold = level[i+1]*reqLimit
+            y = len(serviceRelation[i+1])
+            temp = copy.deepcopy(nonKeyService)
+            for j in serviceRelation[i+1]:
+                if(serviceRelation[i+1][j]["requestCount"] >= reqThreshold):
+                    continue
+                else:
+                    temp["id"].append(serviceRelation[i+1][j]['id'])
+            for k in temp["id"]:
+                serviceRelation[i+1].pop(k)
+            if(temp["id"]):
+                serviceRelation[i+1]["nonKeyService"] = temp
+    return serviceRelation
+
 def serviceflow():
     global SERVICER,HEIGHT,WIDTH
     api = {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}
     print("Reaching out to Dynatrace ({url})".format(url = url))
-    if sre:
-        resultJ = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),entityId({id})".format(id=id),"from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"})
-    else:
-        resultJ = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),entityId({id})".format(id=id),"from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"})
+    resultJ = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),entityId({id})".format(id=id),"from":timeFrame,"fields":"fromRelationships.calls,properties.serviceType"})
     if resultJ["entities"]:
         displayName = resultJ["entities"][0]["displayName"]
         entityId = resultJ["entities"][0]["entityId"]
@@ -193,16 +246,18 @@ def serviceflow():
         print("Building Service Flow Relation for ({svc})".format(svc = svcName))
         callee = {entityId:"1"}
         entitySelector = "type(service),entityId({id})".format(id=entityId)
-        calculateDepthRelationship(resultJ, url, api, callee, entitySelector,entitySelector, entityId)
+        baseline, requestCount = getBaseline(url, api, prop, entityId,timeFrame,warnP,passP)
         SERVICER[1] = {}
-        SERVICER[1][entityId] = {'id': entityId, 'name' : displayName,'servicetype': prop,'Calledby': None, "baseline" : getBaseline(url, api, prop, entityId,timeFrame,warnP,passP)}
+        SERVICER[1][entityId] = {'id': entityId, 'name' : displayName,'servicetype': prop,'Calledby': None, "baseline" : baseline}
+        calculateDepthRelationship(resultJ, url, api, callee, entitySelector,entitySelector, entityId)
         print("height: {h}, width: {w}".format(h=HEIGHT,w=WIDTH))
         print("***********************************")
         size = checkSize(HEIGHT, WIDTH)
         if not size:
             exit()
+        serviceRelation = checkKeyOrder(SERVICER, reqLimit, LEVEL)
         print("Building Service Flow Dashboard Project for ({svc})".format(svc = svcName))
-        finalDash = create_dashboard(SERVICER, url, timeFrame, size)
+        finalDash = create_dashboard(serviceRelation, url, timeFrame, size)
         projectDir = buildProject("{}".format(svcName),owner,shared,preset,timeFrame,finalDash)
         print("***********************************")
     
