@@ -1,0 +1,8 @@
+config:
+  - easytravel_booking: "_cmaw.json"
+
+easytravel_booking:
+  - name: "calc:apps.action.web.easytravel.bookingfinish.perf"
+  - appId: "APPLICATION-EA7C4B59F27D43EB"
+  - actionName: "loading of page /orange-booking-finish.jsf"
+  - responseTime: "5000"

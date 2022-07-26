@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "metricExpression": "(100)*(({{ .calcMetric }}:splitby():count)/(builtin:apps.web.actionCount.category:filter(in(\"dt.entity.application\",entitySelector(\"type(APPLICATION),tag({{ .tagKeyValue }})\"))):splitBy()))",
+  "target": {{ .target }},
+  "warning": {{ .warning }},
+  "evaluationType": "AGGREGATE",
+  "timeframe": "{{.timeFrame}}",
+  "filter": "type(APPLICATION),tag({{ .tagKeyValue }})"
+}

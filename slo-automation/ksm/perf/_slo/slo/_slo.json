@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "metricExpression": "(100)*(({{ .calcMetric }}:splitBy():sum)/(builtin:service.keyRequest.count.total:filter(in(\"dt.entity.service_method\",entitySelector(\"type(SERVICE_METHOD),entityName({{ .request }})\"))):splitby()))",
+  "target": {{ .target }},
+  "warning": {{ .warning }},
+  "evaluationType": "AGGREGATE",
+  "timeframe": "{{.timeFrame}}"
+}
