@@ -2,7 +2,7 @@
 
 This is a python script that will create SLO dashboards based on each seperate environment defined in the environments.yaml SLO Monaco configuration.
 
-![al text](./slo-dashboard/image/dashboard.png)
+![al text](./image/dashboard.png)
 ## Pre-requisites 
 
 1. Installing Python Version 3
