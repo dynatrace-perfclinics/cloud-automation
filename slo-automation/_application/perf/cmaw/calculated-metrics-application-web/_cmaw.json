@@ -1,0 +1,15 @@
+{
+  "applicationIdentifier": "{{ .appId }}",
+  "name": "{{ .name }}",
+  "metricKey": "{{ .name }}",
+  "enabled": true,
+  "metricDefinition": {
+    "metric": "UserActionDuration",
+    "propertyKey": null
+  },
+  "dimensions": [],
+  "userActionFilter": {
+    "actionDurationFromMilliseconds": null,
+    "actionDurationToMilliseconds": "{{ .responseTime}}"
+  }
+}

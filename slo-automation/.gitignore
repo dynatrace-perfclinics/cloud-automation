@@ -1,0 +1,8 @@
+.vs/
+.vs
+project/
+request.log
+response.log
+.logs/
+.logs
+environments.yaml

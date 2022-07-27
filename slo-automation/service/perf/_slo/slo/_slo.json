@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "metricExpression": "(100)*(({{ .calcMetric }}:splitBy():sum)/(builtin:service.requestCount.total:filter(in(\"dt.entity.service\",entitySelector(\"type(SERVICE),tag({{ .project }}),tag({{ .func }})\"))):splitby()))",
+  "target": {{ .target }},
+  "warning": {{ .warning }},
+  "evaluationType": "AGGREGATE",
+  "timeframe": "{{.timeFrame}}",
+  "filter":  "type(SERVICE),tag({{ .project }}),tag({{ .func }})"
+}
