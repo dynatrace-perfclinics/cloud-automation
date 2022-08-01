@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      6
+    ],
+    "clusterVersion": "1.247.128.20220729-095124"
+  },
+  "dashboardMetadata": {
+    "name": "[Release-CA] {project} {version}",
+    "shared": "",
+    "owner": "",
+	  "preset": "",
+     "dashboardFilter": {
+      "timeframe": ""
+    },
+    "tags": [
+      "version:{version}",
+      "auto-release",
+      "project:{project}"
+    ],
+    "tilesNameSize": "large",
+    "hasConsistentColors": true
+  },
+  "tiles": [
+    {
+      "name": "Processes",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 684,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Services",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 684,
+        "width": 1178,
+        "height": 38
+      },
+      "tileFilter": {}
+    }
+  ]
+}

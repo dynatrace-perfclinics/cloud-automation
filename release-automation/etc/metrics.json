@@ -1,0 +1,21 @@
+{
+  "SERVICE": {
+    "Response Time": {
+      "metric": "builtin:service.response.time:avg:toUnit(MicroSecond,MilliSecond)",
+      "slo": "((builtin:service.response.time:avg:toUnit(MicroSecond,MilliSecond):partition(latency,value(good,lt({value}))):splitBy():count:fold)/(builtin:service.response.time:avg:toUnit(MicroSecond,MilliSecond):splitBy():count:fold)*(100))",
+      "metricExpression": "builtin:service.response.time:filter(in(\"dt.entity.service\",entitySelector(\"type(SERVICE),entityId({id})\"))):avg:toUnit(MicroSecond,MilliSecond):splitBy(dt.entity.service)"
+    },
+    "Failure Rate": {
+      "metric": "builtin:service.errors.total.successCount",
+      "slo": "(100)*(builtin:service.errors.total.successCount:splitBy())/(builtin:service.requestCount.total:splitBy())",
+      "metricExpression": "((100)*(builtin:service.errors.total.successCount)/(builtin:service.requestCount.total)):filter(in(\"dt.entity.service\",entitySelector(\"type(SERVICE),entityId({id})\"))):splitBy(dt.entity.service)"
+    }
+  },
+  "PROCESS_GROUP_INSTANCE": {
+    "Availability": {
+      "metric": "builtin:pgi.availability",
+      "slo": "builtin:pgi.availability:splitBy()",
+      "metricExpression": "builtin:pgi.availability:filter(and(in(\"dt.entity.process_group_instance\",entitySelector(\"type(process_group_instance),entityId({id})\")))):splitBy(dt.entity.process_group_instance)"
+    }
+  }
+}
