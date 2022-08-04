@@ -58,6 +58,8 @@ pip install -r stable-req.txt
 -  -pass --pass-percent Percent at which to be passed via threshold
 -  -ver --version Version of the release
 -  -proj --project Project of the release
+-  -stage --stage Stage of the release
+-  -product --product Product of the release
 -  -remUrl --remediationUrl Remediation Url of the Release
 -  -sloTarg --slo-target Target for the SLOs
 -  -sloWarn --slo-warning Warning for the SLOs

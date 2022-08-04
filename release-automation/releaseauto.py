@@ -1,4 +1,4 @@
-import os, copy, json, statistics
+import os, copy, json, statistics, time
 from typing import Dict
 from argparse import ArgumentParser
 from utils import handleGet, getFileJSON, handlePost, handlePut
@@ -10,6 +10,8 @@ parser.add_argument("-dtToken", "--dynatrace-api-token", dest="dtToken", help="D
 parser.add_argument("-identifier", "--identifier", dest="id", help="Id Or Tag of the service/processes to automate release", required=True)
 parser.add_argument("-ver", "--version", dest="version", help="Version of the release", required=True)
 parser.add_argument("-proj", "--project", dest="project", help="Project of the release", required=True)
+parser.add_argument("-stage", "--stage", dest="stage", help="Stage of the release", required=True)
+parser.add_argument("-product", "--product", dest="product", help="Product of the release", required=True)
 parser.add_argument("-remUrl", "--remediationUrl", dest="remUrl", help="Remediation URL of the release", required=True)
 
 parser.add_argument("-sloTarg", "--slo-target", dest="sloTarg", help="Target for the SLOs")
@@ -33,6 +35,8 @@ token = args.dtToken
 id = args.id
 version = args.version
 project = args.project
+stage = args.stage
+product = args.product
 remUrl = args.remUrl
 
 if(args.sloTarg):
@@ -52,77 +56,6 @@ preset = args.preset
 timeFrame = args.timeFrame
 passP = int(args.passP)
 autoDash = args.autoDash
-
-def create_dashboard(serviceRelation,url, timeFrame, size):
-    dashTemp = getFileJSON('etc/dashboard/template.json')
-    if size != "large":
-        index = len(dashTemp["bounds"][size])
-        for i in range(0,index):
-            dashTemp["dashboard"]["tiles"][i]["bounds"] = dashTemp["bounds"][size][i]
-
-    tiles = getFileJSON('etc/dashboard/service_tiles.json')
-    if size != "large":
-        for i in tiles:
-            tiles[i]["tile"]["bounds"] = tiles[i]["bounds"][size]
-
-    names = ["Latency","Traffic","Errors","Saturation"]
-    index = len(serviceRelation)
-    left = 0
-    for i in range(1,index+1):
-        top = 0
-        for j in serviceRelation[i]:
-            header = copy.deepcopy(tiles["tileHeader"])["tile"]
-            if(j == "nonKeyService"):
-                header["markdown"] = "## {name}".format(name=serviceRelation[i][j]["name"])
-            else:
-                header["markdown"] = header["markdown"].format(name=serviceRelation[i][j]["name"],url=url,timeFrame=timeFrame,id=serviceRelation[i][j]["id"])
-            header["bounds"]["top"] = top
-            header["bounds"]["left"] = left
-            dashTemp["dashboard"]["tiles"].append(header)
-            top += header["bounds"]["height"]
-            count = 0
-            tempLeft = left
-            for k in serviceRelation[i][j]["baseline"]:
-                tile = copy.deepcopy(tiles["tile"])["tile"]
-                tile["name"] = names[count]
-                tile["queries"][0]["metric"] = k
-                if(j == "nonKeyService"):
-                    tile["visualConfig"]["type"] = "HONEYCOMB"
-                    tile["bounds"]["height"] = 304
-                    tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"] = []
-                    for id in serviceRelation[i][j]["id"]:
-                        tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"].append({"value":id,"evaluator":"IN"})
-                else:
-                    tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"][0]["value"] = serviceRelation[i][j]["id"]
-                tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
-                tile["bounds"]["top"] = top
-                tile["bounds"]["left"] = tempLeft
-                dashTemp["dashboard"]["tiles"].append(tile)
-                tempLeft += tile["bounds"]["width"]
-                count += 1
-            if i != index:
-                arrow = copy.deepcopy(tiles["arrow"])["tile"]
-                arrow["bounds"]["top"] = top
-                arrow["bounds"]["left"] = tempLeft
-                dashTemp["dashboard"]["tiles"].append(arrow)
-                tempLeft += arrow["bounds"]["width"]
-                top += arrow["bounds"]["height"] 
-            else:
-                top += tile["bounds"]["height"]
-        left = tempLeft
-    return dashTemp["dashboard"]
-
-def buildProject(name, owner,shared,preset,timeFrame, finalDash):
-    dashboardYaml = {'config':[{name:"dashboard.json"}],name:[{"name": "[4-Golden-Signals] {name}-serviceflow".format(name = name)},{"owner":owner},{"shared":shared},{"preset":preset},{"timeFrame":timeFrame}]}
-    projectDir = "{name}-serviceflow".format(name = name)
-    # replace some special characters we may have in the name and mz
-    projectDir = projectDir
-    # target directory for dashboards is dashboard
-    dashboardDir = "{dir}/dashboard".format(dir = projectDir)
-    if not os.path.exists(dashboardDir):
-        os.makedirs(dashboardDir)
-    createCADashboardProject(dashboardDir, "/dashboard.json", "/dashboard.yaml", dashboardYaml, finalDash)
-    return projectDir
 
 def checkId(id):
     service = ["SERVICE","service"]
@@ -160,10 +93,16 @@ def getEntityList(id, type, relation, url, api):
                 type = entities[start][end][0]["type"]
                 entityList[type].extend(entities[start][end])
         else:
-            if entities["toRelationships"]["runsOn"]:
-                entityList["SERVICE"].extend(entities["toRelationships"]["runsOn"])
-            if entities["toRelationships"]["isInstanceOf"]:
-                entityList["PROCESS_GROUP_INSTANCE"].extend(entities["toRelationships"]["isInstanceOf"])
+            try:
+                if entities["toRelationships"]["runsOn"]:
+                    entityList["SERVICE"].extend(entities["toRelationships"]["runsOn"])
+            except:
+                print("No service relationship was identified")
+            try:
+                if entities["toRelationships"]["isInstanceOf"]:
+                    entityList["PROCESS_GROUP_INSTANCE"].extend(entities["toRelationships"]["isInstanceOf"])
+            except:
+                print("No process group instance relationship was identified")
     else:
          entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),tag({id})".format(id=id),"from":timeFrame,"pageSize":500})
          tempCheck = 0
@@ -197,7 +136,7 @@ def createSLOs(entityList, url, api):
         if i == "SERVICE":
             top = dash["tiles"][1]["bounds"]["height"]
             left = dash["tiles"][1]["bounds"]["left"]
-            markdown = "### [{name}]({url}/#serviceOverview;id={id};gtf={timeFrame};gf=all)\n\n- Response Time Threshold : {time} ms".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame,time="{time}")
+            markdown = "### [{name}]({url}/#serviceOverview;id={id};gtf={timeFrame};gf=all)\n\n- Response Time Threshold : **{time} ms**".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame,time="{time}")
         else:
             top = dash["tiles"][0]["bounds"]["height"]
             left = dash["tiles"][0]["bounds"]["left"]
@@ -215,9 +154,14 @@ def createSLOs(entityList, url, api):
             tempLeft = 0
             for k in metrics[i]:
                 getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame})
-                name=getMetric["result"][0]["data"][0]["dimensions"][0].replace(" ","").replace(".","").replace("*","")
+                name = getMetric["result"][0]["data"][0]["dimensions"][0].replace(" ","").replace(".","").replace("*","")
                 #try:
-                value = statistics.mean(list(filter(None, getMetric["result"][0]["data"][0]["values"])))
+                if(not getMetric["result"][0]["data"][0]["values"]):
+                    continue
+                try:
+                    value = statistics.mean(list(filter(None, getMetric["result"][0]["data"][0]["values"])))
+                except:
+                    continue
                 slo["name"] = "{project} {sli} {name}".format(project=project,sli=k,name=name)
                 if "response.time" in metrics[i][k]["metric"]:
                     passV = round(value + (value*(passP/100)), 2)
@@ -230,8 +174,12 @@ def createSLOs(entityList, url, api):
                 print("POST SLO; name:{name}, entity:{entity}, type:{type}".format(name=slo["name"],entity=name,type=k))
                 if(not getSlo['slo']):
                     sloResp = handlePost('{url}/api/v2/slo'.format(url=url),api,{},slo)
+                    time.sleep(.5)
                     getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
-                    id = getSlo["slo"][0]["id"]
+                    try:
+                        id = getSlo["slo"][0]["id"]
+                    except:
+                        print("Not Found, SLO with name: {name}".format(name = slo["name"]))
                 else:
                     id = getSlo["slo"][0]["id"]
                     sloResp = handlePut('{url}/api/v2/slo/{id}'.format(url=url, id=id),api,{},slo)
@@ -288,6 +236,8 @@ def createRelease(id, type, url, api, entityList):
     release["properties"]["dt.event.deployment.project"] = project
     release["properties"]["dt.event.deployment.remediation_action_link"] = remUrl
     release["properties"]["dt.event.deployment.version"] = version
+    release["properties"]["dt.event.deployment.release_stage"] = stage
+    release["properties"]["dt.event.deployment.release_product"] = product
 
     if (type == "tag"):
         release["entitySelector"] = release["entitySelector"].format(type = '{type}',id = 'tag({tag})'.format(tag=id))
