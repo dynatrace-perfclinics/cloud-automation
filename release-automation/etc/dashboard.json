@@ -23,8 +23,8 @@
   },
   "tiles": [
     {
-      "name": "Processes",
-      "tileType": "HEADER",
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
       "configured": true,
       "bounds": {
         "top": 0,
@@ -32,11 +32,12 @@
         "width": 684,
         "height": 38
       },
-      "tileFilter": {}
+      "tileFilter": {},
+      "markdown": "## | ---- Processes --- | --------- SLI -------- | --------------- SLO ------------- |"
     },
     {
-      "name": "Services",
-      "tileType": "HEADER",
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
       "configured": true,
       "bounds": {
         "top": 0,
@@ -44,7 +45,8 @@
         "width": 1178,
         "height": 38
       },
-      "tileFilter": {}
+      "tileFilter": {},
+      "markdown": "## | ----- Services ---- | --------- SLI -------- | -------------- SLO --------------- | -------- SLI --------- | ------------ SLO --------------- |"
     }
   ]
 }
