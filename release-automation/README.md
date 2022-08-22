@@ -72,3 +72,10 @@ pip install -r stable-req.txt
 ```bash
  py .\releaseauto.py -dtUrl DTURL -dtToken DTTOKEN -identifier IDENTIFIER -ver VERSION -proj PROJECT -remUrl https://url.com -owner OWNER -shared SHARED -preset PRESET -timeFrame TIMEFRAME -pass PASS -slo -dashboard    
  ```
+
+ Example:
+ ```bash
+ py .\releaseauto.py -dtUrl https://{DTTENANT}.live.com -dtToken {DTTOKEN} -identifier [Kubernetes]app:easytravel-frontend -ver 6.0.0 -proj Easytravel -product Frontend -stage prod -remUrl https://url.com -owner {DTUSERNAME} -shared true -preset true -timeFrame now-1d -pass 50 -slo -dashboard
+ ```
+
+ ![](./image/release.png)

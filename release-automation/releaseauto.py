@@ -85,13 +85,28 @@ def getEntityList(id, type, relation, url, api):
 
         entities = entities['entities'][0]
         if(type == "service" or type == "process_group_instance"):
-            entityList[entities["type"]].append({'id' : entities['entityId']})
-            relation = relation.split('.')
-            start = relation[0]
-            end = relation[1]
+            relation = relation.split(',')
+            if type == "process_group_instance":
+                tempRelation = relation[1].split('.')
+                start = tempRelation[0]
+                end = tempRelation[1]
+                if end in entities[start]:
+                    entityList[entities["type"]].append({'id' : entities['entityId'],"fromRelationships":{"isInstanceOf":[{"id":entities[start][end][0]["id"],"type":"PROCESS_GROUP"}]}})
+            else:
+                entityList[entities["type"]].append({'id' : entities['entityId']})
+            tempRelation = relation[0].split('.')
+            start = tempRelation[0]
+            end = tempRelation[1]
             if end in entities[start]:
-                type = entities[start][end][0]["type"]
-                entityList[type].extend(entities[start][end])
+                tempType = entities[start][end][0]["type"]
+                entityList[tempType].extend(entities[start][end])
+                if(tempType == "PROCESS_GROUP_INSTANCE"):
+                    for i in entityList[tempType]:
+                        tempRelation = relation[1].split('.')
+                        start = tempRelation[0]
+                        end = tempRelation[1]
+                        if end in entities[start]:
+                            i["fromRelationships"] = {"isInstanceOf": [{"id":entities[start][end][0]["id"],"type":"PROCESS_GROUP"}]}
         else:
             try:
                 if entities["toRelationships"]["runsOn"]:
@@ -101,6 +116,8 @@ def getEntityList(id, type, relation, url, api):
             try:
                 if entities["toRelationships"]["isInstanceOf"]:
                     entityList["PROCESS_GROUP_INSTANCE"].extend(entities["toRelationships"]["isInstanceOf"])
+                    for i in entityList["PROCESS_GROUP_INSTANCE"]:
+                        i["fromRelationships"] = {"isInstanceOf": [{"id":id,"type":"PROCESS_GROUP"}]}
             except:
                 print("No process group instance relationship was identified")
     else:
@@ -111,7 +128,7 @@ def getEntityList(id, type, relation, url, api):
          else:
              tempCheck += 1
              print("No services were found with this tag: {tag}".format(tag=id))
-         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),tag({id})".format(id=id),"from":timeFrame,"pageSize":500})
+         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),tag({id})".format(id=id),"from":timeFrame,"pageSize":500, "fields":"fromRelationships.isInstanceOf"})
          if(entities["entities"]):
              entityList["PROCESS_GROUP_INSTANCE"].extend(entities["entities"])
          else:
@@ -136,11 +153,11 @@ def createSLOs(entityList, url, api):
         if i == "SERVICE":
             top = dash["tiles"][1]["bounds"]["height"]
             left = dash["tiles"][1]["bounds"]["left"]
-            markdown = "### [{name}]({url}/#serviceOverview;id={id};gtf={timeFrame};gf=all)\n\n- Response Time Threshold : **{time} ms**".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame,time="{time}")
+            markdown = "#### [{name}]({url}/#serviceOverview;id={id};gtf={timeFrame};gf=all)\n\n- Response Time Threshold : **{time} ms**".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame,time="{time}")
         else:
             top = dash["tiles"][0]["bounds"]["height"]
             left = dash["tiles"][0]["bounds"]["left"]
-            markdown = "### [{name}]({url}/#processdetails;id={id};gtf={timeFrame};gf=all)".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame)
+            markdown = "[{name}]({url}/#processdetails;id={id};gtf={timeFrame};gf=all)\n\n- [Link to Release]({url}/ui/releases/{pg}%7C{version}%7C{stage}%7C{product}?gf=all&gtf={timeFrame})".format(name="{name}",url=url,id="{id}",timeFrame=timeFrame, pg = "{pg}", stage = stage, product = product, version = version)
         for j in entityList[i]:
             if("id" in j):
                 entityId = j["id"]
@@ -193,7 +210,7 @@ def createSLOs(entityList, url, api):
                         tempTile["markDown"]["markdown"] = markdown.format(name=name,id=entityId,time=passV)
                         dash["tiles"].append(tempTile["markDown"])
                     elif i == "PROCESS_GROUP_INSTANCE":
-                        tempTile["markDown"]["markdown"] = markdown.format(name=name,id=entityId)
+                        tempTile["markDown"]["markdown"] = markdown.format(name=name,id=entityId, pg = j["fromRelationships"]["isInstanceOf"][0]["id"])
                         dash["tiles"].append(tempTile["markDown"])
                     # dataExplorer Tile
                     tempTile["dataExplorer"]["bounds"]["top"] = top
@@ -205,7 +222,10 @@ def createSLOs(entityList, url, api):
                     if k == "Response Time":
                         try:
                             maxValue = round((max(getMetric["result"][0]["data"][0]["values"]) + statistics.mean(getMetric["result"][0]["data"][0]["values"])) / 2,2)
-                            tempTile["dataExplorer"]["visualConfig"]["axes"]["yAxes"][0]["max"] = maxValue
+                            if(passV > maxValue):
+                                tempTile["dataExplorer"]["visualConfig"]["axes"]["yAxes"][0]["max"] = passV
+                            else:
+                                tempTile["dataExplorer"]["visualConfig"]["axes"]["yAxes"][0]["max"] = maxValue
                         except:
                             tempTile["dataExplorer"]["visualConfig"]["axes"]["yAxes"][0]["max"] = "AUTO"
                         tempTile["dataExplorer"]["visualConfig"]["rules"][0]["unitTransform"] = "MilliSecond"
@@ -278,6 +298,7 @@ def createDashboard(dash, url, api):
     dash["dashboardMetadata"]["tags"][2] = dash["dashboardMetadata"]["tags"][2].format(project=project)
     dash["dashboardMetadata"]["dashboardFilter"]["timeframe"] = timeFrame
 
+    #dash["tiles"][2]["markdown"] = dash["tiles"][2]["markdown"].format(url=url,project=project,stage=stage,product=product,)
     getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project)})
     
 
@@ -309,9 +330,9 @@ def releaseauto():
     print("Checking for matching entities, the type:{type}, with id: {id}".format(type=resultCheckId, id=id))
     entityList = {}
     if('service' == resultCheckId):
-        entityList = getEntityList(id, resultCheckId, 'fromRelationships.runsOnProcessGroupInstance', url, api)
+        entityList = getEntityList(id, resultCheckId, 'fromRelationships.runsOnProcessGroupInstance,fromRelationships.runsOn', url, api)
     elif('process_group_instance' == resultCheckId):
-        entityList = getEntityList(id, resultCheckId, 'toRelationships.runsOnProcessGroupInstance', url, api)
+        entityList = getEntityList(id, resultCheckId, 'toRelationships.runsOnProcessGroupInstance,fromRelationships.isInstanceOf', url, api)
     elif('process_group' == resultCheckId):
         entityList = getEntityList(id, resultCheckId, 'toRelationships.runsOn,toRelationships.isInstanceOf', url, api)
     else:
