@@ -26,27 +26,18 @@
       "name": "Markdown",
       "tileType": "MARKDOWN",
       "configured": true,
-      "bounds": {
-        "top": 0,
-        "left": 0,
-        "width": 684,
-        "height": 38
-      },
+      "bounds": {},
       "tileFilter": {},
-      "markdown": "## | ---- Processes --- | --------- SLI -------- | --------------- SLO ------------- |"
+      "markdown": ""
     },
     {
       "name": "Markdown",
       "tileType": "MARKDOWN",
       "configured": true,
       "bounds": {
-        "top": 0,
-        "left": 684,
-        "width": 1178,
-        "height": 38
       },
       "tileFilter": {},
-      "markdown": "## | ----- Services ---- | --------- SLI -------- | -------------- SLO --------------- | -------- SLI --------- | ------------ SLO --------------- |"
+      "markdown": ""
     }
   ]
 }

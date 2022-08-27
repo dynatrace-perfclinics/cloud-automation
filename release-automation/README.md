@@ -8,8 +8,8 @@ We will try our best to get to your issues.
 
 This is a CA Project that automates sending of deployment release to Dynatrace. As well as, generating SLOs and a release dashboard.
 
-### CA Release Dashboard
-![](./image/dashboard.png)
+### CA Release Automation
+![](./image/release.png)
 
 
 ## Pre-requisites 
@@ -72,3 +72,17 @@ pip install -r stable-req.txt
 ```bash
  py .\releaseauto.py -dtUrl DTURL -dtToken DTTOKEN -identifier IDENTIFIER -ver VERSION -proj PROJECT -remUrl https://url.com -owner OWNER -shared SHARED -preset PRESET -timeFrame TIMEFRAME -pass PASS -slo -dashboard    
  ```
+
+ Example(SLO):
+ ```bash
+ py .\releaseauto.py -dtUrl https://{DTTENANT}.live.com -dtToken {DTTOKEN} -identifier [Kubernetes]app:easytravel-frontend -ver 6.0.0 -proj Easytravel -product Frontend -stage prod -remUrl https://url.com -owner {DTUSERNAME} -shared true -preset true -timeFrame now-1d -pass 50 -sloTarg 95 -sloWarn 97.5 -slo -dashboard
+ ```
+ 
+ ![](./image/dashboard.png)
+
+  Example(no SLO):
+ ```bash
+ py .\releaseauto.py -dtUrl https://{DTTENANT}.live.com -dtToken {DTTOKEN} -identifier [Kubernetes]app:easytravel-frontend -ver 6.0.0 -proj Easytravel -product Frontend -stage prod -remUrl https://url.com -owner {DTUSERNAME} -shared true -preset true -timeFrame now-1d -pass 50 -dashboard
+ ```
+
+ ![](./image/dashboardNoSlo.png)
