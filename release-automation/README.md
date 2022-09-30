@@ -68,6 +68,10 @@ pip install -r stable-req.txt
 -  -slo --auto-slo Automatically Generate SLOs
 -  -dashboard --auto-dashboard Automatically Generate Release Dashboard
 
+##### Additional Notes on Arguments
+- *Identifier* : The identifer can be a single tag or multiple tags seperated by a comma: *key1:tag1,key2:tag2*. The Dynatrace proceses/services must have all tags to be assigned the release.
+- *Pass* : This is used to calculate the baseline thresholds for the evalution time frame. Each tile will be created with a threshold.
+
 ### PYTHON
 ```bash
  py .\releaseauto.py -dtUrl DTURL -dtToken DTTOKEN -identifier IDENTIFIER -ver VERSION -proj PROJECT -remUrl https://url.com -owner OWNER -shared SHARED -preset PRESET -timeFrame TIMEFRAME -pass PASS -slo -dashboard    

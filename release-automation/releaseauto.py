@@ -405,7 +405,11 @@ def createDashboard(dash, url, api):
     dash["dashboardMetadata"]["dashboardFilter"]["timeframe"] = timeFrame
 
     #dash["tiles"][2]["markdown"] = dash["tiles"][2]["markdown"].format(url=url,project=project,stage=stage,product=product,)
+<<<<<<< HEAD
     getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project),"tags":"stage:{stage}".format(stage=stage),"tags":"product:{product}".format(product=product)})
+=======
+    getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project)})
+>>>>>>> 6ca1d8c4e56284ab5295090648f6c14dc52b5c76
 
     name = "[Release-CA] {project}-{stage}-{product}".format(project = project,stage=stage,product=product)
     id = ""
