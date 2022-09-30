@@ -16,12 +16,7 @@
       "name": "Markdown",
       "tileType": "MARKDOWN",
       "configured": true,
-      "bounds": {
-        "top": 38,
-        "left": 0,
-        "width": 190,
-        "height": 152
-      },
+      "bounds": {"top": 38,"left": 0,"width": 190,"height": 152},
       "tileFilter": {},
       "markdown": ""
     },
@@ -29,12 +24,7 @@
       "name": "",
       "tileType": "DATA_EXPLORER",
       "configured": true,
-      "bounds": {
-        "top": 38,
-        "left": 0,
-        "width": 190,
-        "height": 152
-      },
+      "bounds": {"top": 38,"left": 0,"width": 190,"height": 152},
       "tileFilter": {},
       "customName": "Data explorer results",
       "queries": [
@@ -47,7 +37,7 @@
         }
       ],
       "visualConfig": {
-        "type": "GRAPH_CHART",
+        "type": "",
         "global": {
           "hideLegend": true
         },
@@ -85,6 +75,11 @@
         "heatmapSettings": {
           "yAxis": "VALUE"
         },
+        "singleValueSettings": {
+          "showTrend": true,
+          "showSparkLine": true,
+          "linkTileColorToThreshold": true
+        },
         "thresholds": [
           {
             "axisTarget": "LEFT",
@@ -109,7 +104,7 @@
           "isThresholdBackgroundAppliedToCell": false
         },
         "graphChartSettings": {
-          "connectNulls": false
+          "connectNulls": true
         },
         "honeycombSettings": {
           "showHive": true,
@@ -118,7 +113,9 @@
         }
       },
       "queriesSettings": {
-        "resolution": ""
+        "resolution": "",
+        "foldTransformation": "TOTAL",
+        "foldAggregation": "AVG"
       }
     }
 }
