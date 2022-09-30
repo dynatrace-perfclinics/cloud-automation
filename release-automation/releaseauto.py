@@ -65,13 +65,19 @@ def checkId(id):
     idSplit = id.split('-')[0]
 
     if idSplit in service:
-        return 'service';
+        return 'service', id;
     elif idSplit in processGroup:
-        return 'process_group'
+        return 'process_group', id
     elif idSplit in process:
-        return 'process_group_instance'
+        return 'process_group_instance', id
     else:
-        return 'tag';
+        tags = id.split(',')
+        entitySelector = ""
+        for i in tags:
+            entitySelector = entitySelector + "tag({id})".format(id=i)
+            entitySelector = entitySelector + ","
+        id = entitySelector.rstrip(",")
+        return 'tag', id;
 
 def getEntityList(id, type, relation, url, api):
     entityList = {"SERVICE":[],"PROCESS_GROUP_INSTANCE":[]}
@@ -121,14 +127,14 @@ def getEntityList(id, type, relation, url, api):
             except:
                 print("No process group instance relationship was identified")
     else:
-         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),tag({id})".format(id=id),"from":timeFrame,"pageSize":500})
+         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),{id}".format(id=id),"from":timeFrame,"pageSize":500})
          tempCheck = 0
          if(entities["entities"]):
             entityList["SERVICE"].extend(entities["entities"])
          else:
              tempCheck += 1
              print("No services were found with this tag: {tag}".format(tag=id))
-         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),tag({id})".format(id=id),"from":timeFrame,"pageSize":500, "fields":"fromRelationships.isInstanceOf"})
+         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),{id}".format(id=id),"from":timeFrame,"pageSize":500, "fields":"fromRelationships.isInstanceOf"})
          if(entities["entities"]):
              entityList["PROCESS_GROUP_INSTANCE"].extend(entities["entities"])
          else:
@@ -356,11 +362,12 @@ def createRelease(id, type, url, api, entityList):
     release["properties"]["dt.event.deployment.release_product"] = product
 
     if (type == "tag"):
-        release["entitySelector"] = release["entitySelector"].format(type = '{type}',id = 'tag({tag})'.format(tag=id))
+        release["entitySelector"] = release["entitySelector"].format(type = '{type}',id = id)
         if(entityList["PROCESS_GROUP_INSTANCE"]):
             release["entitySelector"] = release["entitySelector"].format(type="PROCESS_GROUP_INSTANCE")
         else:
             release["entitySelector"] = release["entitySelector"].format(type="SERVICE")
+        print(json.dumps(release, indent=2))
         postRelease(url, api, release)
     elif(type == "service"):
         if(entityList["PROCESS_GROUP_INSTANCE"]):
@@ -379,6 +386,7 @@ def createRelease(id, type, url, api, entityList):
             for i in entityList["PROCESS_GROUP_INSTANCE"]:
                 tempRelease = copy.deepcopy(release)
                 tempRelease["entitySelector"] = tempRelease["entitySelector"].format(type = 'PROCESS_GROUP_INSTANCE',id = 'entityId({id})'.format(id=i["id"]))
+                print(json.dumps(tempRelease, indent=2))
                 postRelease(url, api, tempRelease)
 
 def postRelease(url, api, release):
@@ -386,18 +394,19 @@ def postRelease(url, api, release):
     handlePost('{url}/api/v2/events/ingest'.format(url=url), api, {}, release)
 
 def createDashboard(dash, url, api):
-    dash["dashboardMetadata"]["name"] = dash["dashboardMetadata"]["name"].format(project = project,version=version)
+    dash["dashboardMetadata"]["name"] = dash["dashboardMetadata"]["name"].format(project = project,version=version,stage=stage,product=product)
     dash["dashboardMetadata"]["shared"] = shared
     dash["dashboardMetadata"]["owner"] = owner
     dash["dashboardMetadata"]["preset"] = preset
     dash["dashboardMetadata"]["tags"][0] = dash["dashboardMetadata"]["tags"][0].format(version=version)
     dash["dashboardMetadata"]["tags"][2] = dash["dashboardMetadata"]["tags"][2].format(project=project)
+    dash["dashboardMetadata"]["tags"][3] = dash["dashboardMetadata"]["tags"][3].format(stage=stage)
+    dash["dashboardMetadata"]["tags"][4] = dash["dashboardMetadata"]["tags"][4].format(product=product)
     dash["dashboardMetadata"]["dashboardFilter"]["timeframe"] = timeFrame
 
-    #dash["tiles"][2]["markdown"] = dash["tiles"][2]["markdown"].format(url=url,project=project,stage=stage,product=product,)
-    getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project)})
+    getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project),"tags":"stage:{stage}".format(stage=stage),"tags":"product:{product}".format(product=product)})
 
-    name = "[Release-CA] {project}".format(project = project)
+    name = "[Release-CA] {project}-{stage}-{product}".format(project = project,stage=stage,product=product)
     id = ""
     oldVersion = ""
     for i in getDashboard["dashboards"]:
@@ -408,37 +417,36 @@ def createDashboard(dash, url, api):
         dash["id"] = id
         resp = handlePut("{url}/api/config/v1/dashboards/{id}".format(url=url,id=id),api,{},dash)
         if(resp < 400):
-            print("Succesfully updated the Release-CA dasbhoard for the project:{project}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version))
+            print("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
 
     else:
         resp = handlePost("{url}/api/config/v1/dashboards".format(url=url),api,{},dash)
         if(resp < 400):
-           print("Succesfully created the Release-CA dasbhoard for the project:{project}. Version:{version}".format(project=project,version=version))
-
+            print("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
 
 def releaseauto():
     api = {'Accept': 'application/json; charset=utf-8', 'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}
     print("Reaching out to Dynatrace ({url})".format(url = url))
-    resultCheckId = checkId(id)
+    resultCheckId, tempId = checkId(id)
 
     print("---------------------------------------------------")
-    print("Checking for matching entities, the type:{type}, with id: {id}".format(type=resultCheckId, id=id))
+    print("Checking for matching entities, the type:{type}, with id: {id}".format(type=resultCheckId, id=tempId))
     entityList = {}
     if('service' == resultCheckId):
-        entityList = getEntityList(id, resultCheckId, 'fromRelationships.runsOnProcessGroupInstance,fromRelationships.runsOn', url, api)
+        entityList = getEntityList(tempId, resultCheckId, 'fromRelationships.runsOnProcessGroupInstance,fromRelationships.runsOn', url, api)
     elif('process_group_instance' == resultCheckId):
-        entityList = getEntityList(id, resultCheckId, 'toRelationships.runsOnProcessGroupInstance,fromRelationships.isInstanceOf', url, api)
+        entityList = getEntityList(tempId, resultCheckId, 'toRelationships.runsOnProcessGroupInstance,fromRelationships.isInstanceOf', url, api)
     elif('process_group' == resultCheckId):
-        entityList = getEntityList(id, resultCheckId, 'toRelationships.runsOn,toRelationships.isInstanceOf', url, api)
+        entityList = getEntityList(tempId, resultCheckId, 'toRelationships.runsOn,toRelationships.isInstanceOf', url, api)
     else:
-        entityList = getEntityList(id, resultCheckId, '', url, api)
+        entityList = getEntityList(tempId, resultCheckId, '', url, api)
     if(entityList):
         print("Found the following entities: ")
         print(json.dumps(entityList,indent=1))
 
         print("---------------------------------------------------")
-        print("Posting releases with the following values; project:{project}, version:{version}, remUrl:{remUrl}".format(project=project, version=version, remUrl=remUrl))
-        createRelease(id, resultCheckId, url, api, entityList)
+        print("Posting releases with the following values; project:{project}, version:{version}, stage:{stage}, remUrl:{remUrl}".format(project=project, stage=stage, version=version, remUrl=remUrl))
+        createRelease(tempId, resultCheckId, url, api, entityList)
         if(not autoSlo):
             print("---------------------------------------------------")
             print("Creating SLOs")

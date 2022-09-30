@@ -35,8 +35,8 @@ def handlePost(url, header, x, y):
     try:
         #print(json.dumps(y))
         post = requests.post(url, headers=header, params=x, data=json.dumps(y))
-        #print(json.dumps(post.json()))
-        post.raise_for_status()
+        print(json.dumps(post.json()))
+        #post.raise_for_status()
         return post.status_code
     except requests.exceptions.Timeout as err:
         print("The request timed out. Couldn't reach - {url}".format(url = url))
