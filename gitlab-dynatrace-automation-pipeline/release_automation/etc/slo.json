@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "",
+  "metricExpression": "",
+  "target": 0,
+  "warning": 0,
+  "evaluationType": "AGGREGATE",
+  "timeframe": "",
+  "filter":  "",
+    "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": true,
+    "fastBurnThreshold": 10
+  }
+}

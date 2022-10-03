@@ -1,0 +1,63 @@
+stages: 
+  - deploy
+  - release-automation
+  - deploy-validation
+  - release-validation
+
+variables:
+  PROJECT: {PROJECT}
+  STAGE: {STAGE}
+  PRODUCT: {PRODUCT}
+  VERSION: {VERSION}
+  BUILDID: $CI_JOB_ID
+  DTTOKEN: $DTTOKEN #create a gitlab stored variable
+  DTSYNTHETICTOKEN: $DTSYNTHETICTOKEN #create a gitlab stored variable
+  DTURL: $DTURL #create a gitlab stored variable
+  CATOKEN: $CATOKEN #create a gitlab stored variable
+  CAURL: $CAURL #create a gitlab stored variable
+  IDENTIFIER: "tag1:key1,tag2:key2"
+  REMURL: https://url.com1
+  OWNER: {OWNER}
+  SHARED: "true"
+  PRESET: "true"
+  TIMEFRAME: now-30m
+  MINUTEDIFF: 5
+  DAYDIFF: 0
+  DAYSTART: 0
+  PASS: "100"
+  #SLO: ""
+  #DASHBOARD: ""
+  SLO: "-slo"
+  DASHBOARD: "-dashboard"
+
+deploy:
+  stage: deploy
+  script: 
+    - echo "Deploying $VERSION"
+
+release-automation:
+  image: "python"
+  stage: release-automation
+  script:
+    - cd release_automation/
+    - pip install --upgrade pip
+    - pip install -r stable-req.text
+    #- python releaseauto.py -dtUrl $DTURL -dtToken $DTTOKEN -identifier $IDENTIFIER -ver $VERSION -proj $PROJECT -product $PRODUCT -stage $STAGE -remUrl $REMURL -owner $OWNER -shared $SHARED -preset $PRESET -timeFrame $TIMEFRAME -pass $PASS -slo -dashboard
+    - python releaseauto.py -dtUrl $DTURL -dtToken $DTTOKEN -identifier $IDENTIFIER -ver $VERSION -proj $PROJECT -product $PRODUCT -stage $STAGE -remUrl $REMURL -owner $OWNER -shared $SHARED -preset $PRESET -timeFrame $TIMEFRAME -pass $PASS $SLO $DASHBOARD
+deploy-validation:
+  image: "python"
+  stage: deploy-validation
+  script:
+    - cd deploy_validation/
+    - pip install --upgrade pip
+    - pip install -r stable-req.text
+    - python validation.py -token $DTSYNTHETICTOKEN -uri $DTURL -proj $PROJECT -product $PRODUCT -stage $STAGE
+    
+release-validation:
+  image: "python"
+  stage: release-validation
+  script:
+    - cd release_validation/
+    - pip install --upgrade pip
+    - pip install -r stable-req.text
+    - python evaluation.py -service $PRODUCT -stage $STAGE -project $PROJECT -buildNumber $BUILDID -token $CATOKEN -uri $CAURL -daydiff $DAYDIFF -daystart $DAYSTART -mindiff $MINUTEDIFF       
