@@ -7,19 +7,19 @@ We will try our best to get to your issues.
 # Gitlab DevOps Pipeline integrated with Dynatrace
 This project provides a plug-and-go Gitlab pipeline integrated with Dynatrace. Included are stages to monitor a release, validate a deployment and release with Dynatrace.
 
-![](./gitlab-dynatrace-automation-pipeline/image/pipeline-gitlab.png)
+![](./image/pipeline-gitlab.png)
 
 The first stage - *release-automation* - makes use of the Dynatrace Automation Bootstrap solution - Release Automation. This stage will take inputs to monitor a release via the Dynatrace Events v2 API. As well as, optional inputs to generate SLOs and/or a Release Dashboard for all processes/services related to the release.
 
-![](./gitlab-dynatrace-automation-pipeline/image/deploy-event-dynatrace.png)
+![](./image/deploy-event-dynatrace.png)
 
 The second stage - *deploy-validation* - makes use of the Dynatrace onDemand Synthetic Execution. This stage validates the deployment by executing pre-defined synthetics to test the rest endpoints of the application. The synthetics must be tagged with the following: deploy-validation, project:{PROJECt}, stage:{STAGE}, service:{PRODUCT}
 
-![](./gitlab-dynatrace-automation-pipeline/image/synthetc-dynatrace.png)
+![](./image/synthetc-dynatrace.png)
 
 The final stage - *release-validation* - makes use of the Dynatrace Cloud Automation module to run a evaluation sequence. The sequence will get all SLIs, evaluate the SLIs and determine a SLO score. Finally, an evaluation event is posted to Dynatrace.
 
-![](./gitlab-dynatrace-automation-pipeline/image/validation-event-dynatrace.png)
+![](./image/validation-event-dynatrace.png)
 
 ### Pre-requisites
 ###### 1. Gitlab
