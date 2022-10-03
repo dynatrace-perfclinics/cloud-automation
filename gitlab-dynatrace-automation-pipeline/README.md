@@ -15,7 +15,7 @@ The first stage - *release-automation* - makes use of the Dynatrace Automation B
 
 The second stage - *deploy-validation* - makes use of the Dynatrace onDemand Synthetic Execution. This stage validates the deployment by executing pre-defined synthetics to test the rest endpoints of the application. The synthetics must be tagged with the following: deploy-validation, project:{PROJECt}, stage:{STAGE}, service:{PRODUCT}
 
-![](./image/synthetc-dynatrace.png)
+![](./image/synthetic-dynatrace.png)
 
 The final stage - *release-validation* - makes use of the Dynatrace Cloud Automation module to run a evaluation sequence. The sequence will get all SLIs, evaluate the SLIs and determine a SLO score. Finally, an evaluation event is posted to Dynatrace.
 
