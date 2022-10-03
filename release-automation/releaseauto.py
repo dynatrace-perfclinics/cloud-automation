@@ -145,6 +145,35 @@ def getEntityList(id, type, relation, url, api):
 
     return entityList
 
+def cleanUpName(dimension):
+    name = dimension.replace(" ","").replace(".","").replace("*","").rstrip("-")
+    return name
+
+def postSLO(slo, url, api, name, k, i):
+    getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
+    id = ""
+    print("POST SLO; name:{name}, entity:{entity}, type:{type}".format(name=name,entity=i,type=k))
+    sloResp = 0
+    if(not getSlo['slo']):
+        sloResp = handlePost('{url}/api/v2/slo'.format(url=url),api,{},slo)
+        if(sloResp == 201 or sloResp == 200):
+            time.sleep(1)
+            while True:
+                getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
+                try:
+                    id = getSlo["slo"][0]["id"]
+                    break
+                except:
+                    print("Waiting for ID of the SLO - {name}".format(name = slo["name"]))
+                    time.sleep(1)
+        else:
+            print("Unsucessful in generating the SLO - {name}".format(name = slo["name"]))
+            return 0, id
+    else:
+        id = getSlo["slo"][0]["id"]
+        sloResp = handlePut('{url}/api/v2/slo/{id}'.format(url=url, id=id),api,{},slo)
+    return sloResp, id
+
 def createSLOs(entityList, url, api):
     metrics = getFileJSON('etc/metrics.json')["dash1"]
     dash = getFileJSON('etc/dashboard.json')
@@ -181,7 +210,7 @@ def createSLOs(entityList, url, api):
             tempMarkdown = copy.deepcopy(tile["markDown"])
             for k in metrics[i]:
                 getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame})
-                name = getMetric["result"][0]["data"][0]["dimensions"][0].replace(" ","").replace(".","").replace("*","")
+                name = cleanUpName(getMetric["result"][0]["data"][0]["dimensions"][0])
                 #try:
                 if(not getMetric["result"][0]["data"][0]["values"]):
                     continue
@@ -196,20 +225,7 @@ def createSLOs(entityList, url, api):
                     slo["metricExpression"] = metrics[i][k]["slo"].format(value=passV)
                 else:
                     slo["metricExpression"] = metrics[i][k]["slo"]
-                getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
-                id = ""
-                print("POST SLO; name:{name}, entity:{entity}, type:{type}".format(name=slo["name"],entity=name,type=k))
-                if(not getSlo['slo']):
-                    sloResp = handlePost('{url}/api/v2/slo'.format(url=url),api,{},slo)
-                    time.sleep(.5)
-                    getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
-                    try:
-                        id = getSlo["slo"][0]["id"]
-                    except:
-                        print("Not Found, SLO with name: {name}".format(name = slo["name"]))
-                else:
-                    id = getSlo["slo"][0]["id"]
-                    sloResp = handlePut('{url}/api/v2/slo/{id}'.format(url=url, id=id),api,{},slo)
+                sloResp, id = postSLO(slo, url, api, name, k, i)
                 if(sloResp == 200 or sloResp == 201):
                     print("Sucessfully generated the slo with id:{id} \n......".format(id=id))
                     tempData = copy.deepcopy(tile["dataExplorer"])
@@ -306,7 +322,7 @@ def dashboardNoSlo(entityList, url, api):
                 except:
                     tempLeft = tempLeft + tempData["bounds"]["width"]
                     continue
-                name = getMetric["result"][0]["data"][0]["dimensions"][0].replace(" ","").replace(".","").replace("*","")
+                name = cleanUpName(getMetric["result"][0]["data"][0]["dimensions"][0])
                 print("Working on: entity:{entity}, type:{type}".format(entity=name,type=k))
                 tempData = copy.deepcopy(tile["dataExplorer"])
                 # MarkDown Tile
