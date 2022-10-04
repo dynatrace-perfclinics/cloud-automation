@@ -1,8 +1,4 @@
-## Disclaimer
-These projects are not supported by Dynatrace. 
-
-Any issues please utilize github issues. 
-We will try our best to get to your issues.
+> **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
 
 # Gitlab DevOps Pipeline integrated with Dynatrace
 This project provides a plug-and-go Gitlab pipeline integrated with Dynatrace. Included are stages to monitor a release, validate a deployment and release with Dynatrace.
@@ -87,4 +83,7 @@ The final stage - *release-validation* - makes use of the Dynatrace Cloud Automa
 - PASS - percentage to determine thresholds for SLOs/Tiles based on aggregation (50 - thresholds would be set at 50% above the observed aggregate)
 - SLO - create SLOs ("-slo")/don't create SLOs ("" - empty string)
 - DASHBOARD - create Dasbhoard ("-dashboard")/don't create Dashboard("" - empty string)
+<<<<<<< HEAD
 - LOGGER - enables logging (INFO,DEBUG,ERROR)
+=======
+>>>>>>> face6bc22b5451de2c836cd0a143e2277b2e8c24
