@@ -2,6 +2,8 @@
 
 # Ingesting SonarQube metrics into Dynatrace
 
+This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
+
 ## Prerequisites
     python and what modules here
 ## Usage
