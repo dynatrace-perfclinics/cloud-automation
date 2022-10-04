@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description='Get metrics from a Sonarqube API, 
 parser.add_argument("-su", "--sonarqube-url", action="store", required=True, help="SonarQube Base URL without trailing slash, Example: https://sonarqube.company.com")
 parser.add_argument("-st", "--sonarqube-token", action="store", required=True, help="SonarQube API Token")
 parser.add_argument("-c", "--sonarqube-component", action="store", required=True, help="SonarQube Identifier for which project's data will be attained") #Future improvement may be to make this optional or accept more than a single entry
-parser.add_argument("-m", "--sonarqube-metrickeys", action="store", required=False, help="List of values cooresponding to which metricKeys are desired from the SonarQube API, will default to all available metrics if none provided")
+parser.add_argument("-m", "--sonarqube-metrickeys", action="store", required=False, help="List of values cooresponding to which metricKeys are desired from the SonarQube API, this will default to all available metrics if none are provided")
 parser.add_argument("-b", "--sonarqube-branch", action="store", required=False, help="Branch name in SonarQube to pull data for")
 parser.add_argument("-d", "--additional-dimensions", action="store", required=False, help="Optional additional dimensions in a comma separated list (Ex. component.line_of_business='IT',component.portfolio='')")
 parser.add_argument("-du", "--dynatrace-url", action="store", required=True, help="Dynatrace Base URL without trailing slash, Example: https://dynatrace.company.com") #This may be able to be made optional if OneAgent is installed where the script is running
