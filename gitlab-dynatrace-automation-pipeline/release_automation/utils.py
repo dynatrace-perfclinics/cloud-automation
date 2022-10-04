@@ -1,24 +1,27 @@
 import json, requests, subprocess, io, yaml
 
-def handleGet(url, header, x):
+def handleGet(url, header, x, logger):
     try:
+        logger.debug(f"handleGet: {url}")
+        logger.debug(json.dumps(x))
         get = requests.get(url, headers=header, params=x)
         get.raise_for_status()
         resp = get.json()
         return resp
     except requests.exceptions.HTTPError as err:
+        logger.error({err})
         raise SystemExit(err)
     except requests.exceptions.Timeout as err:
-        print("The request timed out. Couldn't reach - {url}".format(url = url))
+        logger.error(f"The request timed out. Couldn't reach - {url}")
         raise SystemExit(err)
     except requests.exceptions.ConnectionError as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except requests.exceptions.TooManyRedirects as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except Exception as e:
-        print(e)
+        logger.error(f"Failed to get the dynatrace url: {url}, with exception: {e}")
         return get.text
 
 def getFileJSON(s_name):
@@ -28,44 +31,45 @@ def getFileJSON(s_name):
         fileObj.close()
         return fileJSON
     except FileNotFoundError:
-        return(400, "{} is not a valid file in the serviceflow_cache directory".format(s_name))
+        return(400, f"{s_name} is not a valid file in the serviceflow_cache directory")
         sys.exit()
 
-def handlePost(url, header, x, y):
+def handlePost(url, header, x, y, logger):
     try:
-        #print(json.dumps(y))
+        logger.debug(f"handlePost: {url}")
+        logger.debug(json.dumps(y))
         post = requests.post(url, headers=header, params=x, data=json.dumps(y))
-        #print(json.dumps(post.json()))
-        post.raise_for_status()
-        return post.status_code
+        logger.debug(json.dumps(post.json()))
+        logger.debug(post.status_code)
+        return post.status_code, post.headers
     except requests.exceptions.Timeout as err:
-        print("The request timed out. Couldn't reach - {url}".format(url = url))
+        logger.error(f"The request timed out. Couldn't reach - {url}")
         raise SystemExit(err)
     except requests.exceptions.ConnectionError as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except requests.exceptions.TooManyRedirects as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except Exception as e:
-        print(e)
+        logger.error(f"Failed to post to the dynatrace url: {url}, with exception: {e}")
 
-def handlePut(url, header, x, y):
+def handlePut(url, header, x, y, logger):
     try:
-        #print(json.dumps(y))
+        logger.debug(f"handlePut: {url}")
+        logger.debug(json.dumps(y))
         post = requests.put(url, headers=header, params=x, data=json.dumps(y))
-        #print(json.dumps(post.json()))
+        logger.debug(post.status_code)
         post.raise_for_status()
         return(post.status_code)
-        #print(post.status_code)
     except requests.exceptions.Timeout as err:
-        print("The request timed out. Couldn't reach - {url}".format(url = url))
+        logger.error("The request timed out. Couldn't reach - {url}".format(url = url))
         raise SystemExit(err)
     except requests.exceptions.ConnectionError as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error("The URL was malformed - {url}".format(url = url))
         raise SystemExit(err)
     except requests.exceptions.TooManyRedirects as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error("The URL was malformed - {url}".format(url = url))
         raise SystemExit(err)
     except Exception as e:
-        print(e)
+        logger.error(f"Failed to put to the dynatrace url: {url}, with exception: {e}")

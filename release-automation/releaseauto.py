@@ -1,4 +1,4 @@
-import os, copy, json, statistics, time
+import os, copy, json, statistics, time, logging, sys
 from typing import Dict
 from argparse import ArgumentParser
 from utils import handleGet, getFileJSON, handlePost, handlePut
@@ -25,9 +25,14 @@ parser.add_argument("-shared", "--dashboard-shared", dest="shared", help="Set Dy
 parser.add_argument("-preset", "--dashboard-preset", dest="preset", help="Set Dynatrace Dashboard to preset", required=True)
 parser.add_argument("-timeFrame", "--dashboard-timeFrame", dest="timeFrame", help="Time Frame to evaluate thresholds", required=True)
 parser.add_argument("-dashboard","--auto-dashboard",dest="autoDash",help="Use this to automatically generate Release Dashboard (missing = false)", action="store_false")
-
+parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","ERROR"],default="INFO", help="Optional logging levels, default is INFO if nothing is specified")
 
 args = parser.parse_args()
+
+# Logging
+logging.basicConfig(stream=sys.stderr, format="[%(levelname)s] %(asctime)s - %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - Release Automation')
+logger.setLevel(args.logging)
 
 url = args.dtUrl
 token = args.dtToken
@@ -83,10 +88,10 @@ def getEntityList(id, type, relation, url, api):
     entityList = {"SERVICE":[],"PROCESS_GROUP_INSTANCE":[]}
     
     if(type != 'tag'):
-        entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type({type}),entityId({id})".format(type=type,id=id),"from":timeFrame,"fields":relation,"pageSize":500})
+        entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type({type}),entityId({id})".format(type=type,id=id),"from":timeFrame,"fields":relation,"pageSize":500}, logger)
     
         if(not entities['entities']):
-           print("No entities could be identified with the identifier: {id}".format(id=id))
+           logger.info("No entities could be identified with the identifier: {id}".format(id=id))
            return None
 
         entities = entities['entities'][0]
@@ -118,28 +123,28 @@ def getEntityList(id, type, relation, url, api):
                 if entities["toRelationships"]["runsOn"]:
                     entityList["SERVICE"].extend(entities["toRelationships"]["runsOn"])
             except:
-                print("No service relationship was identified")
+                logger.info("No service relationship was identified")
             try:
                 if entities["toRelationships"]["isInstanceOf"]:
                     entityList["PROCESS_GROUP_INSTANCE"].extend(entities["toRelationships"]["isInstanceOf"])
                     for i in entityList["PROCESS_GROUP_INSTANCE"]:
                         i["fromRelationships"] = {"isInstanceOf": [{"id":id,"type":"PROCESS_GROUP"}]}
             except:
-                print("No process group instance relationship was identified")
+                logger.info("No process group instance relationship was identified")
     else:
-         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),{id}".format(id=id),"from":timeFrame,"pageSize":500})
+         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),{id}".format(id=id),"from":timeFrame,"pageSize":500}, logger)
          tempCheck = 0
          if(entities["entities"]):
             entityList["SERVICE"].extend(entities["entities"])
          else:
              tempCheck += 1
-             print("No services were found with this tag: {tag}".format(tag=id))
-         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),{id}".format(id=id),"from":timeFrame,"pageSize":500, "fields":"fromRelationships.isInstanceOf"})
+             logger.info("No services were found with this tag: {tag}".format(tag=id))
+         entities = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(process_group_instance),{id}".format(id=id),"from":timeFrame,"pageSize":500, "fields":"fromRelationships.isInstanceOf"}, logger)
          if(entities["entities"]):
              entityList["PROCESS_GROUP_INSTANCE"].extend(entities["entities"])
          else:
              tempCheck += 1
-             print("No processes were found with this tag: {tag}".format(tag=id))
+             logger.info("No processes were found with this tag: {tag}".format(tag=id))
          if(tempCheck == 2):
             return None
 
@@ -150,28 +155,28 @@ def cleanUpName(dimension):
     return name
 
 def postSLO(slo, url, api, name, k, i):
-    getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
+    getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])}, logger)
     id = ""
-    print("POST SLO; name:{name}, entity:{entity}, type:{type}".format(name=name,entity=i,type=k))
+    logger.info("POST SLO; name:{name}, entity:{entity}, type:{type}".format(name=name,entity=i,type=k))
     sloResp = 0
     if(not getSlo['slo']):
-        sloResp = handlePost('{url}/api/v2/slo'.format(url=url),api,{},slo)
+        sloResp = handlePost('{url}/api/v2/slo'.format(url=url),api,{},slo, logger)
         if(sloResp == 201 or sloResp == 200):
             time.sleep(1)
             while True:
-                getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])})
+                getSlo = handleGet('{url}/api/v2/slo'.format(url=url),api,{'sloSelector':'name("{sloName}")'.format(sloName = slo["name"])}, logger)
                 try:
                     id = getSlo["slo"][0]["id"]
                     break
                 except:
-                    print("Waiting for ID of the SLO - {name}".format(name = slo["name"]))
+                    logger.info("Waiting for ID of the SLO - {name}".format(name = slo["name"]))
                     time.sleep(1)
         else:
-            print("Unsucessful in generating the SLO - {name}".format(name = slo["name"]))
+            logger.info("Unsucessful in generating the SLO - {name}".format(name = slo["name"]))
             return 0, id
     else:
         id = getSlo["slo"][0]["id"]
-        sloResp = handlePut('{url}/api/v2/slo/{id}'.format(url=url, id=id),api,{},slo)
+        sloResp = handlePut('{url}/api/v2/slo/{id}'.format(url=url, id=id),api,{},slo, logger)
     return sloResp, id
 
 def createSLOs(entityList, url, api):
@@ -209,7 +214,7 @@ def createSLOs(entityList, url, api):
             tempLeft = 0
             tempMarkdown = copy.deepcopy(tile["markDown"])
             for k in metrics[i]:
-                getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame})
+                getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame}, logger)
                 name = cleanUpName(getMetric["result"][0]["data"][0]["dimensions"][0])
                 #try:
                 if(not getMetric["result"][0]["data"][0]["values"]):
@@ -227,7 +232,7 @@ def createSLOs(entityList, url, api):
                     slo["metricExpression"] = metrics[i][k]["slo"]
                 sloResp, id = postSLO(slo, url, api, name, k, i)
                 if(sloResp == 200 or sloResp == 201):
-                    print("Sucessfully generated the slo with id:{id} \n......".format(id=id))
+                    logger.info("Sucessfully generated the slo with id:{id} \n......".format(id=id))
                     tempData = copy.deepcopy(tile["dataExplorer"])
                     tempSlo = copy.deepcopy(tile["slo"])
                     # MarkDown Tile
@@ -272,7 +277,7 @@ def createSLOs(entityList, url, api):
                     tempLeft = tempSlo["bounds"]["left"] + tempSlo["bounds"]["width"]
                     dash["tiles"].append(tempSlo)
                 #except:
-                #   print("There were no values reported for the following entitiySelector:{selector} \n.......".format(selector=entitySelector))
+                #   logger.info("There were no values reported for the following entitiySelector:{selector} \n.......".format(selector=entitySelector))
             top += tile["markDown"]["bounds"]["height"]
     return dash
 
@@ -305,7 +310,7 @@ def dashboardNoSlo(entityList, url, api):
             tempLeft = 0
             tempMarkdown = copy.deepcopy(tile["markDown"])
             for k in metrics[i]:
-                getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame})
+                getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metrics[i][k]["metric"]+":names","entitySelector":entitySelector,"from":timeFrame}, logger)
                 #try:
                 if(not getMetric["result"][0]["data"]):
                     continue
@@ -323,7 +328,7 @@ def dashboardNoSlo(entityList, url, api):
                     tempLeft = tempLeft + tempData["bounds"]["width"]
                     continue
                 name = cleanUpName(getMetric["result"][0]["data"][0]["dimensions"][0])
-                print("Working on: entity:{entity}, type:{type}".format(entity=name,type=k))
+                logger.info("Working on: entity:{entity}, type:{type}".format(entity=name,type=k))
                 tempData = copy.deepcopy(tile["dataExplorer"])
                 # MarkDown Tile
                 tempMarkdown["bounds"]["left"] = left
@@ -362,7 +367,7 @@ def dashboardNoSlo(entityList, url, api):
                     tempData["visualConfig"]["thresholds"][0]["rules"][2]["value"] = passV
                 dash["tiles"].append(tempData)
                 #except:
-                #   print("There were no values reported for the following entitiySelector:{selector} \n.......".format(selector=entitySelector))
+                #   logger.info("There were no values reported for the following entitiySelector:{selector} \n.......".format(selector=entitySelector))
                 tempLeft = tempData["bounds"]["left"] + tempData["bounds"]["width"]
             top += tile["markDown"]["bounds"]["height"]
     return dash
@@ -383,7 +388,7 @@ def createRelease(id, type, url, api, entityList):
             release["entitySelector"] = release["entitySelector"].format(type="PROCESS_GROUP_INSTANCE")
         else:
             release["entitySelector"] = release["entitySelector"].format(type="SERVICE")
-        print(json.dumps(release, indent=2))
+        logger.info(json.dumps(release, indent=2))
         postRelease(url, api, release)
     elif(type == "service"):
         if(entityList["PROCESS_GROUP_INSTANCE"]):
@@ -402,12 +407,12 @@ def createRelease(id, type, url, api, entityList):
             for i in entityList["PROCESS_GROUP_INSTANCE"]:
                 tempRelease = copy.deepcopy(release)
                 tempRelease["entitySelector"] = tempRelease["entitySelector"].format(type = 'PROCESS_GROUP_INSTANCE',id = 'entityId({id})'.format(id=i["id"]))
-                print(json.dumps(tempRelease, indent=2))
+                logger.info(json.dumps(tempRelease, indent=2))
                 postRelease(url, api, tempRelease)
 
 def postRelease(url, api, release):
-    print("POST Release({name}); Entity:{entity}, Version:{version}, Project:{project}".format(name=release["properties"]["dt.event.deployment.name"], entity=release["entitySelector"], version = release["properties"]["dt.event.deployment.version"],project=release["properties"]["dt.event.deployment.project"]))
-    handlePost('{url}/api/v2/events/ingest'.format(url=url), api, {}, release)
+    logger.info("POST Release({name}); Entity:{entity}, Version:{version}, Project:{project}".format(name=release["properties"]["dt.event.deployment.name"], entity=release["entitySelector"], version = release["properties"]["dt.event.deployment.version"],project=release["properties"]["dt.event.deployment.project"]))
+    handlePost('{url}/api/v2/events/ingest'.format(url=url), api, {}, release, logger)
 
 def createDashboard(dash, url, api):
     dash["dashboardMetadata"]["name"] = dash["dashboardMetadata"]["name"].format(project = project,version=version,stage=stage,product=product)
@@ -420,7 +425,7 @@ def createDashboard(dash, url, api):
     dash["dashboardMetadata"]["tags"][4] = dash["dashboardMetadata"]["tags"][4].format(product=product)
     dash["dashboardMetadata"]["dashboardFilter"]["timeframe"] = timeFrame
 
-    getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project),"tags":"stage:{stage}".format(stage=stage),"tags":"product:{product}".format(product=product)})
+    getDashboard = handleGet("{url}/api/config/v1/dashboards".format(url=url),api,{"tags":"auto-release","tags":"project:{project}".format(project=project),"tags":"stage:{stage}".format(stage=stage),"tags":"product:{product}".format(product=product)}, logger)
 
     name = "[Release-CA] {project}-{stage}-{product}".format(project = project,stage=stage,product=product)
     id = ""
@@ -431,22 +436,22 @@ def createDashboard(dash, url, api):
             id = i["id"]
     if(id):
         dash["id"] = id
-        resp = handlePut("{url}/api/config/v1/dashboards/{id}".format(url=url,id=id),api,{},dash)
+        resp = handlePut("{url}/api/config/v1/dashboards/{id}".format(url=url,id=id),api,{},dash, logger)
         if(resp < 400):
-            print("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
+            logger.info("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
 
     else:
-        resp = handlePost("{url}/api/config/v1/dashboards".format(url=url),api,{},dash)
+        resp = handlePost("{url}/api/config/v1/dashboards".format(url=url),api,{},dash, logger)
         if(resp < 400):
-            print("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
+            logger.info("Succesfully updated the Release-CA dasbhoard for the project:{project}, stage:{stage}, product:{product}. Old Version:{oldVersion} -> New Version:{version}".format(project=project,oldVersion=oldVersion,version=version,stage=stage,product=product))
 
 def releaseauto():
     api = {'Accept': 'application/json; charset=utf-8', 'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}
-    print("Reaching out to Dynatrace ({url})".format(url = url))
+    logger.info("Reaching out to Dynatrace ({url})".format(url = url))
     resultCheckId, tempId = checkId(id)
 
-    print("---------------------------------------------------")
-    print("Checking for matching entities, the type:{type}, with id: {id}".format(type=resultCheckId, id=tempId))
+    logger.info("---------------------------------------------------")
+    logger.info("Checking for matching entities, the type:{type}, with id: {id}".format(type=resultCheckId, id=tempId))
     entityList = {}
     if('service' == resultCheckId):
         entityList = getEntityList(tempId, resultCheckId, 'fromRelationships.runsOnProcessGroupInstance,fromRelationships.runsOn', url, api)
@@ -457,32 +462,32 @@ def releaseauto():
     else:
         entityList = getEntityList(tempId, resultCheckId, '', url, api)
     if(entityList):
-        print("Found the following entities: ")
-        print(json.dumps(entityList,indent=1))
+        logger.info("Found the following entities: ")
+        logger.info(json.dumps(entityList,indent=1))
 
-        print("---------------------------------------------------")
-        print("Posting releases with the following values; project:{project}, version:{version}, stage:{stage}, remUrl:{remUrl}".format(project=project, stage=stage, version=version, remUrl=remUrl))
+        logger.info("---------------------------------------------------")
+        logger.info("Posting releases with the following values; project:{project}, version:{version}, stage:{stage}, remUrl:{remUrl}".format(project=project, stage=stage, version=version, remUrl=remUrl))
         createRelease(tempId, resultCheckId, url, api, entityList)
         if(not autoSlo):
-            print("---------------------------------------------------")
-            print("Creating SLOs")
+            logger.info("---------------------------------------------------")
+            logger.info("Creating SLOs")
             dash = createSLOs(entityList, url, api)
             if(dash and not autoDash):
-                print("---------------------------------------------------")
-                print("Creating Auto Release Dashboard")
+                logger.info("---------------------------------------------------")
+                logger.info("Creating Auto Release Dashboard")
                 createDashboard(dash, url, api)
             else:
-                print("To automatically gernerate Dashboard, add the -dashbord or --auto-dashboard parameter.")
+                logger.info("To automatically gernerate Dashboard, add the -dashbord or --auto-dashboard parameter.")
         elif(not autoDash):
-            print("---------------------------------------------------")
-            print("Creating Auto Release Dashboard")
+            logger.info("---------------------------------------------------")
+            logger.info("Creating Auto Release Dashboard")
             dash = dashboardNoSlo(entityList, url, api)
             createDashboard(dash,url,api)
         else:
-            print("To automatically generate a dashboard, add the -dasbhoard or --auto-dashboard parameter")
-            print("To automatically generate SLOs, add the -slo or --auto-slo parameter.")
+            logger.info("To automatically generate a dashboard, add the -dasbhoard or --auto-dashboard parameter")
+            logger.info("To automatically generate SLOs, add the -slo or --auto-slo parameter.")
     else:
-        print("No entities matched the identifier, not able to post release.")
+        logger.info("No entities matched the identifier, not able to post release.")
 
 if __name__ == "__main__":
     releaseauto()
