@@ -1,8 +1,4 @@
-## Disclaimer
-These projects are not supported by Dynatrace. 
-
-Any issues please utilize github issues. 
-We will try our best to get to your issues.
+> **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
 
 # Gitlab DevOps Pipeline integrated with Dynatrace
 This project provides a plug-and-go Gitlab pipeline integrated with Dynatrace. Included are stages to monitor a release, validate a deployment and release with Dynatrace.
