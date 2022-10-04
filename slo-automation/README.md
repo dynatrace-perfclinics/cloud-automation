@@ -1,3 +1,5 @@
+> **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
+
 # SLO Automation
 
 This is a cloud automation project that automates the creation of SLOs for Application, Key User Action, Service, Service Method entity types. It's possible to create both performance and availability based SLOs.
