@@ -5,18 +5,27 @@
 This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
 
 ## Prerequisites
-    python and what modules here
+
+python and what modules here
+
 ## Usage
-    screenshots of it being used and the outputs, etc. here
+
+screenshots of it being used and the outputs, etc. here
+
 ### Arguments
-  
+
+
+
 #### Required:
+
     sonarqube-url (su) - SonarQube Base URL without trailing slash, Example: https://sonarqube.company.com 
     sonarqube-token (st) - SonarQube API Token
     sonarqube-component (c) - SonarQube Identifier for which project's data will be attained
     dynatrace-url (du) - Dynatrace Base URL without trailing slash, Example: https://dynatrace.company.com
     dynatrace-token (dt) - Dynatrace token
+    
 #### Optional:
+
     sonarqube-metrickeys (m) - List of values cooresponding to which metricKeys are desired from the SonarQube API, this will default to all available metrics if none are provided
     sonarqube-branch (b) - Branch name in SonarQube to pull data for
     additional-dimensions (d) - Optional additional dimensions in a comma separated list (Ex. component.line_of_business='IT',component.portfolio='')
