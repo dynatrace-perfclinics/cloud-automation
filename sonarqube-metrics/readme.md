@@ -3,9 +3,9 @@
 # Ingesting SonarQube metrics into Dynatrace
 
 ## Prerequisites
-
+    python and what modules here
 ## Usage
-
+    screenshots of it being used and the outputs, etc. here
 ### Arguments
   
 #### Required:
