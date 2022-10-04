@@ -1,4 +1,8 @@
-import requests, json, io, os, yaml, copy, math
+import requests, json, io, os, yaml, copy, math, logging, sys
+
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - SLO Automation')
+logger.setLevel("INFO")
 
 def main():
     config = getFileJSON("config/config.json")
@@ -11,10 +15,10 @@ def main():
         url,token,name = verifyEnvironment(env, i)
         cleanSlo = getSlo(url, token)
         slos = loadSlosYaml(config["slos"],config["customer"],config["service"],name)
-        #print(json.dumps(slos, indent=2))
+        #logger.info(json.dumps(slos, indent=2))
         dash = copy.deepcopy(config["dash"])
         finalDashboard = buildDashboard(cleanSlo, slos, dash, config["customers"], config["dashes"], config["dashLine"], config["line"], config["services"], config["slas"], config["indicators"])
-        #print(json.dumps(finalDashboard, indent=2))
+        #logger.info(json.dumps(finalDashboard, indent=2))
         buildProject(finalDashboard, name)
 
 def loadSlosYaml(slos,customer,service,name):
@@ -39,7 +43,7 @@ def loadSlosYaml(slos,customer,service,name):
                                     metric = getValue("name", mTemp[key])
                                     responseTime = getValue("responseTime", mTemp[key])
                                 else:
-                                    print("The env:{name} was not found in the config:{key} in this project:{proj} \nThe calcMetric parameter should reference the correct env.".format(name=name, key=key, proj = '{dir}\\{i}\\{j}\\{k}'.format(dir = dir, i=i, j=j, k=slos[i][j][0])))
+                                    logger.error("The env:{name} was not found in the config:{key} in this project:{proj} \nThe calcMetric parameter should reference the correct env.".format(name=name, key=key, proj = '{dir}\\{i}\\{j}\\{k}'.format(dir = dir, i=i, j=j, k=slos[i][j][0])))
                                     break
                             cust = getValue("customerGroup", slo[key])
                             svc = getValue("service", slo[key])
@@ -128,7 +132,7 @@ def buildDashboard(cleanSlo, slos, dash, cust, dashes, dashLine, line, service, 
             addCS(service, top, j, slos[i]["service"][j]["image"],dash)
             for k in range(len(slos[i]["service"][j]["indicators"])):
                  if slos[i]["service"][j]["indicators"][k]["name"] not in cleanSlo:
-                    print("Couldn't add the following SLI or SLO tile to dashboard : {sloName}. Try running monaco again.".format(sloName = slos[i]["service"][j]["indicators"][k]["name"]))
+                    logger.error("Couldn't add the following SLI or SLO tile to dashboard : {sloName}. Try running monaco again.".format(sloName = slos[i]["service"][j]["indicators"][k]["name"]))
                     continue
                  else:
                     #addCS(service, top, j, slos[i]["service"][j]["image"],dash)
@@ -227,13 +231,13 @@ def getSlo(url, apiToken):
     except requests.exceptions.HTTPError as err:
         raise SystemExit(err)
     except requests.exceptions.Timeout as err:
-        print("The request timed out. Couldn't reach - {url}".format(url = url))
+        logger.error("The request timed out. Couldn't reach - {url}".format(url = url))
         raise SystemExit(err)
     except requests.exceptions.ConnectionError as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error("The URL was malformed - {url}".format(url = url))
         raise SystemExit(err)
     except requests.exceptions.TooManyRedirects as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error("The URL was malformed - {url}".format(url = url))
         raise SystemExit(err)
     cleanSlo = {}
     for i in slo["slo"]:
@@ -256,7 +260,7 @@ def getFileYAML(fileName):
           fileYAML = yaml.safe_load(stream)
           return fileYAML
         except yaml.YAMLError as err:
-          print(err)
+          logger.error(err)
           return None
 
 def getFileJSON(fileName):
@@ -264,7 +268,7 @@ def getFileJSON(fileName):
         try:
           fileJSON = json.loads(stream.read())
         except ValueError as err:
-            print(err)
+            logger.error(err)
     return fileJSON
 
 if __name__ == "__main__":

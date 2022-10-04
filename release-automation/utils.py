@@ -59,7 +59,6 @@ def handlePut(url, header, x, y, logger):
         logger.debug(f"handlePut: {url}")
         logger.debug(json.dumps(y, indent=2))
         post = requests.put(url, headers=header, params=x, data=json.dumps(y))
-        logger.debug(json.dumps(post.json(), indent=2))
         logger.debug(post.status_code)
         post.raise_for_status()
         return(post.status_code)

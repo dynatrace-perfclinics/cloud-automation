@@ -1,4 +1,4 @@
-import requests, json, os, yaml, copy, subprocess, base64
+import requests, json, os, yaml, copy, subprocess, base64, logging, sys
 from argparse import ArgumentParser
 from statistics import mean
 from utils import handleGet, handlePut, handlePost, getFileYAML, getFileJSON, prepareMonaco, addToCa, prepareCA, buildProject, getConfig, validateInput, getMzId, getApplication, getUAType, setMetricKey, getMetric
@@ -14,8 +14,14 @@ parser.add_argument("-caTenant", "--cloud-automation-tenant", dest="caTenant", h
 parser.add_argument("-caToken", "--cloud-automation-token", dest="caToken", help="CloudAutomation Token", required=True)
 parser.add_argument("-dtUrl", "--dynatrace-url", dest="dtUrl", help="Dynatrace URL (https://*.live.com)", required=True)
 parser.add_argument("-dtToken", "--dynatrace-api-token", dest="dtToken", help="Dynatrace API Token", required=True)
+parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","ERROR"],default="INFO", help="Optional logging levels, default is INFO if nothing is specified")
 
 args = parser.parse_args()
+
+# Logging
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - cloud Automation Evaluation Dashboard')
+logger.setLevel(args.logging)
 
 verifySSL = args.verify
 autoMonaco = args.autoMonaco
@@ -28,14 +34,14 @@ token = args.dtToken
 caBaseUrl = "https://{caTenant}.cloudautomation.{x}".format(caTenant=caTenant,x=url.split(".",1)[1])
 
 def main():
-    base, config, dash = getConfig()
+    base, config, dash = getConfig(logger)
     ca = {}
     if dash:
         for j in dash["dashboards"]:
                 if ('automation' not in j and 'dashboard' not in j) or ('mzName' not in j and 'application' not in j) or ('mzName' in j and 'application' in j):
-                    print("Requirements not met. The config needs at most the following parameters: \nmzName:'MZNAME'\ndashboard:\n   owner:'OWNER'\nautomation:\n   project:'CAPROJECT'\n   stage:'CASTAGE'\n   service:'CASERVICE'")
-                    print("OR")
-                    print("application:'APPNAME'\ndashboard:\n   owner:'OWNER'\nautomation:\n   project:'CAPROJECT'\n   stage:'CASTAGE'\n   service:'CASERVICE'")
+                    logger.info("Requirements not met. The config needs at most the following parameters: \nmzName:'MZNAME'\ndashboard:\n   owner:'OWNER'\nautomation:\n   project:'CAPROJECT'\n   stage:'CASTAGE'\n   service:'CASERVICE'")
+                    logger.info("OR")
+                    logger.info("application:'APPNAME'\ndashboard:\n   owner:'OWNER'\nautomation:\n   project:'CAPROJECT'\n   stage:'CASTAGE'\n   service:'CASERVICE'")
                     continue
                 else:
                     project = j["automation"]["project"]
@@ -53,21 +59,21 @@ def main():
                     weight = validateInput(j, "weight",{"app":1,"service":1,"infra":1})
                     keySli = validateInput(j, "keySli",{"app":"false","service":"false","infra":"false"})
 
-                    print("Reaching out to Dynatrace Environment - ({apiurl})".format(apiurl=url))
+                    logger.info("Reaching out to Dynatrace Environment - ({apiurl})".format(apiurl=url))
                     tempDash = copy.deepcopy(base)
                     if 'application' in j:
-                        appId = getApplication(url, token, j['application'], timeFrame, verifySSL)
+                        appId = getApplication(url, token, j['application'], timeFrame, verifySSL, logger)
                         if not appId or len(appId["entities"]) != 1:
-                            print("No application was found with the name: {app}".format(app = j["application"]))
-                            print("***********************************")
+                            logger.info("No application was found with the name: {app}".format(app = j["application"]))
+                            logger.info("***********************************")
                             continue
                         if 'error' in appId:
-                            print("Couldn't compelte request. {error}".format(error = appId["error"]))
-                            print("***********************************")
+                            logger.info("Couldn't compelte request. {error}".format(error = appId["error"]))
+                            logger.info("***********************************")
                             continue
                         else:
-                            print("Validated Application ({app}) with id={id}".format(app=j["application"], id = appId["entities"][0]["entityId"]))
-                            print("***********************************")
+                            logger.info("Validated Application ({app}) with id={id}".format(app=j["application"], id = appId["entities"][0]["entityId"]))
+                            logger.info("***********************************")
                             topUa = getTopUA(url, token, j['application'], timeFrame)
                             num, count = configAppDash(tempDash,topUa)
                             entitySelector = "type(application_method),entityId({id}),fromRelationShip.isApplicationMethodOf(type(application),entityName({app}))".format(app=j["application"], id="{id}")
@@ -78,20 +84,20 @@ def main():
                                                                   {"total_pass":total_pass},{"appName":j['application']},{"total_warn":total_warn},{"caUrl":caBaseUrl + "/bridge/project/{name}/service".format(name=project)}]}
                             del finalDash["dashboardMetadata"]["dashboardFilter"]["managementZone"]
 
-                            projectDir = buildProject(finalDash, metricKey, dashboardYaml, project, stage, service)
+                            projectDir = buildProject(finalDash, metricKey, dashboardYaml, project, stage, service, logger)
                     else:
                         mzName = j["mzName"]
-                        mzId = getMzId(mzName, url, token, verifySSL)
+                        mzId = getMzId(mzName, url, token, verifySSL, logger)
                         if not mzId:
-                            print("The mzName : {mz} is invalid. It didn't match any existing mz in the env: {name}".format(mz=mzName,name=url))
-                            print("***********************************")
+                            logger.info("The mzName : {mz} is invalid. It didn't match any existing mz in the env: {name}".format(mz=mzName,name=url))
+                            logger.info("***********************************")
                             continue
                         if 'error' in mzId:
-                            print("Couldn't compelte request. {error}".format(error = mzId["error"]))
-                            print("***********************************")
+                            logger.info("Couldn't compelte request. {error}".format(error = mzId["error"]))
+                            logger.info("***********************************")
                             continue
-                        print("Validated Management Zone ({mzName}) with id={mzId}".format(mzName=mzName,mzId=mzId))
-                        print("***********************************")
+                        logger.info("Validated Management Zone ({mzName}) with id={mzId}".format(mzName=mzName,mzId=mzId))
+                        logger.info("***********************************")
                         entitySelector = "type({type}),mzName({mzName})".format(mzName = mzName, type = "{type}")
                         tempDash["tiles"].extend(config[technology]["dash"])
                         finalDash, metricKey = calculatePass(tempDash,entitySelector,copy.deepcopy(config[technology]["count"]),config[technology]["num"],url,token,timeFrame,mzName,'',baseline,weight,keySli)       
@@ -100,33 +106,33 @@ def main():
                                         {"preset":preset},{"project":project},{"stage":stage},{"service":service},
                                         {"mzId":mzId}, {"mzName":mzName},{"total_pass":total_pass},
                                         {"total_warn":total_warn},{"caUrl":caBaseUrl + "/bridge/project/{name}/service".format(name=project)}]}
-                        projectDir = buildProject(finalDash, metricKey, dashboardYaml, project, stage, service)
-                    print("***********************************")
-                    print("Testing Auto Monaco")
+                        projectDir = buildProject(finalDash, metricKey, dashboardYaml, project, stage, service, logger)
+                    logger.info("***********************************")
+                    logger.info("Testing Auto Monaco")
                     if not autoMonaco:
-                        print("")
-                        prepareMonaco(projectDir)
+                        logger.info("")
+                        prepareMonaco(projectDir, logger)
                     else:
-                        print("")
-                        print("Finished! Review ({projectDir}) and run:".format(projectDir=projectDir))
-                        print(r'monaco --environments=environments.yaml -p={projectDir}/'.format(projectDir=projectDir))
-                    print("***********************************")
+                        logger.info("")
+                        logger.info("Finished! Review ({projectDir}) and run:".format(projectDir=projectDir))
+                        logger.info(r'monaco --environments=environments.yaml -p={projectDir}/'.format(projectDir=projectDir))
+                    logger.info("***********************************")
 
-        print("Testing Auto Cloud Automation")
+        logger.info("Testing Auto Cloud Automation")
         if not autoCloudAutomation:
-                print("Reaching out to Cloud Automation - ({caBaseUrl})".format(caBaseUrl = caBaseUrl))
-                prepareCA(ca, project, service, stage, caBaseUrl, caToken, verifySSL)
+                logger.info("Reaching out to Cloud Automation - ({caBaseUrl})".format(caBaseUrl = caBaseUrl))
+                prepareCA(ca, project, service, stage, caBaseUrl, caToken, verifySSL, logger)
         else:
-            print("Before the SLI Evaluation can be ran, create the cloud automation project with stage and service")
-        print("***********************************")
+            logger.info("Before the SLI Evaluation can be ran, create the cloud automation project with stage and service")
+        logger.info("***********************************")
     else:
-            print("Add the dashboard configurations you'd like a dashboard created for in config/config.yaml")
+            logger.info("Add the dashboard configurations you'd like a dashboard created for in config/config.yaml")
 
 def getTopUA(url, token, app, timeFrame):
     ua = []
     tempData = []
-    getUAType("xhr",app, tempData, url, token, timeFrame, verifySSL)
-    getUAType("load",app, tempData, url, token, timeFrame, verifySSL)
+    getUAType("xhr",app, tempData, url, token, timeFrame, verifySSL, logger)
+    getUAType("load",app, tempData, url, token, timeFrame, verifySSL, logger)
     tempData = sorted(tempData, key = lambda i: i["values"][0],reverse=True)
     for i in range(10):
         try:
@@ -139,7 +145,7 @@ def getTopUA(url, token, app, timeFrame):
 def configAppDash(tempDash, topUa):
     tempGraph = []
     tempSing = []
-    app = getFileJSON("config/app.json")
+    app = getFileJSON("config/app.json", logger)
     tempDash["tiles"].extend(app["dash"])
     tempSing.extend(app["app_sing"])
     tempGraph.extend(app["app_graph"])
@@ -185,9 +191,9 @@ def calculatePass(dash, entitySelector, count, num, url, token, timeFrame, mzNam
     metricKey = []
     totalTiles = len(dash["tiles"])
     startIndex = count
-    print("Calculating Baseline for {totalTiles} dashboard tiles! ".format(totalTiles=(totalTiles-startIndex)))
+    logger.info("Calculating Baseline for {totalTiles} dashboard tiles! ".format(totalTiles=(totalTiles-startIndex)))
     while count < totalTiles:
-        print("Progress: {count} of {totalTiles}".format(count=count-startIndex+1,totalTiles=totalTiles-startIndex))
+        logger.info("Progress: {count} of {totalTiles}".format(count=count-startIndex+1,totalTiles=totalTiles-startIndex))
         metric = dash["tiles"][count]["queries"][0]["metric"]
         agg = ":{a}".format(a=dash["tiles"][count]["queries"][0]["spaceAggregation"])
         if "PERCENTILE" in agg:
@@ -253,10 +259,10 @@ def calculatePass(dash, entitySelector, count, num, url, token, timeFrame, mzNam
     return dash, metricKey
 
 def getData(entitySelector, metric, url, token, timeFrame, num, count, dash, percent, warn, metricKey, weight, keySli):
-    resp = handleGet("{url}/api/v2/metrics/query".format(url=url), {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}, {"from":timeFrame,"resolution":"inf","metricSelector":metric,"entitySelector":entitySelector}, verifySSL)
+    resp = handleGet("{url}/api/v2/metrics/query".format(url=url), {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}, {"from":timeFrame,"resolution":"inf","metricSelector":metric,"entitySelector":entitySelector}, verifySSL, logger)
     if 'error' in resp:
-        print("Couldn't complete request. {error}".format(error=resp["error"]))
-        print("***********************************")
+        logger.info("Couldn't complete request. {error}".format(error=resp["error"]))
+        logger.info("***********************************")
         exit()
     key = dash["tiles"][count]["name"].split("sli=")[1].split(";")[0]
     if resp["result"][0]["data"]:

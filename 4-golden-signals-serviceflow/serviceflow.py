@@ -1,4 +1,4 @@
-import os, copy, json
+import os, copy, json, logging, sys
 from typing import Dict
 from argparse import ArgumentParser
 from utils import prepareMonaco, createCADashboardProject, handleGet, getFileJSON
@@ -21,8 +21,8 @@ parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","
 args = parser.parse_args()
 
 # Logging
-logging.basicConfig(stream=sys.stderr, format="[%(levelname)s] %(asctime)s - %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
-logger = logging.getLogger('Dynatrace Automation Bootstrap - Release Automation')
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - 4 Golden Signal Service Flow')
 logger.setLevel(args.logging)
 
 url = args.dtUrl

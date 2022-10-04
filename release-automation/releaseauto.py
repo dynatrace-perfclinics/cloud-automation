@@ -30,7 +30,7 @@ parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","
 args = parser.parse_args()
 
 # Logging
-logging.basicConfig(stream=sys.stderr, format="[%(levelname)s] %(asctime)s - %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
 logger = logging.getLogger('Dynatrace Automation Bootstrap - Release Automation')
 logger.setLevel(args.logging)
 

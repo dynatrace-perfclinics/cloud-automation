@@ -81,5 +81,5 @@ This will contain dashboard.json and dashboard.yaml
 
 4. Use SLO Monaco to generate the SLO Dashboards (in SLO-Monaco directory)
 ```bash
-monaco --environments=environments.yaml -p="{ENV NAME}-dashboard/"
+monaco --environments=environments.yaml -p="/" {ENV NAME}-dashboard
 ```
