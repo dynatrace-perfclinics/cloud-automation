@@ -1,7 +1,7 @@
 ## Disclaimer
-These projects are not supported by Dynatrace.
+This script is not supported by Dynatrace.
 
-Any issues please utilize github issues. We will try our best to get to your issues.
+Please utilize github issues for any issues that arrise. We will try our best to get to your issues in a timely manner.
 
 # Ingesting SonarQube metrics into Dynatrace
 
