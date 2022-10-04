@@ -1,3 +1,18 @@
-WORK IN PROGRESS!!
+# Ingesting SonarQube metrics into Dynatrace
 
-Will contain scripts and guidance to push SonarQube Metrics into Dynatrace to be used by Dynatrace Cloud Automation as part of Release Validation
+## Arguments
+  
+### Required:
+    sonarqube-url (su) - 
+    sonarqube-token (st) - 
+    sonarqube-component (c) - 
+    dynatrace-url (du) - 
+    dynatrace-token (dt) - 
+### Optional:
+    sonarqube-metrickeys (m) - 
+    sonarqube-branch (b) - 
+    additional-dimensions (d) - 
+    ignore-warnings (i) - 
+    logging (l) - 
+    
+## Usage
