@@ -6,14 +6,16 @@ This script uses the SonarQube API to gather requested project data, reformats t
 
 ## Prerequisites
 
-* SonarQube API token
-* To execute this script successfully, you need a Dynatrace access token with Ingest metrics (```metrics.ingest```) scope
+To execute this script successfully you will need all of the following prereqs:
+* SonarQube API token with FILL IN HERE permissions
+> More info on generating this token can be found in the [SonarQube Token Documentation](FILL IN HERE)
+* Dynatrace access token with the Ingest metrics (```metrics.ingest```) scope
 > More info on creating this token can be found in the [Dynatrace API Tokens Docs](https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication)
-* Python installed on the machine with the dependencies available
+* Python installed on the machine with the dependencies available MAKE requirements.txt FILE and describe its use here
 
 ## Usage
 
-screenshots of it being used and the outputs, etc. here
+screenshots of it being used and the outputs, etc. go here
 
 ### Arguments
 
