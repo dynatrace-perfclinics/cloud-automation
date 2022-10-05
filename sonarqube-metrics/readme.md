@@ -16,11 +16,7 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
 
 ## Usage
 
-screenshots of it being used and the outputs, etc. go here
-
 ### Arguments
-
-
 
 #### Required:
 
@@ -37,4 +33,12 @@ screenshots of it being used and the outputs, etc. go here
     additional-dimensions (d) - Optional additional dimensions in a comma separated list (Ex. component.line_of_business='IT',component.portfolio='')
     ignore-warnings (i) - Flag used to suppress warnings and allow for hitting servers without good certs, defaulted to False as this should never be set to true in a production environment
     logging (l) - Optional logging levels, default is INFO if nothing is specified
-  
+    
+## Successful output with default logging should look similar to below:
+
+```[INFO] Querying SonarQube API for available metrics
+[INFO] Querying SonarQube API for metrics
+[INFO] Processing Data
+[INFO] Processing Data
+[INFO] Processing Data
+[INFO] Sending Metrics to Dynatrace Endpoint
