@@ -11,7 +11,8 @@ To execute this script successfully you will need all of the following prereqs:
 > More info on generating this token can be found in the [SonarQube Token Documentation](https://docs.sonarqube.org/latest/user-guide/user-token/)
 * Dynatrace access token with the Ingest metrics (```metrics.ingest```) scope
 > More info on creating this token can be found in the [Dynatrace API Tokens Docs](https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication)
-* Python installed on the machine with the [required dependencies](https://github.com/trv-dhecker/cloud-automation/blob/main/sonarqube-metrics/requirements.txt) available 
+* Python installed on the machine with the [required dependencies](https://github.com/trv-dhecker/cloud-automation/blob/main/sonarqube-metrics/requirements.txt) available  
+To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirements.txt``` in the environemnet that will execute the script.
 
 ## Usage
 
