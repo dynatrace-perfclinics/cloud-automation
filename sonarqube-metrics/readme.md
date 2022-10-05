@@ -2,15 +2,15 @@
 
 # Ingesting SonarQube metrics into Dynatrace
 
-This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
+This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings as [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
 
 ## Prerequisites
 
-To execute this script successfully you will need all of the following prereqs:
+To execute this script successfully you will need all of the following prerequisites.
 * SonarQube user token for any user that has permission to the data desired. This can be a Global Analysis Token and it should be if this is being used in an automated scenario. 
 > More info on generating this token can be found in the [SonarQube Token Documentation](https://docs.sonarqube.org/latest/user-guide/user-token/)
 * Dynatrace access token with the Ingest metrics (```metrics.ingest```) scope
-> More info on creating this token can be found in the [Dynatrace API Tokens Docs](https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication)
+> More info on creating this token can be found in the [Dynatrace API Authentication Documentation](https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication)
 * Python installed on the machine with the [required dependencies](https://github.com/trv-dhecker/cloud-automation/blob/main/sonarqube-metrics/requirements.txt) available  
 To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirements.txt``` in the environemnet that will execute the script.
 
@@ -33,12 +33,30 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
     additional-dimensions (d) - Optional additional dimensions in a comma separated list (Ex. component.line_of_business='IT',component.portfolio='')
     ignore-warnings (i) - Flag used to suppress warnings and allow for hitting servers without good certs, defaulted to False as this should never be set to true in a production environment
     logging (l) - Optional logging levels, default is INFO if nothing is specified
-    
-## Successful output with default logging should look similar to below:
 
-```[INFO] Querying SonarQube API for available metrics
+### Instructions
+
+maybe just lay out how to call it?
+
+### Example Calls
+
+#### call from command line
+#### call from jenkinsfile
+#### call from github action
+
+#### Successful output with default logging should look similar to below:
+
+```
+[INFO] Querying SonarQube API for available metrics
 [INFO] Querying SonarQube API for metrics
 [INFO] Processing Data
 [INFO] Processing Data
 [INFO] Processing Data
 [INFO] Sending Metrics to Dynatrace Endpoint
+```
+
+#### Successful output with debug logging enabled
+
+```
+insert DEBUG output
+```
