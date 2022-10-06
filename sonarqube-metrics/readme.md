@@ -36,27 +36,24 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
 
 ### Instructions
 
-maybe just lay out how to call it?
+#### Using from command line
 
-### Example Calls
+#### Using from within a Jenkins Pipeline
 
-#### call from command line
-#### call from jenkinsfile
-#### call from github action
+#### Using from GitHub Action
 
-#### Successful output with default logging should look similar to below:
+
+
+
+
+#### Example successful run
 
 ```
-[INFO] Querying SonarQube API for available metrics
-[INFO] Querying SonarQube API for metrics
+> python ./ingest_sonarqube_metrics_into_dynatrace.py -su "https://sonarqube.company.com" -st ***** -c "My_Example_App" -b "main" -du "https://dynatrace.company.com" -dt ***** -d "component.line_of_business='IT',component.portfolio='My_Portfolio'"
+[INFO] Querying SonarQube API for all available metrics
+[INFO] Querying SonarQube API for component specific metrics
 [INFO] Processing Data
 [INFO] Processing Data
 [INFO] Processing Data
 [INFO] Sending Metrics to Dynatrace Endpoint
-```
-
-#### Successful output with debug logging enabled
-
-```
-insert DEBUG output
 ```
