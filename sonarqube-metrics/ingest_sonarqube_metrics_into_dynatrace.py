@@ -30,7 +30,7 @@ def getAllAvailableSonarqubeMetrics(base_sonarqube_url, sonarqube_token): #This 
     sonarqube_metrics_url = base_sonarqube_url + "/metrics/search"
     all_available_metrics = []
     try:
-        logger.info("Querying SonarQube API for available metrics")
+        logger.info("Querying SonarQube API for all available metrics")
         response = requests.get(sonarqube_metrics_url, auth=requests.auth.HTTPBasicAuth(username=sonarqube_token, password=""), verify=not args.ignore_warnings, params='ps=500')
         logger.debug(f"Response back from SonarQube was: {response}")
         response.raise_for_status()
