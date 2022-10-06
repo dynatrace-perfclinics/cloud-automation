@@ -2,7 +2,7 @@
 
 # Ingesting SonarQube metrics into Dynatrace
 
-This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings as [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
+This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings as [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. It was written with the intent of using it as part of an automated CI process, after a SonarQube scan has been completed, in order to use Cloud Automation to gate on SonarQube scan results. 
 
 ## Prerequisites
 
@@ -35,9 +35,7 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
     logging (l) - Optional logging levels, default is INFO if nothing is specified
 ### Instructions
 
-#### Using from command line
-
-Use from command line is straight forward, call the script like you would any other python script. Be sure to privide all required arguments.  
+Use from command line is straight forward, simply call the script like you would any other python script. Be sure to privide all required arguments.  
 Example:
 
 ```
@@ -49,9 +47,3 @@ Example:
 [INFO] Processing Data
 [INFO] Sending Metrics to Dynatrace Endpoint
 ```
-
-#### Using in an automated Pipeline
-
-##### Use from a declarative Jenkins Pipeline
-
-##### Use from a GitHub Action
