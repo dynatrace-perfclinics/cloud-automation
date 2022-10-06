@@ -82,7 +82,7 @@ if args.ignore_warnings:
     requests.packages.urllib3.disable_warnings() #supressing warnings
 
 # Querying SonarQube for metrics
-logger.info("Querying SonarQube API for metrics")
+logger.info("Querying SonarQube API for component specific metrics")
 metrics = ""
 still_more_metric_keys = True #this is used to break up requests into smaller chunks as it seems the SonarQube api fails when asked for too many metrics all at once
 while still_more_metric_keys:
