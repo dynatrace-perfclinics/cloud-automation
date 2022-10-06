@@ -33,20 +33,12 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
     additional-dimensions (d) - Optional additional dimensions in a comma separated list (Ex. component.line_of_business='IT',component.portfolio='')
     ignore-warnings (i) - Flag used to suppress warnings and allow for hitting servers without good certs, defaulted to False as this should never be set to true in a production environment
     logging (l) - Optional logging levels, default is INFO if nothing is specified
-
 ### Instructions
 
 #### Using from command line
 
-#### Using from within a Jenkins Pipeline
-
-#### Using from GitHub Action
-
-
-
-
-
-#### Example successful run
+Use from command line is straight forward, call the script like you would any other python script. Be sure to privide all required arguments.  
+Example:
 
 ```
 > python ./ingest_sonarqube_metrics_into_dynatrace.py -su "https://sonarqube.company.com" -st ***** -c "My_Example_App" -b "main" -du "https://dynatrace.company.com" -dt ***** -d "component.line_of_business='IT',component.portfolio='My_Portfolio'"
@@ -57,3 +49,9 @@ To ensure this run ```pip install -r cloud-automation/sonarqube-metrics/requirem
 [INFO] Processing Data
 [INFO] Sending Metrics to Dynatrace Endpoint
 ```
+
+#### Using in an automated Pipeline
+
+##### Use from a declarative Jenkins Pipeline
+
+##### Use from a GitHub Action
