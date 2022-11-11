@@ -42,7 +42,7 @@ SERVICER = {}
 LEVEL = {}
 HEIGHT = 0
 WIDTH = 0
-def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, entitySelector : str, layerSelector : str, startId : str, index=0, initialLevel=2):
+def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, startId : str, index=0, initialLevel=2):
     global SERVICER, HEIGHT, WIDTH, LEVEL
     if index > HEIGHT:
         HEIGHT = index
@@ -50,22 +50,26 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
     if relationshipCalls is None or index == len(relationshipCalls):
         return None
     else:
+        logger.debug("Current Level - {initialLevel}".format(initialLevel=initialLevel))
+        if initialLevel > 5:
+            return calculateDepthRelationship({"entities":[{"fromRelationships":{"calls":[]}}]}, url, api, callee, startId, 0, initialLevel)
         id = relationshipCalls[index]["id"]
         if id+str(initialLevel) in callee:
-            return calculateDepthRelationship(layer, url, api, callee, entitySelector, entitySelector, startId, index + 1, initialLevel)
-        entitySelector = "type(service),entityId({id}),toRelationships.calls({entitySelector})".format(id = id, entitySelector = entitySelector)
+            return calculateDepthRelationship(layer, url, api, callee, startId, index + 1, initialLevel)
+        entitySelector = "type(service),entityId({id})".format(id = id)
         if sre:
             httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector,"from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"}, logger)
         else:
             httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector+",tag(sre)","from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"}, logger)
         callee[id+str(initialLevel)] = "1"
-        if index > 22 or initialLevel > 9:
-            return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+        logger.debug("Current Index - {index}".format(index=index))
+        if index > 20:
+            return calculateDepthRelationship(httpResult, url, api, callee, startId, 0, initialLevel)
         elif len(httpResult["entities"]) == 0:
             entitySelector = layerSelector
-            calculateDepthRelationship(layer, url, api, callee, entitySelector, entitySelector, startId, index + 1, initialLevel)
+            calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)
         else:
-            calculateDepthRelationship(layer, url, api, callee, layerSelector, layerSelector, startId, index + 1, initialLevel)
+            calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)
             temp = httpResult["entities"][0]
             logger.info("Working on relationships of ({name})".format(name = temp['displayName']))
             logger.info("---")
@@ -81,7 +85,7 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
             if initialLevel > WIDTH:
                 WIDTH = initialLevel
             initialLevel += 1
-            return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+            return calculateDepthRelationship(httpResult, url, api, callee, startId, 0, initialLevel)
 
 def addServiceInOrder(serviceRelation,id,service,requestCount):
     items = list(serviceRelation.items())
@@ -255,7 +259,7 @@ def serviceflow():
         baseline, requestCount = getBaseline(url, api, prop, entityId,timeFrame,warnP,passP)
         SERVICER[1] = {}
         SERVICER[1][entityId] = {'id': entityId, 'name' : displayName,'servicetype': prop,'Calledby': None, "baseline" : baseline}
-        calculateDepthRelationship(resultJ, url, api, callee, entitySelector,entitySelector, entityId)
+        calculateDepthRelationship(resultJ, url, api, callee, entityId)
         logger.info("height: {h}, width: {w}".format(h=HEIGHT,w=WIDTH))
         logger.info("***********************************")
         size = checkSize(HEIGHT, WIDTH)
