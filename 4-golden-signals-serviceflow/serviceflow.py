@@ -131,6 +131,14 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
                 tile["name"] = names[count]
                 tile["queries"][0]["metric"] = k
                 if(j == "nonKeyService"):
+                    if(names[count] == "Errors"):
+                        tile["visualConfig"]["thresholds"][0]["rules"][0]["value"] = 0
+                        tile["visualConfig"]["thresholds"][0]["rules"][1]["value"] = 5
+                        tile["visualConfig"]["thresholds"][0]["rules"][2]["value"] = 10
+                    if(names[count] == "Latency"):
+                        tile["visualConfig"]["thresholds"][0]["rules"][0]["value"] = 0
+                        tile["visualConfig"]["thresholds"][0]["rules"][1]["value"] = 1000000
+                        tile["visualConfig"]["thresholds"][0]["rules"][2]["value"] = 2000000
                     tile["visualConfig"]["type"] = "HONEYCOMB"
                     tile["bounds"]["height"] = 304
                     tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"] = []
@@ -138,7 +146,8 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
                         tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"].append({"value":id,"evaluator":"IN"})
                 else:
                     tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"][0]["value"] = serviceRelation[i][j]["id"]
-                tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
+                if(j != "nonKeyService"):
+                    tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
                 tile["bounds"]["top"] = top
                 tile["bounds"]["left"] = tempLeft
                 dashTemp["dashboard"]["tiles"].append(tile)
