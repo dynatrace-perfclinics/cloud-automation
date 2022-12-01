@@ -2,7 +2,7 @@
 
 # Ingesting SonarQube metrics into Dynatrace
 
-This script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings as [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. It was written with the intent of using it as part of an automated CI process, after a SonarQube scan has been completed, in order to use Cloud Automation to gate on SonarQube scan results. 
+This script uses the [SonarQube API](https://docs.sonarqube.org/latest/extend/web-api/) to gather requested project data, reformats that data into proper ingestable strings as [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. It was written with the intent of using it as part of an automated CI process, after a SonarQube scan has been completed, in order to use Cloud Automation to gate on SonarQube scan results. 
 
 ## Prerequisites
 
