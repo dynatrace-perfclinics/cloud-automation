@@ -1,8 +1,0 @@
-Requests_executed_in_background_threads_of_uemload_jar_loadgen-_:
-- name: '[4-Golden-Signals] Requests_executed_in_background_threads_of_uemload_jar_loadgen-_-serviceflow'
-- owner: arijan.zenuni@dynatrace.com
-- shared: 'true'
-- preset: 'true'
-- timeFrame: now-6h
-config:
-- Requests_executed_in_background_threads_of_uemload_jar_loadgen-_: dashboard.json
