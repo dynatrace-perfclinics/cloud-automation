@@ -99,15 +99,12 @@
             "axisTarget": "LEFT",
             "rules": [
               {
-                "value": 0,
                 "color": "#7dc540"
               },
               {
-                "value": 0,
                 "color": "#f5d30f"
               },
               {
-                "value": 0,
                 "color": "#dc172a"
               }
             ],

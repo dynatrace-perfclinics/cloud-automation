@@ -1,4 +1,4 @@
-import os, copy, json, yaml
+import os, copy, json, yaml, logging, sys
 from statistics import mean
 from argparse import ArgumentParser
 from utils import prepareMonaco, handleGet, getFileJSON
@@ -13,8 +13,14 @@ parser.add_argument("-timeFrame", "--dashboard-timeFrame", dest="timeFrame", hel
 parser.add_argument("-warn", "--warn-percent", dest="warnP", help="Percent at which to be warned via threshold", required=True)
 parser.add_argument("-pass", "--pass-percent", dest="passP", help="Percent at which to be passed via threshold", required=True)
 parser.add_argument("-am","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (missing = false)", action="store_false")
+parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","ERROR"],default="INFO", help="Optional logging levels, default is INFO if nothing is specified")
 
 args = parser.parse_args()
+
+# Logging
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - 4 Golden Signal k8s')
+logger.setLevel(args.logging)
 
 url = args.dtUrl
 token = args.dtToken
@@ -117,7 +123,7 @@ class Baseline():
 
     def setBaseline(self, tile, dash):
         metric = tile.getMetricSelector()
-        getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = self._url), self._api, {"metricSelector":metric,"from":dash.getTimeFrame()})     
+        getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = self._url), self._api, {"metricSelector":metric,"from":dash.getTimeFrame()}, logger)     
         key = tile.getKey()
         sign = tile.getSign()
         if not getMetric["result"][0]["data"]:
@@ -173,29 +179,29 @@ class Baseline():
         return threshold
         
 if __name__ == "__main__":
-    print("Starting 4-golden-signals-k8s CA dashboard")
+    logger.info("Starting 4-golden-signals-k8s CA dashboard")
     dash = Dashboard(owner, timeFrame, shared, preset)
     metrics = getFileJSON("etc/metrics.json")
     baseline = Baseline(warnP, passP, url, token)
     for metric in metrics:
-        print("working on {metric}".format(metric=metric["name"]))
+        logger.info("working on {metric}".format(metric=metric["name"]))
         tile = Tile(metric["metricSelector"],metric["name"],metric["bounds"])
-        print("polling baseline")
+        logger.info("polling baseline")
         baseline.setBaseline(tile, dash)
-        print("adding metric+tile to dashboard")
+        logger.info("adding metric+tile to dashboard")
         dash.addTileToDash(tile)
-        print("----------------")
-    print("***********************************")
-    print("Crating Monaco 4-golden-singals-k8s project")
+        logger.info("----------------")
+    logger.info("***********************************")
+    logger.info("Crating Monaco 4-golden-singals-k8s project")
     project = Project()
     project.createProject(dash)
-    print("***********************************")
-    print("Testing Auto Monaco")
+    logger.info("***********************************")
+    logger.info("Testing Auto Monaco")
     if not autoMonaco:
-        print("")
-        prepareMonaco('k8s-4-golden-signals')
+        logger.info("")
+        prepareMonaco('k8s-4-golden-signals', logger)
     else:
-        print("")
-        print("Finished! Review ({projectDir}) and run:".format(projectDir='k8s-4-golden-signals'))
-        print(r'monaco --environments=environments.yaml {projectDir}/'.format(projectDir='k8s-4-golden-signals'))
-    print("***********************************")
+        logger.info("")
+        logger.info("Finished! Review ({projectDir}) and run:".format(projectDir='k8s-4-golden-signals'))
+        logger.info(r'monaco --environments=environments.yaml {projectDir}/'.format(projectDir='k8s-4-golden-signals'))
+    logger.info("***********************************")
