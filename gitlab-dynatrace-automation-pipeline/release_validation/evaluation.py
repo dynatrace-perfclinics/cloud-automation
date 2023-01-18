@@ -1,4 +1,4 @@
-import json, requests
+import json, requests, logging, sys
 from argparse import ArgumentParser
 from datetime import datetime, timedelta, date
 
@@ -14,7 +14,14 @@ parser.add_argument("-mindiff", dest="minDiff", help="Difference in minutes from
 parser.add_argument("-daydiff", dest="dayDiff", help="Difference in days from start day", required=True)
 parser.add_argument("-daystart", dest="dayStart", help="Start day of evaluation", required=True)
 #parser.add_argument("-startTime", dest="startTime", help="Start day of evaluation", required=True)
+parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","ERROR"],default="INFO", help="Optional logging levels, default is INFO if nothing is specified")
+
 args = parser.parse_args()
+
+# Logging
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - Release Automation')
+logger.setLevel(args.logging)
 
 service = args.service
 stage = args.stage
@@ -33,8 +40,8 @@ def releasevalidation():
     #pDate = cDate + timedelta(days=-dayStart)
     pDate = cDate + timedelta(minutes=-minDiff)
     #pDate = pDate + timedelta(minutes=-minDiff)
-    print("Start Time: {cDate}".format(cDate = cDate.strftime("%Y-%m-%dT%H:%M:%S")))
-    #print("End Time: {pDate}".format(pDate = pDate.strftime("%Y-%m-%dT%H:%M:%S")))
+    logger.info("Start Time: {cDate}".format(cDate = cDate.strftime("%Y-%m-%dT%H:%M:%S")))
+    #logger.info("End Time: {pDate}".format(pDate = pDate.strftime("%Y-%m-%dT%H:%M:%S")))
     
     jsonEvent = {
         "gitCommitId":"asdf123f",
@@ -62,27 +69,28 @@ def releasevalidation():
         "x-token" : token,
         "Content-Type" : "application/json"
     }
-    print(json.dumps(jsonEvent,indent=2))
-    print(handlePost(uri, header, jsonEvent))
+    logger.info(json.dumps(jsonEvent,indent=2))
+    logger.info(handlePost(uri, header, {}, jsonEvent, logger))
 
-def handlePost(url, header, y):
+def handlePost(url, header, x, y, logger):
     try:
-        #print(json.dumps(y))
-        post = requests.post(url, headers=header, data=json.dumps(y))
-        print(json.dumps(post.json()))
-        post.raise_for_status()
-        return post.status_code
+        logger.debug(f"handlePost: {url}")
+        logger.debug(json.dumps(y))
+        post = requests.post(url, headers=header, params=x, data=json.dumps(y))
+        logger.debug(json.dumps(post.json()))
+        logger.debug(post.status_code)
+        return post.status_code, post.headers
     except requests.exceptions.Timeout as err:
-        print("The request timed out. Couldn't reach - {url}".format(url = url))
+        logger.error(f"The request timed out. Couldn't reach - {url}")
         raise SystemExit(err)
     except requests.exceptions.ConnectionError as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except requests.exceptions.TooManyRedirects as err:
-        print("The URL was malformed - {url}".format(url = url))
+        logger.error(f"The URL was malformed - {url}")
         raise SystemExit(err)
     except Exception as e:
-        print(e)
+        logger.error(f"Failed to post to the dynatrace url: {url}, with exception: {e}")
 
 if __name__ == "__main__":
     releasevalidation()

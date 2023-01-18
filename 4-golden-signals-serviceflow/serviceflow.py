@@ -1,4 +1,4 @@
-import os, copy, json
+import os, copy, json, logging, sys
 from typing import Dict
 from argparse import ArgumentParser
 from utils import prepareMonaco, createCADashboardProject, handleGet, getFileJSON
@@ -16,8 +16,14 @@ parser.add_argument("-pass", "--pass-percent", dest="passP", help="Percent at wh
 parser.add_argument("-am","--auto-monaco",dest="autoMonaco",help="Use this to automatically execute monaco to deploy dashboards. (missing = false)", action="store_false")
 parser.add_argument("-sre","--sre-tag",dest="sre",help="Use this to only include services tagged with 'sre' as part of the serviceflow.", action="store_false")
 parser.add_argument("-reqLimit","--request-count-limit",dest="reqLimit",help="Use this to filter high throughput services. (missing = 0)", default=0)
+parser.add_argument("-l", "--logging", action="store", choices=["DEBUG","INFO","ERROR"],default="INFO", help="Optional logging levels, default is INFO if nothing is specified")
 
 args = parser.parse_args()
+
+# Logging
+logging.basicConfig(stream=sys.stderr, format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%Y-%m-%d %H:%M:%S') #Sets logging format to "[LEVEL] log message"
+logger = logging.getLogger('Dynatrace Automation Bootstrap - 4 Golden Signal Service Flow')
+logger.setLevel(args.logging)
 
 url = args.dtUrl
 token = args.dtToken
@@ -36,7 +42,7 @@ SERVICER = {}
 LEVEL = {}
 HEIGHT = 0
 WIDTH = 0
-def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, entitySelector : str, layerSelector : str, startId : str, index=0, initialLevel=2):
+def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, startId : str, index=0, initialLevel=2):
     global SERVICER, HEIGHT, WIDTH, LEVEL
     if index > HEIGHT:
         HEIGHT = index
@@ -44,25 +50,29 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
     if relationshipCalls is None or index == len(relationshipCalls):
         return None
     else:
+        logger.debug("Current Level - {initialLevel}".format(initialLevel=initialLevel))
+        if initialLevel > 5:
+            return calculateDepthRelationship({"entities":[{"fromRelationships":{"calls":[]}}]}, url, api, callee, startId, 0, initialLevel)
         id = relationshipCalls[index]["id"]
         if id+str(initialLevel) in callee:
-            return calculateDepthRelationship(layer, url, api, callee, entitySelector, entitySelector, startId, index + 1, initialLevel)
-        entitySelector = "type(service),entityId({id}),toRelationships.calls({entitySelector})".format(id = id, entitySelector = entitySelector)
+            return calculateDepthRelationship(layer, url, api, callee, startId, index + 1, initialLevel)
+        entitySelector = "type(service),entityId({id})".format(id = id)
         if sre:
-            httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector,"from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"})
+            httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector,"from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"}, logger)
         else:
-            httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector+",tag(sre)","from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"})
+            httpResult = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":entitySelector+",tag(sre)","from":"now-2h","fields":"fromRelationships.calls,properties.serviceType"}, logger)
         callee[id+str(initialLevel)] = "1"
-        if index > 22 or initialLevel > 9:
-            return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+        logger.debug("Current Index - {index}".format(index=index))
+        if index > 20:
+            return calculateDepthRelationship(httpResult, url, api, callee, startId, 0, initialLevel)
         elif len(httpResult["entities"]) == 0:
             entitySelector = layerSelector
-            calculateDepthRelationship(layer, url, api, callee, entitySelector, entitySelector, startId, index + 1, initialLevel)
+            calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)
         else:
-            calculateDepthRelationship(layer, url, api, callee, layerSelector, layerSelector, startId, index + 1, initialLevel)
+            calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)
             temp = httpResult["entities"][0]
-            print("Working on relationships of ({name})".format(name = temp['displayName']))
-            print("---")
+            logger.info("Working on relationships of ({name})".format(name = temp['displayName']))
+            logger.info("---")
             baseline, requestCount = getBaseline(url, api, temp["properties"]['serviceType'], id, timeFrame,warnP,passP)
             if initialLevel in SERVICER:
                 SERVICER[initialLevel] = addServiceInOrder(SERVICER[initialLevel],id,{'id': id, 'name' : temp['displayName'], 'servicetype': temp["properties"]['serviceType'], "requestCount":requestCount, "baseline": baseline},requestCount)
@@ -75,7 +85,7 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, e
             if initialLevel > WIDTH:
                 WIDTH = initialLevel
             initialLevel += 1
-            return calculateDepthRelationship(httpResult, url, api, callee, entitySelector, entitySelector, startId, 0, initialLevel)
+            return calculateDepthRelationship(httpResult, url, api, callee, startId, 0, initialLevel)
 
 def addServiceInOrder(serviceRelation,id,service,requestCount):
     items = list(serviceRelation.items())
@@ -121,6 +131,14 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
                 tile["name"] = names[count]
                 tile["queries"][0]["metric"] = k
                 if(j == "nonKeyService"):
+                    if(names[count] == "Errors"):
+                        tile["visualConfig"]["thresholds"][0]["rules"][0]["value"] = 0
+                        tile["visualConfig"]["thresholds"][0]["rules"][1]["value"] = 5
+                        tile["visualConfig"]["thresholds"][0]["rules"][2]["value"] = 10
+                    if(names[count] == "Latency"):
+                        tile["visualConfig"]["thresholds"][0]["rules"][0]["value"] = 0
+                        tile["visualConfig"]["thresholds"][0]["rules"][1]["value"] = 1000000
+                        tile["visualConfig"]["thresholds"][0]["rules"][2]["value"] = 2000000
                     tile["visualConfig"]["type"] = "HONEYCOMB"
                     tile["bounds"]["height"] = 304
                     tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"] = []
@@ -128,7 +146,8 @@ def create_dashboard(serviceRelation,url, timeFrame, size):
                         tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"].append({"value":id,"evaluator":"IN"})
                 else:
                     tile["queries"][0]["filterBy"]["nestedFilters"][0]["criteria"][0]["value"] = serviceRelation[i][j]["id"]
-                tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
+                if(j != "nonKeyService"):
+                    tile["visualConfig"]["thresholds"][0]["rules"] = serviceRelation[i][j]["baseline"][k]
                 tile["bounds"]["top"] = top
                 tile["bounds"]["left"] = tempLeft
                 dashTemp["dashboard"]["tiles"].append(tile)
@@ -165,7 +184,7 @@ def getBaseline(url, api, serviceType, id, timeFrame, warnP, passP):
         metricSelector = "builtin:service.response.time,builtin:service.requestCount.total,builtin:service.dbconnections.failureRate,builtin:service.dbconnections.total"
     else:
         metricSelector = "builtin:service.response.time,builtin:service.requestCount.total,builtin:service.errors.total.rate,builtin:service.cpu.perRequest"
-    getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metricSelector,"resolution":"INF","entitySelector":"type(service),entityId({id})".format(id=id),"from":timeFrame})
+    getMetric = handleGet('{url}/api/v2/metrics/query'.format(url = url), api, {"metricSelector":metricSelector,"resolution":"INF","entitySelector":"type(service),entityId({id})".format(id=id),"from":timeFrame}, logger)
     if "result" in getMetric:
         for i in getMetric["result"]:
             if not i["data"]:
@@ -203,7 +222,7 @@ def checkSize(height, width):
     elif height<= 33 and width <= 9: 
         return "small"
     else:
-        print("The serviceflow is too big to dashboard")
+        logger.info("The serviceflow is too big to dashboard")
         return None
 
 def checkKeyOrder(serviceRelation, reqLimit, level):
@@ -235,43 +254,43 @@ def checkKeyOrder(serviceRelation, reqLimit, level):
 def serviceflow():
     global SERVICER,HEIGHT,WIDTH
     api = {'Content-Type': 'application/json', 'Authorization' : "Api-Token {token}".format(token=token)}
-    print("Reaching out to Dynatrace ({url})".format(url = url))
-    resultJ = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),entityId({id})".format(id=id),"from":timeFrame,"fields":"fromRelationships.calls,properties.serviceType"})
+    logger.info("Reaching out to Dynatrace ({url})".format(url = url))
+    resultJ = handleGet('{url}/api/v2/entities'.format(url = url), api, {"entitySelector":"type(service),entityId({id})".format(id=id),"from":timeFrame,"fields":"fromRelationships.calls,properties.serviceType"}, logger)
     if resultJ["entities"]:
         displayName = resultJ["entities"][0]["displayName"]
         entityId = resultJ["entities"][0]["entityId"]
         prop = resultJ["entities"][0]["properties"]["serviceType"]
 
         svcName = displayName.replace(":","_").replace("/","_").replace(" ","_").replace("*","_").replace(".","_")
-        print("Building Service Flow Relation for ({svc})".format(svc = svcName))
+        logger.info("Building Service Flow Relation for ({svc})".format(svc = svcName))
         callee = {entityId:"1"}
         entitySelector = "type(service),entityId({id})".format(id=entityId)
         baseline, requestCount = getBaseline(url, api, prop, entityId,timeFrame,warnP,passP)
         SERVICER[1] = {}
         SERVICER[1][entityId] = {'id': entityId, 'name' : displayName,'servicetype': prop,'Calledby': None, "baseline" : baseline}
-        calculateDepthRelationship(resultJ, url, api, callee, entitySelector,entitySelector, entityId)
-        print("height: {h}, width: {w}".format(h=HEIGHT,w=WIDTH))
-        print("***********************************")
+        calculateDepthRelationship(resultJ, url, api, callee, entityId)
+        logger.info("height: {h}, width: {w}".format(h=HEIGHT,w=WIDTH))
+        logger.info("***********************************")
         size = checkSize(HEIGHT, WIDTH)
         if not size:
             exit()
         serviceRelation = checkKeyOrder(SERVICER, reqLimit, LEVEL)
-        print("Building Service Flow Dashboard Project for ({svc})".format(svc = svcName))
+        logger.info("Building Service Flow Dashboard Project for ({svc})".format(svc = svcName))
         finalDash = create_dashboard(serviceRelation, url, timeFrame, size)
         projectDir = buildProject("{}".format(svcName),owner,shared,preset,timeFrame,finalDash)
-        print("***********************************")
+        logger.info("***********************************")
     
-        print("Testing Auto Monaco")
+        logger.info("Testing Auto Monaco")
         if not autoMonaco:
-            print("")
-            prepareMonaco(projectDir)
+            logger.info("")
+            prepareMonaco(projectDir, logger)
         else:
-            print("")
-            print("Finished! Review ({projectDir}) and run:".format(projectDir=projectDir))
-            print(r'monaco --environments=environments.yaml {projectDir}/'.format(projectDir=projectDir))
-        print("***********************************")
+            logger.info("")
+            logger.info("Finished! Review ({projectDir}) and run:".format(projectDir=projectDir))
+            logger.info(r'monaco --environments=environments.yaml {projectDir}/'.format(projectDir=projectDir))
+        logger.info("***********************************")
     else:
-        print("The service with id:{id}, wasn't found.OR there hasn't been traffic in the last 2 hours.".format(id=id))
+        logger.info("The service with id:{id}, wasn't found.OR there hasn't been traffic in the last 2 hours.".format(id=id))
 
 if __name__ == "__main__":
     serviceflow()

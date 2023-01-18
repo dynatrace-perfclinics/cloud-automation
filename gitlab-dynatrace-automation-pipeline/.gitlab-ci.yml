@@ -5,19 +5,19 @@ stages:
   - release-validation
 
 variables:
-  PROJECT: {PROJECT}
-  STAGE: {STAGE}
-  PRODUCT: {PRODUCT}
-  VERSION: {VERSION}
+  PROJECT: awa64997-easytravelv2
+  STAGE: quality-gate
+  PRODUCT: www
+  VERSION: 1.1.3
   BUILDID: $CI_JOB_ID
-  DTTOKEN: $DTTOKEN #create a gitlab stored variable
-  DTSYNTHETICTOKEN: $DTSYNTHETICTOKEN #create a gitlab stored variable
-  DTURL: $DTURL #create a gitlab stored variable
-  CATOKEN: $CATOKEN #create a gitlab stored variable
-  CAURL: $CAURL #create a gitlab stored variable
-  IDENTIFIER: "tag1:key1,tag2:key2"
+  DTTOKEN: $DTTOKEN
+  DTSYNTHETICTOKEN: $DTSYNTHETICTOKEN
+  DTURL: $DTURL
+  CATOKEN: $CATOKEN
+  CAURL: "https://awa64997.cloudautomation.sprint.dynatracelabs.com"
+  IDENTIFIER: "[Kubernetes]app:easytravel-www"
   REMURL: https://url.com1
-  OWNER: {OWNER}
+  OWNER: arijan.zenuni@dynatrace.com
   SHARED: "true"
   PRESET: "true"
   TIMEFRAME: now-30m
@@ -25,10 +25,10 @@ variables:
   DAYDIFF: 0
   DAYSTART: 0
   PASS: "100"
-  #SLO: ""
-  #DASHBOARD: ""
-  SLO: "-slo"
+  SLO: ""
+  #SLO: "-slo"
   DASHBOARD: "-dashboard"
+  LOGGER: "INFO" #INFO,DEBUG,ERROR
 
 deploy:
   stage: deploy
@@ -43,7 +43,7 @@ release-automation:
     - pip install --upgrade pip
     - pip install -r stable-req.text
     #- python releaseauto.py -dtUrl $DTURL -dtToken $DTTOKEN -identifier $IDENTIFIER -ver $VERSION -proj $PROJECT -product $PRODUCT -stage $STAGE -remUrl $REMURL -owner $OWNER -shared $SHARED -preset $PRESET -timeFrame $TIMEFRAME -pass $PASS -slo -dashboard
-    - python releaseauto.py -dtUrl $DTURL -dtToken $DTTOKEN -identifier $IDENTIFIER -ver $VERSION -proj $PROJECT -product $PRODUCT -stage $STAGE -remUrl $REMURL -owner $OWNER -shared $SHARED -preset $PRESET -timeFrame $TIMEFRAME -pass $PASS $SLO $DASHBOARD
+    - python releaseauto.py -dtUrl $DTURL -dtToken $DTTOKEN -identifier $IDENTIFIER -ver $VERSION -proj $PROJECT -product $PRODUCT -stage $STAGE -remUrl $REMURL -owner $OWNER -shared $SHARED -preset $PRESET -timeFrame $TIMEFRAME -pass $PASS $SLO $DASHBOARD -l $LOGGER
 deploy-validation:
   image: "python"
   stage: deploy-validation
@@ -51,7 +51,7 @@ deploy-validation:
     - cd deploy_validation/
     - pip install --upgrade pip
     - pip install -r stable-req.text
-    - python validation.py -token $DTSYNTHETICTOKEN -uri $DTURL -proj $PROJECT -product $PRODUCT -stage $STAGE
+    - python validation.py -token $DTSYNTHETICTOKEN -uri $DTURL -proj $PROJECT -product $PRODUCT -stage $STAGE -l $LOGGER
     
 release-validation:
   image: "python"
@@ -60,4 +60,4 @@ release-validation:
     - cd release_validation/
     - pip install --upgrade pip
     - pip install -r stable-req.text
-    - python evaluation.py -service $PRODUCT -stage $STAGE -project $PROJECT -buildNumber $BUILDID -token $CATOKEN -uri $CAURL -daydiff $DAYDIFF -daystart $DAYSTART -mindiff $MINUTEDIFF       
+    - python evaluation.py -service $PRODUCT -stage $STAGE -project $PROJECT -buildNumber $BUILDID -token $CATOKEN -uri $CAURL -daydiff $DAYDIFF -daystart $DAYSTART -mindiff $MINUTEDIFF -l $LOGGER

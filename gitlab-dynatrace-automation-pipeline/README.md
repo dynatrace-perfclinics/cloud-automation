@@ -83,3 +83,7 @@ The final stage - *release-validation* - makes use of the Dynatrace Cloud Automa
 - PASS - percentage to determine thresholds for SLOs/Tiles based on aggregation (50 - thresholds would be set at 50% above the observed aggregate)
 - SLO - create SLOs ("-slo")/don't create SLOs ("" - empty string)
 - DASHBOARD - create Dasbhoard ("-dashboard")/don't create Dashboard("" - empty string)
+<<<<<<< HEAD
+- LOGGER - enables logging (INFO,DEBUG,ERROR)
+=======
+>>>>>>> face6bc22b5451de2c836cd0a143e2277b2e8c24
