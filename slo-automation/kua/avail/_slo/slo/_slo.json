@@ -1,9 +1,0 @@
-{
-  "enabled": true,
-  "name": "{{ .name }}",
-  "metricExpression": "(100)*(({{ .calcMetric }}:splitby():count)/(builtin:apps.web.action.count.{{ .actionType }}.browser:filter(in(\"dt.entity.application_method\",entitySelector(\"type(APPLICATION_METHOD),entityName({{ .actionName }})\"))):splitBy()))",
-  "target": {{ .target }},
-  "warning": {{ .warning }},
-  "evaluationType": "AGGREGATE",
-  "timeframe": "{{.timeFrame}}"
-}

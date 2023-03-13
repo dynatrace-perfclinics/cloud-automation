@@ -9,7 +9,7 @@ This is a cloud automation project that automates the creation of SLOs for Appli
 1. Installing monaco
 
 ```bash
-https://dynatrace-oss.github.io/dynatrace-monitoring-as-code/Get-started/installation
+https://www.dynatrace.com/support/help/shortlink/configuration-as-code-installation
 ```
 
 2. Create an API-Token with the following permissions
@@ -31,93 +31,57 @@ API v1 scopes
 ```bash
  export API_TOKEN="API_TOKEN"
 ```
-4. Edit environments.yaml
+4. Edit manifest.yaml
 
-Replace the env-token-name with your env token name
+Replace the placeholders in the environmentGroups:
+
+> ENV_NAME
+> ENV_ID
+> API_TOKEN
+
 ```bash
-- env-token-name: "example_token"
+environmentGroups:
+- name: default
+  environments:
+  - name: ENV_NAME
+    url:
+      value: https://ENV_ID.live.dynatrace.com
+    token:
+      name: API_TOKEN
 ```
 
 ## Usage
-Each sub-directory correlates to an entity, and contains the monaco configs to create either performance or availability SLOs.
-- _application = Application
-- kua = Key User Action (requires that user actions are marked at KEY)
-- service = Service
-- ksm = Key Service Method (requires that service methods are marked at KEY)
+The slo folder contains the config.yaml and object.json.
+You'll need to add any additional slos to the config.yaml.
 
-Performance SlOs configs are in the perf directory for each entity.
+#### Example - Service Performance SLO
+1. Edit the slo/config.yaml file. 
 
-Availability SLOs configs are in the avail directory for each entity.
-
-#### Service Performance SLO via Monaco Example
-1. Edit the /service/perf/csm/calculated-metrics-service/_calc.yaml file. 
-
-Replace the placeholders defined by {...}
+Replace the parameter values with your own values. 
 ```yaml
-config:
-  - demo_calc: "_calc.json"
-
-demo_calc:
-  - name: "calc:service.{ENV}.{APPNAME}.{SERVICENAME}.perf"
-  - responseTime: "{TIME}"
-  - tagKey: "{TAG KEY}"
-  - tagValue: "{TAG VALUE}"
+      parameters:
+        enabled: true
+        sli: perf
+        entity: service
+        filter:
+          type: value
+          value:
+          - tag: project:easytravel
+          - name: BookingService
+        threshold: 2500
+        percentile: 95
+        target: 99
+        warning: 99.98
+        timeFrame: now-1d
+        burnRate:
+          type: value
+          value:
+            enabled: true
+            fastBurnThreshold: 10
 ```
+> Most Monaco v2 projects contain a "default" parameter. Which returns the setting/configuration back to defaults if set to true.
 
-2. Edit the /service/perf/_slo/slo/_slo.yaml file.
-
-Replace the placeholders defined by {...}
-```yaml
-config:
-  - demo_slo: "_slo.json"
-
-demo_slo:
-  - name: "{EMV} - {APPNAME} - {SERVICE NAME} - perf"
-  - serviceId: "SERVICE-{ID}"
-  - calcMetric: "service/perf/csm/calculated-metrics-service/demo_calc.name"
-  - target: "95.0"
-  - warning: "97.5"
-  - timeFrame: now-1d
-```
 3. Run the monaco command in the /project directory
 ```bash
-monaco --environments=environments.yaml -p="perf/_slo, perf/csm" service/
+monaco deploy manifest.yaml --project slo -e ENV_NAME
 ```
-
-## SLO Monaco Commands
-#### Application Availability SLO
-```bash
-monaco --environments=environments.yaml -p="avail/" _application/
-```
-#### Application Performance SLO
-```bash
-monaco --environments=environments.yaml -p="perf/_slo, perf/cmaw" _application/
-```
-#### Key User Action Availability SLO
-```bash
-monaco --environments=environments.yaml -p="avail/_slo, avail/cmaw" kua/
-```
-#### Key User Action Performance SLO
-```bash
-monaco --environments=environments.yaml -p="perf/_slo, perf/cmaw" kua/
-```
-#### Service Availability SLO
-```bash
-monaco --environments=environments.yaml -p="avail/" service/
-```
-#### Service Performance SLO
-```bash
-monaco --environments=environments.yaml -p="perf/_slo, perf/csm" service/
-```
-#### Key Service Method Availability SLO
-```bash
-monaco --environments=environments.yaml -p="avail/_slo, avail/csm" ksm/
-```
-#### Key Service Method Performance SLO
-```bash
-monaco --environments=environments.yaml -p="perf/_slo, perf/csm" ksm/
-```
-## Troubleshooting
-### 1. Running an SLO that requires a calculated metric fails on the first go.
-#### This will happen because the SLO is generated at the same time as the calculated metric. The Dynatrace SLO API may not have registered the calculated metric. 
-#### Solution : Run the same monaco command again. 
