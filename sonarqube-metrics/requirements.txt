@@ -1,6 +1,2 @@
 requests
-logging
-argparse
-json
 regex
-sys
