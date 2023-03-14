@@ -1,1 +1,5 @@
-.vs/
+*.vs
+*.vs/
+*__pycache__/
+*.log/
+*.log

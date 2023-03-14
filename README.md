@@ -31,3 +31,8 @@ Content for Dynatrace Cloud Automation related Observability Clinics
 [4 Golden Signals Kubernetes](4-golden-signals-kubernetes/README.md) is to auto generate 4 golden signals service flow dashboards.
 ![](./4-golden-signals-kubernetes/image/dashboard.png)
 
+## 6. SonarQube
+[sonarqube-metrics](sonarqube-metrics/README.md) this script uses the SonarQube API to gather requested project data, reformats that data into proper ingestable strings [documented here](https://www.dynatrace.com/support/help/extend-dynatrace/extend-metrics/reference/metric-ingestion-protocol#metadata) and sends them off to a Dynatrace insatnce to be ingested. 
+
+## 7. Monaco v2 Templates 
+[monacov2-templates](monacov2-templates/README.md) project of monaco v2 templates for every configuration and setting in Dynatrace.

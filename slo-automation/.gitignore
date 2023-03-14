@@ -5,4 +5,5 @@ request.log
 response.log
 .logs/
 .logs
-environments.yaml
+manifest.yaml
+slo-dashboard/

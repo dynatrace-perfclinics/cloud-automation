@@ -66,7 +66,6 @@ def calculateDepthRelationship(layer: Dict, url: str, api: Dict, callee: Dict, s
         if index > 20:
             return calculateDepthRelationship(httpResult, url, api, callee, startId, 0, initialLevel)
         elif len(httpResult["entities"]) == 0:
-            entitySelector = layerSelector
             calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)
         else:
             calculateDepthRelationship(layer, url, api, callee,  startId, index + 1, initialLevel)

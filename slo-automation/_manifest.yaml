@@ -1,0 +1,14 @@
+manifestVersion: "1.0"
+
+projects:
+- name: slo
+  path: slo
+
+environmentGroups:
+- name: default
+  environments:
+  - name: ENV_NAME
+    url:
+      value: https://ENV_ID.live.dynatrace.com
+    token:
+      name: API_TOKEN

@@ -1,0 +1,64 @@
+configs:
+  - id: sloTemplate
+    type: 
+      api: slo
+    config:
+      name: "prod - service - frontend - perf"
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        #name: ""
+        ###################
+        ## sli - determines type of slo
+        ## values: perf, avail
+        ###################
+        sli: perf
+        ###################
+        ## entity - entityType 
+        ## values: app, appMethod, service, keyService
+        ###################
+        entity: service
+        ###################
+        ## filter - entitySelector (all must match)
+        ## fields:
+        ## - tag : "key:value"
+        ## - name : "entityName"
+        ## - id : "entityId"
+        ###################
+        filter:
+          type: value
+          value:
+          - tag: project:easytravel
+          - name: BookingService
+        ###################
+        ## threshold - use if sli = perf
+        ## values: time in millisecond
+        ###################
+        threshold: 2500
+        ###################
+        ## percentile - use if sli = perf, used to focus on percentile of data
+        ## values: time in millisecond
+        ###################
+        percentile: 95
+        target: 99
+        warning: 99.98
+        timeFrame: now-1d
+        ###################
+        ## action - use if app or appMethod
+        ## values: load, xhr
+        ###################
+        action: load
+        ###################
+        ## burnRate - burnRateVisualizationEnabled
+        ## fields:
+        ## enabled : enabled
+        ## fasBurnThreshold : fastBurnThreshold
+        ###################
+        burnRate:
+          type: value
+          value:
+            enabled: true
+            fastBurnThreshold: 10
+
+
