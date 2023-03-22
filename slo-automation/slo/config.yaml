@@ -1,14 +1,22 @@
 configs:
   - id: sloTemplate
     type: 
-      api: slo
+      settings:
+        schema: builtin:monitoring.slo
+        scope: environment
     config:
-      name: "prod - service - frontend - perf"
+      name: 
+        type: compound
+        format: "{{.env}} - {{ .entity }} - {{.component}} - {{ .sli }}"
+        references:
+          - entity
+          - sli
+          - env
+          - component
       template: object.json
       skip: false
       parameters:
         enabled: true
-        #name: ""
         ###################
         ## sli - determines type of slo
         ## values: perf, avail
@@ -16,9 +24,19 @@ configs:
         sli: perf
         ###################
         ## entity - entityType 
-        ## values: app, appMethod, service, keyService
+        ## values: app, appmethod, service, keyservice
         ###################
-        entity: service
+        entity: keyservice
+        ###################
+        ## entity - environment 
+        ## values: prod, qa, dev, etc.
+        ###################
+        env: prod
+        ###################
+        ## component - readable name of the entityType (lower case)
+        ## values: any readable name
+        ###################
+        component: calculaterecommendations
         ###################
         ## filter - entitySelector (all must match)
         ## fields:
@@ -30,12 +48,12 @@ configs:
           type: value
           value:
           - tag: project:easytravel
-          - name: BookingService
+          - name: /CalculateRecommendations
         ###################
         ## threshold - use if sli = perf
         ## values: time in millisecond
         ###################
-        threshold: 2500
+        threshold: 900
         ###################
         ## percentile - use if sli = perf, used to focus on percentile of data
         ## values: time in millisecond
@@ -60,5 +78,41 @@ configs:
           value:
             enabled: true
             fastBurnThreshold: 10
-
-
+  - id: sloTemplate2
+    type: 
+      settings:
+        schema: builtin:monitoring.slo
+        scope: environment
+    config:
+      name: 
+        type: compound
+        format: "{{.env}} - {{ .entity }} - {{.component}} - {{ .sli }}"
+        references:
+          - entity
+          - sli
+          - env
+          - component
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        sli: avail
+        entity: keyservice
+        env: prod
+        component: calculaterecommendations
+        filter:
+          type: value
+          value:
+          - tag: project:easytravel
+          - name: /CalculateRecommendations
+        threshold: 900
+        percentile: 95
+        target: 99
+        warning: 99.98
+        timeFrame: now-1d
+        action: load
+        burnRate:
+          type: value
+          value:
+            enabled: true
+            fastBurnThreshold: 10
