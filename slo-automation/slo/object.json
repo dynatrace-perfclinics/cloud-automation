@@ -14,7 +14,7 @@
     {{- end}}
     {{- if and (eq .entity "appmethod") (eq .sli "perf")}}
         "customDescription": "{{.target}}% of performance of type {{ .action }} by p{{.percentile}} <= {{.threshold}}",
-        "metricExpression": "(100)*((builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):partition(latency,value(good,lt(2500))):splitBy():count:default(0))/(builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):splitBy():count))",
+        "metricExpression": "(100)*((builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):partition(latency,value(good,lt({{.threshold}}))):splitBy():count:default(0))/(builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):splitBy():count))",
         "filter": "type(APPLICATION_METHOD),
     {{- end}}
     {{- if and (eq .entity "appmethod") (eq .sli "avail")}}
