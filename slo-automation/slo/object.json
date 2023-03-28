@@ -1,6 +1,7 @@
 {
     "enabled": true,
-    "name": "{{ .name }}", 
+    "name": "{{ .name }}",
+    "metricName": "{{.env}}_{{.entity}}_{{.component}}_{{.sli}}",
     {{- if and (eq .entity "app") (eq .sli "perf")}}
         "customDescription": "{{.target}}% of performance of type {{ .action }} by p{{.percentile}} <= {{.threshold}}",
         "metricExpression": "(100)*((builtin:apps.web.actionDuration.{{.action}}.browser:percentile({{.percentile}}):partition(latency,value(good,lt({{.threshold}}))):splitBy():count:default(0))/(builtin:apps.web.actionDuration.{{.action}}.browser:percentile({{.percentile}}):splitBy():count))",
@@ -11,14 +12,14 @@
         "metricExpression": "(100)*((builtin:apps.web.actionCount.category:filter(eq(\"Apdex category\",SATISFIED)):splitBy():sum)/(builtin:apps.web.actionCount.category:splitBy():sum))",
         "filter": "type(APPLICATION),
     {{- end}}
-    {{- if and (eq .entity "appMethod") (eq .sli "perf")}}
+    {{- if and (eq .entity "appmethod") (eq .sli "perf")}}
         "customDescription": "{{.target}}% of performance of type {{ .action }} by p{{.percentile}} <= {{.threshold}}",
-        "metricExpression": "(100)*((builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):partition(latency,value(good,lt(2500))):splitBy():count:default(0))/(builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):splitBy():count))",
+        "metricExpression": "(100)*((builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):partition(latency,value(good,lt({{.threshold}}))):splitBy():count:default(0))/(builtin:apps.web.action.duration.{{.action}}.browser:percentile({{.percentile}}):splitBy():count))",
         "filter": "type(APPLICATION_METHOD),
     {{- end}}
-    {{- if and (eq .entity "appMethod") (eq .sli "avail")}}
+    {{- if and (eq .entity "appmethod") (eq .sli "avail")}}
         "customDescription": "{{.target}}% of availability",
-        "metricExpression": "(100)*(builtin:apps.web.apdex.userType:filter(ne(\"User type\",\"Synthetic\")):splitBy())"
+        "metricExpression": "(100)*(builtin:apps.web.apdex.userType:filter(ne(\"User type\",\"Synthetic\")):splitBy())",
         "filter": "type(APPLICATION_METHOD),
     {{- end}}
     {{- if and (eq .entity "service") (eq .sli "perf")}}
@@ -31,17 +32,17 @@
         "metricExpression": "(100)*(builtin:service.errors.server.successCount:splitBy())/(builtin:service.requestCount.server:splitBy())",
         "filter": "type(SERVICE),
     {{- end}}
-    {{- if and (eq .entity "keyService") (eq .sli "perf")}}
+    {{- if and (eq .entity "keyservice") (eq .sli "perf")}}
         "customDescription": "{{.target}}% of performance by p{{.percentile}} <= {{.threshold}}",
         "metricExpression": "(100)*((builtin:service.keyRequest.response.time:percentile({{.percentile}}):toUnit(MicroSecond,MilliSecond):partition(latency,value(good,lt({{.threshold}}))):splitBy():count:default(0))/(builtin:service.keyRequest.response.time:percentile({{.percentile}}):splitBy():count))",
         "filter": "type(SERVICE_METHOD),
     {{- end}}
-    {{- if and (eq .entity "keyService") (eq .sli "avail")}}
+    {{- if and (eq .entity "keyservice") (eq .sli "avail")}}
         "customDescription": "{{.target}}% of availability",
         "metricExpression": "(100)*(builtin:service.keyRequest.errors.server.successCount:splitBy())/(builtin:service.keyRequest.count.server:splitBy())",
         "filter": "type(SERVICE_METHOD),
     {{- end}}
-    {{- if eq .entity "keyService" }}
+    {{- if eq .entity "keyservice" }}
         {{- range $i, $e := .filter}}
             {{- if $i}},{{- end}}
             {{- if (index $e "tag")}}fromRelationship.isServiceMethodOfService(type(SERVICE),tag({{$e.tag}})){{- end}}
@@ -49,7 +50,7 @@
             {{- if (index $e "id")}}entityId({{$e.id}}){{- end}}
         {{- end}}
     {{- end}}
-    {{- if eq .entity "appMethod" }}
+    {{- if eq .entity "appmethod" }}
         {{- range $i, $e := .filter}}
             {{- if $i}},{{- end}}
             {{- if (index $e "tag")}}fromRelationship.isApplicationMethodOf(type(APPLICATION),tag({{$e.tag}})){{- end}}
@@ -57,7 +58,7 @@
             {{- if (index $e "id")}}entityId({{$e.id}}){{- end}}
         {{- end}}
     {{- end}}
-    {{- if and (ne .entity "keyService") (ne .entity "appMethod") }}
+    {{- if and (ne .entity "keyservice") (ne .entity "appmethod") }}
         {{- range $i, $e := .filter}}
             {{- if $i}},{{- end}}
             {{- if (index $e "tag")}}tag({{$e.tag}}){{- end}}
@@ -65,10 +66,10 @@
             {{- if (index $e "id")}}entityId({{$e.id}}){{- end}}
         {{- end}}
     {{- end}}",
-    "target": {{ .target }},
-    "warning": {{ .warning }},
+    "targetSuccess": {{ .target }},
+    "targetWarning": {{ .warning }},
     "evaluationType": "AGGREGATE",
-    "timeframe": "{{.timeFrame}}",
+    "evaluationWindow": "{{.timeFrame}}",
     "errorBudgetBurnRate": {
         "burnRateVisualizationEnabled": {{.burnRate.enabled}}
         {{- if .burnRate.enabled}}
