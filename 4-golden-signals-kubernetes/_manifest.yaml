@@ -1,0 +1,15 @@
+manifestVersion: "1.0"
+
+projects:
+- name: k8s-4-golden-signals
+  path: k8s-4-golden-signals/
+  
+environmentGroups:
+- name: default
+  environments:
+  - name: ENV_NAME
+    url:
+      value: https://ENV_ID.live.dynatrace.com
+    auth:
+      token:
+        name: API_TOKEN

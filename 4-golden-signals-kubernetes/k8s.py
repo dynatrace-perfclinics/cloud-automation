@@ -46,13 +46,33 @@ class Dashboard:
         self._timeFrame = timeFrame
         self._shared = shared
         self._preset = preset
-        self._dashYaml = {'config':[{"k8sDash":"dashboard.json"}],"k8sDash":[{"name": self._name},{"owner":self._owner},{"shared":self._shared},{"preset":self._preset},{"timeFrame":self._timeFrame}]}
-    
+        self._dashYaml = {
+        "configs": [
+            {
+            "id": "k8s4gsignal",
+            "type": {
+                "api": "dashboard"
+            },
+            "config": {
+                "name": self._name,
+                "template": "object.json",
+                "skip": False,
+                "parameters": {
+                    "owner": self._owner,
+                    "shared": self._shared,
+                    "preset": self._preset,
+                    "timeFrame": self._timeFrame
+                }
+            }
+            }
+        ]
+        }
+            
     def addTileToDash(self, tile):
         self._dash["tiles"].append(copy.deepcopy(tile.getTile()))
 
     def setDashYaml(self, key, val):
-        self._dashYaml["k8sDash"].append({key:val})
+        self._dashYaml["configs"][0]["config"]["parameters"][key] = val
 
     def getDashYaml(self):
         return self._dashYaml
@@ -62,7 +82,7 @@ class Dashboard:
         return self._dash
 
 class Project():
-    _projectDir = "k8s-4-golden-signals/dashboard"
+    _projectDir = "k8s-4-golden-signals/"
 
     def __init__(self):
        return 
@@ -70,9 +90,9 @@ class Project():
     def createProject(self, dash):
         if not os.path.exists(self._projectDir):
             os.makedirs(self._projectDir)
-        with open('{dir}/{x}'.format(dir=self._projectDir, x = "dashboard.json"), 'w') as f:
+        with open('{dir}/{x}'.format(dir=self._projectDir, x = "object.json"), 'w') as f:
             json.dump(dash.getDash(),f, indent=2)
-        with open('{dir}/{x}'.format(dir=self._projectDir, x = "dashboard.yaml"), 'w') as f:
+        with open('{dir}/{x}'.format(dir=self._projectDir, x = "config.yaml"), 'w') as f:
             yaml.dump(dash.getDashYaml(), f)
     def getProjectDir(self):
         return self._projectDir
@@ -203,5 +223,5 @@ if __name__ == "__main__":
     else:
         logger.info("")
         logger.info("Finished! Review ({projectDir}) and run:".format(projectDir='k8s-4-golden-signals'))
-        logger.info(r'monaco --environments=environments.yaml {projectDir}/'.format(projectDir='k8s-4-golden-signals'))
+        logger.info(r'monaco deploy manifest.yaml --project {projectDir}'.format(projectDir='k8s-4-golden-signals'))
     logger.info("***********************************")

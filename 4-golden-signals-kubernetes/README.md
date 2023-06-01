@@ -1,4 +1,5 @@
 > **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
+> **_Disclaimer:_** Supported Monaco Version - 2.2.0.
 
 # 4-Golden-Signals Kuberentes Dashboard
 
@@ -45,18 +46,35 @@ https://www.python.org/download/releases/3.0/
 ```bash
 pip install -r stable-req.txt
 ```
-
-## Usage to create 4 golden signals kubernetes
-1. Edit the _environments.yaml:
-Create a copy of _environments.yaml.
+3. Set Environment Variables
 ```bash
-cp _environments.yaml environments.yaml
+ export API_TOKEN="API_TOKEN"
 ```
-- Replace ENVNAME with your environment name
+4. Edit manifest.yaml
+Create a copy of _manifest.yaml.
+```bash
+cp _manifest.yaml manifest.yaml
+```
 
-Create an system environment variable access token with the key - DT_TOKEN.
+Replace the placeholders in the environmentGroups:
 
-2. Execute the Kubernetes script
+> ENV_NAME
+> ENV_ID
+> API_TOKEN
+
+```bash
+environmentGroups:
+- name: default
+  environments:
+  - name: ENV_NAME
+    url:
+      value: https://ENV_ID.live.dynatrace.com
+    auth:
+      token:
+        name: API_TOKEN
+```
+## Usage to create 4 golden signals kubernetes
+1. Execute the Kubernetes script
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supported Args:
 ###### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Required:
 -  -dtUrl  --dynatrace-url Dynatrace URL (https://*.live.com)
@@ -84,6 +102,6 @@ The dashboard.yaml contains all metric thresholds based on the reference timefra
 
 4. Execute Monaco (optional if you didn't use -am to automatically run monaco)
 ```bash
-	monaco --environments=environments.yaml 'k8s-4-golden-signals/'
+	monaco deploy manifest.yaml --project k8s-4-golden-signals
 ```
 5. Use Powerpoint to re-create the threshold image tiles.

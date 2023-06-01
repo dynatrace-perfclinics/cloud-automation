@@ -1,3 +1,11 @@
-PyYAML
-requests
+os
+copy
+json
+yaml
+logging
+sys
+statistics
 argparse
+requests
+subprocess
+io
