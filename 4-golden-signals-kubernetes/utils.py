@@ -1,13 +1,13 @@
 import json, requests, subprocess, io, yaml
 
 def prepareMonaco(projectDir, logger):
-    check = subprocess.check_call(["monaco","--version"])
+    check = subprocess.check_call(["monaco","version"])
     if check:
         logger.info("Finished! You can now run:")
-        logger.info("monaco --environments=environments.yaml {projectDir}/".format(projectDir=projectDir))
+        logger.info('monaco deploy manifest.yaml --project {projectDir}'.format(projectDir=projectDir))
     else:
         logger.info("Running Monaco to deploy dashboard - ({projectDir})".format(projectDir = projectDir))
-        subprocess.run(["monaco", "--environments=environments.yaml", r'{projectDir}/'.format(projectDir=projectDir)])
+        subprocess.run(["monaco", "deploy","manifest.yaml", "--project", r'{projectDir}'.format(projectDir=projectDir)])
 
 def handleGet(url, header, x, logger):
     try:
